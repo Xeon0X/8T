@@ -13,7 +13,6 @@ private:
     std::string pathCardSound;
 
 public:
-    Card();
     Card(std::string name, std::string description, int id, std::string pathCardImage, std::string pathCardSound);
     ~Card();
 };
