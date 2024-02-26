@@ -1,11 +1,13 @@
 #include "Deck.h"
 
-Deck::Deck(/* args */)
+Deck::Deck(std::vector<Card> cards) : cards(cards)
 {
+
 }
 
 Deck::~Deck()
 {
+    
 }
 
 void Deck::addCard(Card card)
