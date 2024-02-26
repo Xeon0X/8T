@@ -15,6 +15,10 @@ private:
 public:
     Case();
     ~Case();
+    void addPiece(const Piece& piece);
+    vector[Piece] getPieces() const;
+    void addEffects(string effect, float value);
+    map[string, float] getEffects() const;
 };
 
 #endif // CASE
