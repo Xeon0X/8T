@@ -18,6 +18,6 @@ void Piece::addEffects(std::string effect, float value) {
     this->pieceEffects.insert({effect, value});
 }
 
-map[string, float] getEffects(){
+map[string, float] Piece::getEffects(){
     return pieceEffects;
 }
