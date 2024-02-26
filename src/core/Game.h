@@ -12,7 +12,7 @@ private:
     std::vector<Player> players;
 
 public:
-    Game(/* args */);
+    Game(std::vector<Grid> grids, std::vector<Player> players);
     ~Game();
     void addGrid(const Grid& grid);
 };

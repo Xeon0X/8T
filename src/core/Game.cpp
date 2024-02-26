@@ -1,7 +1,8 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game() 
+Game::Game(std::vector<Grid> grids, std::vector<Player> players) :
+    grids(grids), players(players)
 {
 
 }
