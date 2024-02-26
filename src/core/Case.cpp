@@ -2,10 +2,17 @@
 
 Case::Case() : pieces(), caseEffects()
 {
+
+}
+
+Case::Case(std::vector<Piece> pieces, std::map<std::string, float> caseEffects;) {
+    this->pieces = pieces;
+    this->caseEffects = caseEffects;
 }
 
 Case::~Case()
 {
+    
 }
 
 void Case::addPiece(const Piece &piece) {
@@ -13,11 +20,11 @@ void Case::addPiece(const Piece &piece) {
 }
 
 vector[piece] getPieces() {
-    return pieces;
+    return this->pieces;
 }
 
 void addEffects(string effect, float value) {
-    caseEffects.insert({effect, value});
+    this->caseEffects.insert({effect, value});
 }
 
 map[string, float] getEffects() const{

@@ -1,10 +1,10 @@
 #ifndef CASE
 #define CASE
 
-#include <vector>
 #include <map>
-#include "Piece.h"
 #include <string>
+#include <vector>
+#include "Piece.h"
 
 class Case
 {
@@ -14,10 +14,11 @@ private:
 
 public:
     Case();
+    Case(std::vector<Piece>, std::map<std::string, float>)
     ~Case();
-    void addPiece(const Piece& piece);
+    void addPiece(const Piece&);
+    void addEffects(std::string, float);
     vector[Piece] getPieces() const;
-    void addEffects(string effect, float value);
     map[string, float] getEffects() const;
 };
 
