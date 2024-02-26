@@ -1,16 +1,8 @@
 #include "Piece.h"
 
-Piece::Piece() : symbol(""), color(""), pieceEffects()
+Piece::Piece(std::string symbol, std::string color, std::map<std::string, int> pieceEffects) : symbol(symbol), color(color), pieceEffects(pieceEffects) 
 {
 
-}
-
-
-Piece::Piece(std::string symbol, std::string color, std::map<std::string, int> pieceEffects = {})
-{
-    this->symbol = symbol;
-    this->color = color;
-    this->pieceEffects = pieceEffects;
 }
 
 Piece::~Piece()

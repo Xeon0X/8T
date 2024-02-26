@@ -5,19 +5,18 @@ Grid(): currentPlayer(), grid(), cards()
 
 }
 
-Grid::Grid(int player = 0, std::vector<Player> players, std::pair<int, int> size = {3, 3}, std::vector<Card> cards = {}) : 
+Grid::Grid(int player, std::vector<Player> players, std::pair<int, int> size, std::vector<Card> cards) :
 currentPlayer(player), player(players), grid(size.first, std::vector<Case>(size.second)), cards(cards)
 {
 
 }
-
 
 Grid::~Grid()
 {
 
 }
 
-int Grid::nextPlayer(int next = 1) {
+int Grid::nextPlayer(int next) {
     this->currentPlayer = (currentPlayer + next) % size(players);
     return this->currentPlayer;
 }

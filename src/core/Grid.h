@@ -17,10 +17,10 @@ private:
     std::vector<Card> cards;
 public:
     Grid();
-    Grid(Player player, std::pair<int, int> size, std::vector<Card> cards);
+    Grid(Player player, std::pair<int, int> size = {3, 3}, std::vector<Card> cards);
     ~Grid();
-    int nextPlayer(int);
-    void setCurrentPlayer(int);
+    int nextPlayer(int next = 1);
+    void setCurrentPlayer(int player);
     void addCard(Card card);
     int getCurrentPlayer() const;
     std::vector<std::vector<Case>> getGrid() const;
