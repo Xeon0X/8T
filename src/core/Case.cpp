@@ -1,6 +1,6 @@
 #include "Case.h"
 
-Case::Case()
+Case::Case() : pieces(), caseEffects()
 {
 }
 

@@ -1,19 +1,6 @@
 #include "Grid.h"
 
-Grid::Grid(Player player, std::pair<int, int> size)
-{
-    this->currentPlayer = player1;
-    for (int column = 0; i < size.first; column++)
-    {
-        std::vector<Case> cases;
-        for (int row = 0; row < size.second; row++)
-        {
-            int caseX = (SCREEN_WIDTH / 2) - (50 / 2) + ((i - 1) * 50);
-            int caseY = (SCREEN_HEIGHT / 2) - (50 / 2) + ((j - 1) * 50);
-            cases.push_back(Case(caseX, caseY));
-        }
-        this->cases.push_back(cases);
-    }
+Grid::Grid(Player player, std::pair<int, int> size) : currentPlayer(player), grid(size.first, std::vector<Case>(size.second)) {
 }
 
 Grid::~Grid()
