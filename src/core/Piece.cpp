@@ -1,17 +1,25 @@
 #include "Piece.h"
 
-Piece::Piece(/* args */)
-{
-}
+Piece::Piece() : symbol(""), color(""), pieceEffects() {}
 
-Piece::Piece(std::string symbol, std::string color)
+
+Piece::Piece(std::string symbol, std::string color, std::map<std::string, int> pieceEffects = {})
 {
     this->symbol = symbol;
     this->color = color;
+    this->pieceEffects = pieceEffects;
 }
 
 Piece::~Piece()
 {
+}
+
+std::string Piece::getSymbol() {
+    return this-> symbol;
+}
+
+std::string Piece::getColor() {
+    return this->color;
 }
 
 void Piece::addEffects(std::string effect, float value) {
@@ -19,5 +27,5 @@ void Piece::addEffects(std::string effect, float value) {
 }
 
 map[string, float] Piece::getEffects(){
-    return pieceEffects;
+    return this->pieceEffects;
 }
