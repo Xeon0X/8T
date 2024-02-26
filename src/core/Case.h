@@ -14,12 +14,12 @@ private:
 
 public:
     Case();
-    Case(std::vector<Piece> pieces, std::map<std::string, float> caseEffects)
+    Case(std::vector<Piece> pieces, std::map<std::string, float> caseEffects);
     ~Case();
     void addPiece(const Piece& piece);
     void addEffect(std::string effect, float value);
-    vector[Piece] getPieces() const;
-    map[string, float] getEffects() const;
+    std::vector<Piece> getPieces() const;
+    std::map<std::string, float> getEffects() const;
 };
 
 #endif // CASE

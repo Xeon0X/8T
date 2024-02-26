@@ -12,15 +12,14 @@ private:
     std::string color;
     std::map<std::string, float> pieceEffects;
 public:
-    Piece();
-    Piece(std::string symbol, std::string color, std::map<std::string, float> pieceEffects)
+    Piece(std::string symbol, std::string color, std::map<std::string, float> pieceEffects);
     ~Piece();
     void setSymbol(std::string symbol);
     void setColor(std::string symbol);
     std::string getSymbol() const;
     std::string getColor() const;
     void addEffects(std::string, float);
-    map[string, float] getEffects() const;
+    std::map<std::string, float> getEffects() const;
 };
 
 #endif // PIECE

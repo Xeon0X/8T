@@ -1,12 +1,7 @@
 #include "Grid.h"
 
-Grid(): currentPlayer(), grid(), cards() 
-{
-
-}
-
-Grid::Grid(int player, std::vector<Player> players, std::pair<int, int> size, std::vector<Card> cards) :
-currentPlayer(player), player(players), grid(size.first, std::vector<Case>(size.second)), cards(cards)
+Grid::Grid(int player, std::vector<Player> players, std::vector<Card> cards, std::pair<int, int> size) :
+currentPlayer(player), players(players), grid(size.first, std::vector<Case>(size.second)), cards(cards)
 {
 
 }

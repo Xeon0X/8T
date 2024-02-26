@@ -1,6 +1,6 @@
 #include "Piece.h"
 
-Piece::Piece(std::string symbol, std::string color, std::map<std::string, int> pieceEffects) : symbol(symbol), color(color), pieceEffects(pieceEffects) 
+Piece::Piece(std::string symbol, std::string color, std::map<std::string, float> pieceEffects) : symbol(symbol), color(color), pieceEffects(pieceEffects) 
 {
 
 }
@@ -10,19 +10,19 @@ Piece::~Piece()
     
 }
 
-void setSymbol(std::string symbol) {
+void Piece::setSymbol(std::string symbol) {
     this->symbol = symbol;
 }
 
-void setColor(std::string color) {
+void Piece::setColor(std::string color) {
     this->color = color;
 }
 
-std::string Piece::getSymbol() {
+std::string Piece::getSymbol() const {
     return this-> symbol;
 }
 
-std::string Piece::getColor() {
+std::string Piece::getColor() const {
     return this->color;
 }
 
@@ -30,6 +30,6 @@ void Piece::addEffects(std::string effect, float value) {
     this->pieceEffects.insert({effect, value});
 }
 
-map[string, float] Piece::getEffects(){
+std::map<std::string, float> Piece::getEffects() const {
     return this->pieceEffects;
 }
