@@ -11,19 +11,20 @@
 class Grid
 {
 private:
-    Player currentPlayer;
+    int currentPlayer;
+    std::vector<Player> players
     std::vector<std::vector<Case>> grid;
-    std::vector<Card> globalRules;
-
+    std::vector<Card> cards;
 public:
-    Grid(Player player, std::pair<int, int> size);
+    Grid();
+    Grid(Player player, std::pair<int, int> size, std::vector<Card> cards);
     ~Grid();
-    void changeCurrentPlayer();
-    void changeCurrentPlayer(Player player);
-    void addGlobalRule(Card card);
-    getPlayer() const;
-    getGrid() const;
-    getGlobalRules() const;
+    int nextPlayer(int);
+    void setCurrentPlayer(int);
+    void addCard(Card card);
+    int getCurrentPlayer() const;
+    std::vector<std::vector<Case>> getGrid() const;
+    std::vector<Card> getCards() const;
 };
 
-#endif
+#endif // GRID

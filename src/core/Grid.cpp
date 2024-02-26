@@ -1,24 +1,44 @@
 #include "Grid.h"
 
-Grid::Grid(Player player, std::pair<int, int> size) : currentPlayer(player), grid(size.first, std::vector<Case>(size.second)) {
+Grid(): currentPlayer(), grid(), cards() 
+{
+
 }
+
+Grid::Grid(int player = 0, std::vector<Player> players, std::pair<int, int> size = {3, 3}, std::vector<Card> cards = {}) : 
+currentPlayer(player), player(players), grid(size.first, std::vector<Case>(size.second)), cards(cards)
+{
+
+}
+
 
 Grid::~Grid()
 {
+
 }
 
-void Grid::addGlobalRule(Card card)
-{
-    this->globalRules.push_back(card);
+int Grid::nextPlayer(int next = 1) {
+    this->currentPlayer = (currentPlayer + next) % size(players);
+    return this->currentPlayer;
 }
 
-void Grid::showGrid(SDL_Renderer *renderer)
+void Grid::setCurrentPlayer(int player) {
+    this->currentPlayer = player;
+}
+
+void Grid::addCard(Card card)
 {
-    for (unsigned int i = 0; i < this->cases.size(); i++)
-    {
-        for (unsigned int j = 0; j < this->cases[0].size(); j++)
-        {
-            this->cases[i][j].showCase(renderer, i, j);
-        }
-    }
+    this->cards.push_back(card);
+}
+
+int Grid::getCurrentPlayer() const {
+    return currentPlayer;
+}
+
+std::vector<std::vector<Case>> Grid::getGrid() const {
+    return this->grid;
+}
+
+std::vector<Card> Grid::getCards() const {
+    return this->cards;
 }
