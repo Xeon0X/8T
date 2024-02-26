@@ -21,5 +21,3 @@ Card::Card(std::string name, std::string description, int id, std::string pathCa
 Card::~Card()
 {
 }
-
- /* a card that  */
