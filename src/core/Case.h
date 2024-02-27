@@ -1,25 +1,25 @@
 #ifndef CASE
 #define CASE
 
-#include <vector>
 #include <map>
-#include "Piece.h"
 #include <string>
-#include <SDL2/SDL.h>
+#include <vector>
+#include "Piece.h"
 
 class Case
 {
 private:
-    int dimX, dimY;
-    SDL_Rect rect;
     std::vector<Piece> pieces;
     std::map<std::string, float> caseEffects;
 
 public:
-    Case(int posX, int posY);
+    Case();
+    Case(std::vector<Piece> pieces, std::map<std::string, float> caseEffects);
     ~Case();
-    void showCase(SDL_Renderer *renderer, int x, int y);
-    SDL_Rect getRect();
+    void addPiece(const Piece &piece);
+    void addEffect(std::string effect, float value);
+    std::vector<Piece> getPieces() const;
+    std::map<std::string, float> getEffects() const;
 };
 
 #endif // CASE

@@ -8,19 +8,23 @@
 #include <SDL2/SDL.h>
 #include <string>
 #include <iostream>
+#include "Piece.h"
 
 class Grid
 {
 private:
-    Player currentPlayer;
     std::vector<std::vector<Case>> cases;
     std::vector<Card> globalRules;
 
 public:
-    Grid(Player player1, int SCREEN_HEIGHT, int SCREEN_WIDTH);
+    Grid();
     ~Grid();
     void addGlobalRule(Card card);
-    void showGrid(SDL_Renderer *renderer);
+    std::vector<std::vector<Case>> getCases();
+    int getGridWidth();
+    int getGridHeight();
+
+    void setCase(int x, int y, Case c);
 };
 
 #endif

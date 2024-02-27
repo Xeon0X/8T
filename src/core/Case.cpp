@@ -1,28 +1,32 @@
 #include "Case.h"
-
-Case::Case(int posX, int posY)
+Case::Case() : pieces(), caseEffects()
 {
-    this->pieces.push_back(Piece());
-    this->dimX = 50;
-    this->dimY = 50;
-    this->rect.x = posX;
-    this->rect.y = posY;
-    this->rect.w = this->dimX;
-    this->rect.h = this->dimY;
+}
+
+Case::Case(std::vector<Piece> pieces, std::map<std::string, float> caseEffects) : pieces(pieces), caseEffects(caseEffects)
+{
 }
 
 Case::~Case()
 {
 }
 
-void Case::showCase(SDL_Renderer *renderer, int x, int y)
+void Case::addPiece(const Piece &piece)
 {
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderDrawRect(renderer, &this->rect);
+    this->pieces.push_back(piece);
 }
 
-SDL_Rect Case::getRect()
+void Case::addEffect(std::string effect, float value)
 {
-    return this->rect;
+    this->caseEffects.insert({effect, value});
+}
+
+std::vector<Piece> Case::getPieces() const
+{
+    return this->pieces;
+}
+
+std::map<std::string, float> Case::getEffects() const
+{
+    return this->caseEffects;
 }
