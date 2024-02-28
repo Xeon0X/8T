@@ -25,6 +25,7 @@ public:
     int getGridHeight();
 
     void setCase(int x, int y, Case c);
+    Case getCase(int x, int y);
 };
 
 #endif

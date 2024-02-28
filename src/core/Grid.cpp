@@ -42,3 +42,8 @@ void Grid::setCase(int x, int y, Case c)
 {
     this->cases[x][y] = c;
 }
+
+Case Grid::getCase(int x, int y)
+{
+    return this->cases[x][y];
+}

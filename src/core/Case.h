@@ -20,6 +20,8 @@ public:
     void addEffect(std::string effect, float value);
     std::vector<Piece> getPieces() const;
     std::map<std::string, float> getEffects() const;
+
+    bool isPiecesEmpty() const;
 };
 
 #endif // CASE

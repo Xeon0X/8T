@@ -27,7 +27,8 @@ public:
 
     void drawRect(int x, int y, int w, int h);
     void drawLine(int x1, int y1, int x2, int y2);
-    void drawCircle(int x, int y, int r);
+    void drawCircle(int x, int y, int r, int thickness);
+    void drawCross(int x, int y, int r, int thickness);
     void drawPoint(int x, int y);
     void drawText(const char *text, int x, int y);
     void clear();
@@ -40,6 +41,10 @@ public:
     void setFontStyle(int style);
 
     void eventHolder();
+    void handleQuitEvent();
+    void handleMouseButtonDownEvent(SDL_Event &event);
+    void handleKeyDownEvent(SDL_Event &event);
+    void createAndSetPiece(int cellX, int cellY, int CurrentGrid);
     void play();
 };
 

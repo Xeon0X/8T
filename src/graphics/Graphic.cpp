@@ -42,7 +42,12 @@ Graphic::Graphic()
     }
 
     color = {0, 0, 0, 255};
-    font = TTF_OpenFont("res/arial.ttf", 24);
+    font = TTF_OpenFont("font/arial.ttf", 24);
+    if (font == nullptr)
+    {
+        std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
+        exit(1);
+    }
     fontColor = {255, 255, 255, 255};
     fontSize = 24;
     fontStyle = TTF_STYLE_NORMAL;
@@ -70,12 +75,25 @@ void Graphic::drawLine(int x1, int y1, int x2, int y2)
     SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
 }
 
-void Graphic::drawCircle(int x, int y, int r)
+void Graphic::drawCircle(int x, int y, int r, int thickness)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    for (int i = 0; i < 360; i++)
+    for (int z = 0; z < thickness; z++)
     {
-        SDL_RenderDrawPoint(renderer, x + r * cos(i), y + r * sin(i));
+        for (int w = 0; w < 360; w++)
+        {
+            SDL_RenderDrawPoint(renderer, x + r * cos(w) - z, y + r * sin(w) - z);
+        }
+    }
+}
+
+void Graphic::drawCross(int x, int y, int r, int thickness)
+{
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    for (int z = 0; z < thickness; z++)
+    {
+        SDL_RenderDrawLine(renderer, x - r, y - r + z, x + r, y + r + z);
+        SDL_RenderDrawLine(renderer, x - r, y + r + z, x + r, y - r + z);
     }
 }
 
@@ -87,8 +105,18 @@ void Graphic::drawPoint(int x, int y)
 
 void Graphic::drawText(const char *text, int x, int y)
 {
+    std::cout << text << std::endl;
     SDL_Surface *surface = TTF_RenderText_Solid(font, text, fontColor);
+    if (!surface)
+    {
+        std::cout << "TTF_RenderText_Solid Error: " << TTF_GetError() << std::endl;
+    }
+
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if (!texture)
+    {
+        std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+    }
     SDL_Rect rect = {x, y, surface->w, surface->h};
     SDL_RenderCopy(renderer, texture, NULL, &rect);
     SDL_FreeSurface(surface);
@@ -146,72 +174,111 @@ void Graphic::play()
         eventHolder();
         clear();
 
-        grid.showGrid(renderer);
+        grid.showGrid(renderer, *this);
 
         present();
     }
 }
 
+void Graphic::handleQuitEvent()
+{
+    running = false;
+}
+
+void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
+{
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+
+    int screenWidth, screenHeight;
+    SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+
+    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+    int CasesWidth = this->grid.getGame().getGrid(CurrentGrid).getGridWidth();
+    int CasesHeight = this->grid.getGame().getGrid(CurrentGrid).getGridHeight();
+
+    int gridX = ((screenWidth - CasesHeight * this->grid.getCaseHeight()) / 2) + this->grid.getGridX();
+    int gridY = ((screenHeight - CasesWidth * this->grid.getCaseHeight()) / 2) + this->grid.getGridY();
+
+    mouseX -= gridX;
+    mouseY -= gridY;
+
+    int cellX = mouseX / 100;
+    int cellY = mouseY / 100;
+
+    if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight)
+    {
+        Game game = this->grid.getGame();
+        Grid grid = game.getGrid(CurrentGrid);
+
+        if (grid.getCase(cellX, cellY).getPieces().size() > 0)
+        {
+            if (grid.getCase(cellX, cellY).getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
+            {
+                createAndSetPiece(cellX, cellY, CurrentGrid);
+            }
+        }
+        else
+        {
+            createAndSetPiece(cellX, cellY, CurrentGrid);
+        }
+    }
+}
+
+void Graphic::handleKeyDownEvent(SDL_Event &event)
+{
+    switch (event.key.keysym.sym)
+    {
+    case SDLK_UP:
+        this->grid.moveGrid(0, -10);
+        break;
+    case SDLK_DOWN:
+        this->grid.moveGrid(0, 10);
+        break;
+    case SDLK_LEFT:
+        this->grid.moveGrid(-10, 0);
+        break;
+    case SDLK_RIGHT:
+        this->grid.moveGrid(10, 0);
+        break;
+    }
+}
+
+void Graphic::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
+{
+    std::map<std::string, float> pieceEffects, caseEffects;
+    Game game = this->grid.getGame();
+    Piece piece = Piece(game.getCurrentPlayer().getSymbol(), game.getCurrentPlayer().getColor(), pieceEffects);
+    std::vector<Piece> pieces;
+    pieces.push_back(piece);
+    Case c = Case(pieces, caseEffects);
+
+    Grid grid = game.getGrid(CurrentGrid);
+    grid.setCase(cellX, cellY, c);
+    game.setGrid(CurrentGrid, grid);
+    game.switchPlayer();
+    this->grid.setGame(game);
+
+    std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
+}
+
 void Graphic::eventHolder()
 {
     SDL_Event event;
-    bool mouseDown = false;
 
     while (SDL_PollEvent(&event))
     {
-        if (event.type == SDL_QUIT)
+        switch (event.type)
         {
-            running = false;
-        }
-        else if (event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            mouseDown = true;
-            int mouseX, mouseY;
-            SDL_GetMouseState(&mouseX, &mouseY);
-
-            int screenWidth, screenHeight;
-            SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
-
-            int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
-            int CasesWidth = this->grid.getGame().getGrid(CurrentGrid).getGridWidth();
-            int CasesHeight = this->grid.getGame().getGrid(CurrentGrid).getGridHeight();
-
-            int gridX = ((screenWidth - CasesHeight * this->grid.getCaseHeight()) / 2) + this->grid.getGridX();
-            int gridY = ((screenHeight - CasesWidth * this->grid.getCaseHeight()) / 2) + this->grid.getGridY();
-
-            mouseX -= gridX;
-            mouseY -= gridY;
-
-            int cellX = mouseX / 100;
-            int cellY = mouseY / 100;
-
-            if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight)
-            {
-                std::cout << "Cell clicked: " << cellX << " " << cellY << std::endl;
-            }
-        }
-        else if (event.type == SDL_MOUSEBUTTONUP)
-        {
-            mouseDown = false;
-        }
-        else if (event.type == SDL_KEYDOWN)
-        {
-
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_UP:
-                this->grid.moveGrid(0, -10);
-                break;
-            case SDLK_DOWN:
-                this->grid.moveGrid(0, 10);
-                break;
-            case SDLK_LEFT:
-                this->grid.moveGrid(-10, 0);
-                break;
-            case SDLK_RIGHT:
-                this->grid.moveGrid(10, 0);
-                break;
-            }
+        case SDL_QUIT:
+            handleQuitEvent();
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            handleMouseButtonDownEvent(event);
+            break;
+        case SDL_KEYDOWN:
+            handleKeyDownEvent(event);
+            break;
         }
     }
 }

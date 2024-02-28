@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include "../core/Game.h"
 
+class Graphic;
 class GridGraphic
 {
 private:
@@ -14,7 +15,7 @@ private:
 public:
     GridGraphic(/* args */);
     ~GridGraphic();
-    void showGrid(SDL_Renderer *renderer);
+    void showGrid(SDL_Renderer *renderer, Graphic &graphic);
     void moveGrid(int dx, int dy);
 
     int getGridX() { return gridX; }
@@ -24,6 +25,7 @@ public:
     int getCaseHeight() { return 100; }
 
     Game getGame() { return game; }
+    void setGame(Game game) { this->game = game; }
 };
 
 #endif // GRAPHIC_GRID

@@ -29,3 +29,20 @@ void Game::addGrid(const Grid &grid)
 {
     this->grids.push_back(grid);
 }
+
+void Game::setGrid(int index, const Grid &grid)
+{
+    this->grids[index] = grid;
+}
+
+void Game::switchPlayer()
+{
+    if (this->currentPlayer.getSymbol() == "X")
+    {
+        this->currentPlayer = this->players[1];
+    }
+    else
+    {
+        this->currentPlayer = this->players[0];
+    }
+}

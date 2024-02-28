@@ -30,3 +30,8 @@ std::map<std::string, float> Case::getEffects() const
 {
     return this->caseEffects;
 }
+
+bool Case::isPiecesEmpty() const
+{
+    return this->pieces.empty();
+}

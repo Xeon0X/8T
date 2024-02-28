@@ -17,7 +17,11 @@ public:
     ~Game();
     Grid getGrid(int index);
     Player getCurrentPlayer();
+
+    void switchPlayer();
     void addGrid(const Grid &grid);
+
+    void setGrid(int index, const Grid &grid);
 };
 
 #endif // Game
