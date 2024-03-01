@@ -16,6 +16,8 @@ private:
     std::vector<std::vector<Case>> cases;
     std::vector<Card> globalRules;
 
+    int nbAlignToWin = 3;
+
 public:
     Grid();
     ~Grid();
@@ -23,6 +25,11 @@ public:
     std::vector<std::vector<Case>> getCases();
     int getGridWidth();
     int getGridHeight();
+
+    void setNbAlignToWin(int nb);
+    int getNbAlignToWin();
+
+    bool checkWin(Player player, int cellX, int cellY);
 
     void setCase(int x, int y, Case c);
     Case getCase(int x, int y);

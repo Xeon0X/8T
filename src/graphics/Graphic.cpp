@@ -43,11 +43,7 @@ Graphic::Graphic()
 
     color = {0, 0, 0, 255};
     font = TTF_OpenFont("font/arial.ttf", 24);
-    if (font == nullptr)
-    {
-        std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
-        exit(1);
-    }
+
     fontColor = {255, 255, 255, 255};
     fontSize = 24;
     fontStyle = TTF_STYLE_NORMAL;
@@ -222,6 +218,11 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         {
             createAndSetPiece(cellX, cellY, CurrentGrid);
         }
+        handleCheckWin(cellX, cellY);
+
+        game = this->grid.getGame();
+        game.switchPlayer();
+        this->grid.setGame(game);
     }
 }
 
@@ -256,10 +257,20 @@ void Graphic::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
     Grid grid = game.getGrid(CurrentGrid);
     grid.setCase(cellX, cellY, c);
     game.setGrid(CurrentGrid, grid);
-    game.switchPlayer();
     this->grid.setGame(game);
 
     std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
+}
+
+void Graphic::handleCheckWin(int cellX, int cellY)
+{
+    Game game = this->grid.getGame();
+    Grid grid = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
+    std::cout << "Checking win" << std::endl;
+    if (grid.checkWin(game.getCurrentPlayer(), cellX, cellY))
+    {
+        std::cout << "Player " << game.getCurrentPlayer().getSymbol() << " wins" << std::endl;
+    }
 }
 
 void Graphic::eventHolder()

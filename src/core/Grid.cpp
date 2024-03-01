@@ -47,3 +47,93 @@ Case Grid::getCase(int x, int y)
 {
     return this->cases[x][y];
 }
+
+void Grid::setNbAlignToWin(int nb)
+{
+    this->nbAlignToWin = nb;
+}
+
+int Grid::getNbAlignToWin()
+{
+    return this->nbAlignToWin;
+}
+
+bool Grid::checkWin(Player player, int cellX, int cellY)
+{
+    std::string symbol = player.getSymbol();
+    int nbAlign = 0;
+    int x = cellX;
+    int y = cellY;
+
+    // Check horizontal
+    for (int i = 0; i < this->getGridWidth(); i++)
+    {
+        if (this->getCase(i, y).getPieces().size() > 0 && this->getCase(i, y).getPieces()[0].getSymbol() == symbol)
+        {
+            nbAlign++;
+        }
+        else
+        {
+            nbAlign = 0;
+        }
+        if (nbAlign == this->getNbAlignToWin())
+        {
+            return true;
+        }
+    }
+
+    // Check vertical
+    nbAlign = 0;
+    for (int j = 0; j < this->getGridHeight(); j++)
+    {
+        if (this->getCase(x, j).getPieces().size() > 0 && this->getCase(x, j).getPieces()[0].getSymbol() == symbol)
+        {
+            nbAlign++;
+        }
+        else
+        {
+            nbAlign = 0;
+        }
+        if (nbAlign == this->getNbAlignToWin())
+        {
+            return true;
+        }
+    }
+
+    // Check diagonal
+    nbAlign = 0;
+    for (int i = 0; i < this->getGridWidth(); i++)
+    {
+        if (x - i >= 0 && y - i >= 0 && this->getCase(x - i, y - i).getPieces().size() > 0 && this->getCase(x - i, y - i).getPieces()[0].getSymbol() == symbol)
+        {
+            nbAlign++;
+        }
+        else
+        {
+            nbAlign = 0;
+        }
+        if (nbAlign == this->getNbAlignToWin())
+        {
+            return true;
+        }
+    }
+
+    nbAlign = 0;
+    for (int i = 0; i < this->getGridWidth(); i++)
+    {
+        if (x + i < this->getGridWidth() && y - i >= 0 && this->getCase(x + i, y - i).getPieces().size() > 0 && this->getCase(x + i, y - i).getPieces()[0].getSymbol() == symbol)
+        {
+            nbAlign++;
+        }
+        else
+        {
+            nbAlign = 0;
+        }
+    }
+    if (nbAlign == this->getNbAlignToWin())
+    {
+        return true;
+    }
+
+    return false;
+}

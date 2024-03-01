@@ -8,8 +8,8 @@
 class Game
 {
 private:
-    std::vector<Grid> grids;
-    std::vector<Player> players;
+    std::vector<Grid> grids = std::vector<Grid>();
+    std::vector<Player> players = std::vector<Player>();
     Player currentPlayer;
 
 public:
