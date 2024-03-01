@@ -242,6 +242,12 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
     case SDLK_RIGHT:
         this->grid.moveGrid(10, 0);
         break;
+    case SDLK_SPACE:
+        Game game = this->grid.getGame();
+        Grid g = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
+        g.resetGrid();
+        game.setGrid(game.getCurrentPlayer().getCurrentGrid(), g);
+        this->grid.setGame(game);
     }
 }
 

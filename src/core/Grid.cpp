@@ -137,3 +137,15 @@ bool Grid::checkWin(Player player, int cellX, int cellY)
 
     return false;
 }
+
+void Grid::resetGrid()
+{
+    std::cout << "reset grid" << std::endl;
+    for (int i = 0; i < this->getGridWidth(); i++)
+    {
+        for (int j = 0; j < this->getGridHeight(); j++)
+        {
+            this->setCase(i, j, Case());
+        }
+    }
+}
