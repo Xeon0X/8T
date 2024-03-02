@@ -7,23 +7,33 @@
 #include "Card.h"
 #include <string>
 #include <iostream>
+#include "Piece.h"
 
 class Grid
 {
 private:
-    int currentPlayer;
-    std::vector<Player> players;
-    std::vector<std::vector<Case>> grid;
-    std::vector<Card> cards;
+    std::vector<std::vector<Case>> cases;
+    std::vector<Card> globalRules;
+
+    int nbAlignToWin = 3;
+
 public:
-    Grid(int player, std::vector<Player> players, std::vector<Card> cards, std::pair<int, int> size = {3, 3});
+    Grid();
     ~Grid();
-    int nextPlayer(int next = 1);
-    void setCurrentPlayer(int player);
-    void addCard(Card card);
-    int getCurrentPlayer() const;
-    std::vector<std::vector<Case>> getGrid() const;
-    std::vector<Card> getCards() const;
+    void addGlobalRule(Card card);
+    std::vector<std::vector<Case>> getCases();
+    int getGridWidth();
+    int getGridHeight();
+
+    void setNbAlignToWin(int nb);
+    int getNbAlignToWin();
+
+    bool checkWin(Player player, int cellX, int cellY);
+
+    void setCase(int x, int y, Case c);
+    Case getCase(int x, int y);
+
+    void resetGrid();
 };
 
 #endif // GRID

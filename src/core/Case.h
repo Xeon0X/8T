@@ -3,6 +3,8 @@
 
 #include <map>
 #include <string>
+#include <map>
+#include <string>
 #include <vector>
 #include "Piece.h"
 
@@ -16,10 +18,12 @@ public:
     Case();
     Case(std::vector<Piece> pieces, std::map<std::string, float> caseEffects);
     ~Case();
-    void addPiece(const Piece& piece);
+    void addPiece(const Piece &piece);
     void addEffect(std::string effect, float value);
     std::vector<Piece> getPieces() const;
     std::map<std::string, float> getEffects() const;
+
+    bool isPiecesEmpty() const;
 };
 
 #endif // CASE

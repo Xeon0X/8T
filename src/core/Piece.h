@@ -5,13 +5,19 @@
 #include <string>
 #include <vector>
 
-class Piece 
+#include <map>
+#include <string>
+#include <vector>
+
+class Piece
 {
 private:
     std::string symbol;
     std::string color;
     std::map<std::string, float> pieceEffects;
+
 public:
+    Piece();
     Piece(std::string symbol, std::string color, std::map<std::string, float> pieceEffects);
     ~Piece();
     void setSymbol(std::string symbol);
