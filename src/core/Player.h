@@ -15,6 +15,7 @@ private:
     std::vector<std::map<std::string, float>> playerEffects;
 
 public:
+    Player();
     Player(std::string symbol);
     ~Player();
     std::string getSymbol();
