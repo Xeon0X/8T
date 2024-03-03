@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+dbbb56323538325f01b75b450b65e9e6 _deps/ftxui-build/doc/CMakeFiles/doc
