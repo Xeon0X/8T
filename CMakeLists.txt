@@ -50,6 +50,10 @@ set(SOURCE_FILES_CONSOLE
     src/console/Console.cpp
 )
 
+set(CMAKE_BINARY_DIR ../bin)
+
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
 add_executable(graphic ${SOURCE_FILES_GRAPHIC})
 target_include_directories(graphic PUBLIC src/core src/graphics)
 target_link_libraries(graphic PUBLIC SDL2main SDL2 SDL2_image SDL2_ttf)
