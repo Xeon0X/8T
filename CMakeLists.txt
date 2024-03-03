@@ -11,13 +11,15 @@ set(CMAKE_BINARY_DIR ../bin)
 make_directory(${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-# --- Fetch FTXUI --------------------------------------------------------------
 include(FetchContent)
+
+# --- Fetch FTXUI --------------------------------------------------------------
 
 set(FETCHCONTENT_UPDATES_DISCONNECTED TRUE)
 FetchContent_Declare(ftxui
   GIT_REPOSITORY https://github.com/ArthurSonzogni/ftxui
   GIT_TAG v4.0.0
+  GIT_PROGRESS    TRUE
 )
 
 FetchContent_GetProperties(ftxui)
@@ -25,6 +27,33 @@ if(NOT ftxui_POPULATED)
   FetchContent_Populate(ftxui)
   add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
+
+# --- Fetch SDL2 ---------------------------------------------------------------
+
+if (WIN32)
+  FetchContent_Declare(
+    SDL2
+    GIT_REPOSITORY  https://github.com/libsdl-org/SDL
+    GIT_PROGRESS    TRUE
+  )
+
+  FetchContent_Declare(
+    SDL2_IMAGE
+    GIT_REPOSITORY  https://github.com/libsdl-org/SDL_image
+    GIT_PROGRESS    TRUE
+  )
+
+  FetchContent_Declare(
+    SDL2_TTF
+    GIT_REPOSITORY  https://github.com/libsdl-org/SDL_ttf
+    GIT_PROGRESS    TRUE
+  )
+
+  FetchContent_MakeAvailable(SDL2 SDL2_IMAGE SDL2_TTF)
+
+endif (WIN32)
+
+set(SDL_LIBRARIES ${SDL_LIBRARIES} SDL2main SDL2 SDL2_image SDL2_ttf)
 
 # --- GRAPHIC ------------------------------------------------------------------
 
@@ -43,7 +72,7 @@ set(SOURCE_FILES_GRAPHIC
 
 add_executable(graphic ${SOURCE_FILES_GRAPHIC})
 target_include_directories(graphic PUBLIC src/core src/graphics)
-target_link_libraries(graphic PUBLIC SDL2main SDL2 SDL2_image SDL2_ttf)
+target_link_libraries(graphic PUBLIC ${SDL_LIBRARIES})
 
 # --- CONSOLE ------------------------------------------------------------------
 
