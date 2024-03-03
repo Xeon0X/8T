@@ -5,3 +5,14 @@
 ## Interface
 
 ![interface](data/images/interface.png)
+
+## Build
+
+~~~bash
+mkdir build
+cd build
+cmake ..
+make
+cd ../bin
+./graphic
+~~~

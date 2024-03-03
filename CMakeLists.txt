@@ -51,7 +51,7 @@ set(SOURCE_FILES_CONSOLE
 )
 
 set(CMAKE_BINARY_DIR ../bin)
-
+make_directory(${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_executable(graphic ${SOURCE_FILES_GRAPHIC})
