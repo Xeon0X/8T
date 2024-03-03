@@ -2,6 +2,14 @@ cmake_minimum_required (VERSION 3.11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
+project(8T
+  LANGUAGES CXX
+  VERSION 1.0.0
+)
+
+set(CMAKE_BINARY_DIR ../bin)
+make_directory(${CMAKE_BINARY_DIR})
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # --- Fetch FTXUI --------------------------------------------------------------
 include(FetchContent)
@@ -18,12 +26,7 @@ if(NOT ftxui_POPULATED)
   add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
-# ------------------------------------------------------------------------------
-
-project(8T
-  LANGUAGES CXX
-  VERSION 1.0.0
-)
+# --- GRAPHIC ------------------------------------------------------------------
 
 set(SOURCE_FILES_GRAPHIC
     src/core/Game.cpp
@@ -38,6 +41,12 @@ set(SOURCE_FILES_GRAPHIC
     src/graphics/GridGraphic.cpp
 )
 
+add_executable(graphic ${SOURCE_FILES_GRAPHIC})
+target_include_directories(graphic PUBLIC src/core src/graphics)
+target_link_libraries(graphic PUBLIC SDL2main SDL2 SDL2_image SDL2_ttf)
+
+# --- CONSOLE ------------------------------------------------------------------
+
 set(SOURCE_FILES_CONSOLE
     src/core/Game.cpp
     src/core/Player.cpp
@@ -50,18 +59,9 @@ set(SOURCE_FILES_CONSOLE
     src/console/Console.cpp
 )
 
-set(CMAKE_BINARY_DIR ../bin)
-make_directory(${CMAKE_BINARY_DIR})
-set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-
-add_executable(graphic ${SOURCE_FILES_GRAPHIC})
-target_include_directories(graphic PUBLIC src/core src/graphics)
-target_link_libraries(graphic PUBLIC SDL2main SDL2 SDL2_image SDL2_ttf)
-
 add_executable(console ${SOURCE_FILES_CONSOLE})
 target_include_directories(console PUBLIC src/core src/console)
 target_include_directories(console PRIVATE src)
-
 target_link_libraries(console
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
