@@ -6,11 +6,11 @@ Player::Player()
     this->color = "";
     this->currentGrid = 0;
     this->decks = {};
-    this->playerEffects = {};
+    this->playerEffects = PlayerEffects();
 }
 
 Player::Player(std::string symbol, std::string color)
-    : symbol(symbol), color(color), currentGrid(0), decks{}, playerEffects{}
+    : symbol(symbol), color(color), currentGrid(0), decks{}, playerEffects{PlayerEffects()}
 {
 }
 

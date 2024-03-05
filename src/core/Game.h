@@ -11,6 +11,7 @@ private:
     std::vector<Grid> grids = std::vector<Grid>();
     std::vector<Player> players = std::vector<Player>();
     Player currentPlayer;
+    void *allCard[5];
 
 public:
     Game();
@@ -24,6 +25,9 @@ public:
     std::vector<Player> getPlayer();
 
     void setGrid(int index, const Grid &grid);
+    void createAndSetPiece(int cellX, int cellY, int CurrentGrid);
+    void **getAllCard();
+    void setAllCard();
 };
 
 #endif // Game

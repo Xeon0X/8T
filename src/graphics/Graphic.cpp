@@ -218,6 +218,8 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     int cellX = mouseX / 100;
     int cellY = mouseY / 100;
 
+    Player player = this->grid.getGame().getCurrentPlayer();
+
     if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight)
     {
         Game game = this->grid.getGame();
@@ -227,12 +229,12 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         {
             if (grid.getCase(cellX, cellY).getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
             {
-                createAndSetPiece(cellX, cellY, CurrentGrid);
+                game.createAndSetPiece(cellX, cellY, CurrentGrid);
             }
         }
         else
         {
-            createAndSetPiece(cellX, cellY, CurrentGrid);
+            game.createAndSetPiece(cellX, cellY, CurrentGrid);
 
             handleCheckWin(cellX, cellY);
 
@@ -266,23 +268,6 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
         game.setGrid(game.getCurrentPlayer().getCurrentGrid(), g);
         this->grid.setGame(game);
     }
-}
-
-void Graphic::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
-{
-    std::map<std::string, float> pieceEffects, caseEffects;
-    Game game = this->grid.getGame();
-    Piece piece = Piece(game.getCurrentPlayer().getSymbol(), game.getCurrentPlayer().getColor(), pieceEffects);
-    std::vector<Piece> pieces;
-    pieces.push_back(piece);
-    Case c = Case(pieces, caseEffects);
-
-    Grid grid = game.getGrid(CurrentGrid);
-    grid.setCase(cellX, cellY, c);
-    game.setGrid(CurrentGrid, grid);
-    this->grid.setGame(game);
-
-    std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
 }
 
 void Graphic::handleCheckWin(int cellX, int cellY)

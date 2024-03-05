@@ -6,6 +6,10 @@
 #include <tuple>
 #include "Deck.h"
 
+struct PlayerEffects
+{
+    bool test;
+};
 class Player
 {
 private:
@@ -13,7 +17,7 @@ private:
     std::string color;
     int currentGrid;
     std::vector<Deck> decks;
-    std::vector<std::map<std::string, float>> playerEffects;
+    PlayerEffects playerEffects;
 
 public:
     Player();

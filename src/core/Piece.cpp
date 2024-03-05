@@ -4,10 +4,10 @@ Piece::Piece()
 {
     this->symbol = "";
     this->color = "";
-    std::map<std::string, float> pieceEffects;
+    this->pieceEffects = PieceEffects();
 }
 
-Piece::Piece(std::string symbol, std::string color, std::map<std::string, float> pieceEffects)
+Piece::Piece(std::string symbol, std::string color, PieceEffects pieceEffects)
 {
     this->symbol = symbol;
     this->color = color;
@@ -38,12 +38,7 @@ std::string Piece::getColor() const
     return this->color;
 }
 
-void Piece::addEffects(std::string effect, float value)
-{
-    this->pieceEffects.insert({effect, value});
-}
-
-std::map<std::string, float> Piece::getEffects() const
+PieceEffects Piece::getEffects() const
 {
     return this->pieceEffects;
 }

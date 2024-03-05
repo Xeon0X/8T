@@ -51,3 +51,50 @@ std::vector<Player> Game::getPlayer()
 {
     return this->players;
 }
+
+void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
+{
+    PieceEffects pieceEffects;
+    CaseEffects caseEffects;
+    Piece piece = Piece(this->currentPlayer.getSymbol(), this->currentPlayer.getColor(), pieceEffects);
+    std::vector<Piece> pieces;
+    pieces.push_back(piece);
+    Case c = Case(pieces, caseEffects);
+    Grid grid = this->getGrid(CurrentGrid);
+    grid.setCase(cellX, cellY, c);
+    this->setGrid(CurrentGrid, grid);
+    std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
+}
+
+void func()
+{
+    std::cout << "Hello" << std::endl;
+}
+
+void func2()
+{
+    std::cout << "Hello2" << std::endl;
+}
+
+void func3()
+{
+    std::cout << "Hello3" << std::endl;
+}
+
+void func4()
+{
+    std::cout << "Hello4" << std::endl;
+}
+
+void Game::setAllCard()
+{
+    this->allCard[0] = (void *)func;
+    this->allCard[1] = (void *)func2;
+    this->allCard[2] = (void *)func3;
+    this->allCard[3] = (void *)func4;
+}
+
+void **Game::getAllCard()
+{
+    return this->allCard;
+}

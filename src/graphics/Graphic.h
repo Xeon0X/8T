@@ -45,7 +45,6 @@ public:
     void handleQuitEvent();
     void handleMouseButtonDownEvent(SDL_Event &event);
     void handleKeyDownEvent(SDL_Event &event);
-    void createAndSetPiece(int cellX, int cellY, int CurrentGrid);
     void play();
     void handleCheckWin(int cellX, int cellY);
 };
