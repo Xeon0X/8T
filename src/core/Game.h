@@ -21,6 +21,7 @@ public:
 
     void switchPlayer();
     void addGrid(const Grid &grid);
+    std::vector<Player> getPlayer();
 
     void setGrid(int index, const Grid &grid);
 };

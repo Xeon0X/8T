@@ -71,21 +71,23 @@ void Graphic::drawLine(int x1, int y1, int x2, int y2)
     SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
 }
 
-void Graphic::drawCircle(int x, int y, int r, int thickness)
+void Graphic::drawCircle(int x, int y, int r, int thickness, Player player)
 {
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
+    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
     for (int z = 0; z < thickness; z++)
     {
         for (int w = 0; w < 360; w++)
         {
-            SDL_RenderDrawPoint(renderer, x + r * cos(w) - z, y + r * sin(w) - z);
+            SDL_RenderDrawPoint(renderer, x + (r - z) * cos(w), y + (r - z) * sin(w));
         }
     }
 }
 
-void Graphic::drawCross(int x, int y, int r, int thickness)
+void Graphic::drawCross(int x, int y, int r, int thickness, Player player)
 {
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
+    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
     for (int z = 0; z < thickness; z++)
     {
         SDL_RenderDrawLine(renderer, x - r, y - r + z, x + r, y + r + z);
@@ -163,6 +165,20 @@ void Graphic::setFontStyle(int style)
     TTF_SetFontStyle(font, style);
 }
 
+void Graphic::drawPlayer(int x, int y, int radius, int thickness, Player player)
+{
+    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
+    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
+    if (player.getSymbol() == "X")
+    {
+        drawCross(x, y, radius, thickness, player);
+    }
+    else
+    {
+        drawCircle(x, y, radius, thickness, player);
+    }
+}
+
 void Graphic::play()
 {
     while (running)
@@ -217,12 +233,13 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         else
         {
             createAndSetPiece(cellX, cellY, CurrentGrid);
-        }
-        handleCheckWin(cellX, cellY);
 
-        game = this->grid.getGame();
-        game.switchPlayer();
-        this->grid.setGame(game);
+            handleCheckWin(cellX, cellY);
+
+            game = this->grid.getGame();
+            game.switchPlayer();
+            this->grid.setGame(game);
+        }
     }
 }
 
