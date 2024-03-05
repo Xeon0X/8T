@@ -10,7 +10,7 @@ private:
     std::vector<Card> cards;
 
 public:
-    Deck(/* args */);
+    Deck(std::vector<Card> cards);
     ~Deck();
     void addCard(Card card);
 };

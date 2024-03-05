@@ -27,8 +27,8 @@ public:
 
     void drawRect(int x, int y, int w, int h);
     void drawLine(int x1, int y1, int x2, int y2);
-    void drawCircle(int x, int y, int r, int thickness);
-    void drawCross(int x, int y, int r, int thickness);
+    void drawCircle(int x, int y, int r, int thickness, Player player);
+    void drawCross(int x, int y, int r, int thickness, Player player);
     void drawPoint(int x, int y);
     void drawText(const char *text, int x, int y);
     void clear();
@@ -40,6 +40,7 @@ public:
     void setFontColor(int r, int g, int b, int a);
     void setFontStyle(int style);
 
+    void drawPlayer(int x, int y, int radius, int thickness, Player player);
     void eventHolder();
     void handleQuitEvent();
     void handleMouseButtonDownEvent(SDL_Event &event);

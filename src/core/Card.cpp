@@ -1,25 +1,13 @@
 #include "Card.h"
 
-Card::Card(/* args */)
+Card::Card(std::string name, std::string description, int id, std::string pathCardImage, std::string pathCardSound) : 
+name(name), description(description), id(id), pathCardImage(pathCardImage), pathCardSound(pathCardSound)
 {
-    this->description = "";
-    this->name = "";
-    this->id = -1;
-    this->pathCardImage = "";
-    this->pathCardSound = "";
-}
 
-Card::Card(std::string name, std::string description, int id, std::string pathCardImage, std::string pathCardSound)
-{
-    this->description = description;
-    this->name = name;
-    this->id = id;
-    this->pathCardImage = pathCardImage;
-    this->pathCardSound = pathCardSound;
 }
 
 Card::~Card()
 {
+
 }
 
- /* a card that  */

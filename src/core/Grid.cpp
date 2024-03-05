@@ -18,11 +18,6 @@ Grid::~Grid()
 {
 }
 
-void Grid::addGlobalRule(Card card)
-{
-    this->globalRules.push_back(card);
-}
-
 std::vector<std::vector<Case>> Grid::getCases()
 {
     return this->cases;

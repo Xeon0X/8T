@@ -5,7 +5,6 @@
 #include "Player.h"
 #include "Case.h"
 #include "Card.h"
-#include <SDL2/SDL.h>
 #include <string>
 #include <iostream>
 #include "Piece.h"
@@ -37,4 +36,4 @@ public:
     void resetGrid();
 };
 
-#endif
+#endif // GRID

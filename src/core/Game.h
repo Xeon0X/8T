@@ -13,13 +13,15 @@ private:
     Player currentPlayer;
 
 public:
-    Game(/* args */);
+    Game();
+    Game(std::vector<Grid> grids, std::vector<Player> players);
     ~Game();
     Grid getGrid(int index);
     Player getCurrentPlayer();
 
     void switchPlayer();
     void addGrid(const Grid &grid);
+    std::vector<Player> getPlayer();
 
     void setGrid(int index, const Grid &grid);
 };

@@ -4,8 +4,8 @@
 Game::Game()
 {
 
-    this->players.push_back(Player("X"));
-    this->players.push_back(Player("O"));
+    this->players.push_back(Player("X", "red"));
+    this->players.push_back(Player("O", "blue"));
 
     this->grids.push_back(Grid());
     this->currentPlayer = this->players[0];
@@ -45,4 +45,9 @@ void Game::switchPlayer()
     {
         this->currentPlayer = this->players[0];
     }
+}
+
+std::vector<Player> Game::getPlayer()
+{
+    return this->players;
 }

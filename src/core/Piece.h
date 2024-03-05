@@ -5,6 +5,10 @@
 #include <string>
 #include <vector>
 
+#include <map>
+#include <string>
+#include <vector>
+
 class Piece
 {
 private:

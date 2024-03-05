@@ -3,20 +3,15 @@
 Player::Player()
 {
     this->symbol = "";
+    this->color = "";
     this->currentGrid = 0;
-    Deck deck;
-    this->decks.push_back(deck);
-    std::map<std::string, float> playerEffect;
-    this->playerEffects.push_back(playerEffect);
+    this->decks = {};
+    this->playerEffects = {};
 }
-Player::Player(std::string symbol)
+
+Player::Player(std::string symbol, std::string color)
+    : symbol(symbol), color(color), currentGrid(0), decks{}, playerEffects{}
 {
-    this->symbol = symbol;
-    this->currentGrid = 0;
-    Deck deck;
-    this->decks.push_back(deck);
-    std::map<std::string, float> playerEffect;
-    this->playerEffects.push_back(playerEffect);
 }
 
 Player::~Player()
@@ -36,4 +31,24 @@ int Player::getCurrentGrid()
 std::string Player::getColor()
 {
     return this->color;
+}
+
+std::tuple<int, int, int> Player::stringToRgb()
+{
+    if (this->color == "red")
+    {
+        return std::make_tuple(255, 0, 0);
+    }
+    else if (this->color == "green")
+    {
+        return std::make_tuple(0, 255, 0);
+    }
+    else if (this->color == "blue")
+    {
+        return std::make_tuple(0, 0, 255);
+    }
+    else
+    {
+        return std::make_tuple(255, 255, 0);
+    }
 }
