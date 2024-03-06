@@ -9,6 +9,7 @@ Game::Game()
 
     this->grids.push_back(Grid());
     this->currentPlayer = this->players[0];
+    this->rules.setAllCard();
 }
 
 Game::~Game()
@@ -56,45 +57,35 @@ void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
 {
     PieceEffects pieceEffects;
     CaseEffects caseEffects;
-    Piece piece = Piece(this->currentPlayer.getSymbol(), this->currentPlayer.getColor(), pieceEffects);
+    Player currentPlayer = this->getCurrentPlayer();
+    Piece piece = Piece(currentPlayer.getSymbol(), currentPlayer.getColor(), pieceEffects);
     std::vector<Piece> pieces;
     pieces.push_back(piece);
     Case c = Case(pieces, caseEffects);
     Grid grid = this->getGrid(CurrentGrid);
     grid.setCase(cellX, cellY, c);
     this->setGrid(CurrentGrid, grid);
+
     std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
 }
 
-void func()
+Rules Game::getRules()
 {
-    std::cout << "Hello" << std::endl;
+    return this->rules;
 }
 
-void func2()
+void Game::replacePlayer(Player player)
 {
-    std::cout << "Hello2" << std::endl;
+    for (unsigned int i = 0; i < this->players.size(); i++)
+    {
+        if (this->players[i].getSymbol() == player.getSymbol())
+        {
+            this->players[i] = player;
+        }
+    }
 }
 
-void func3()
+void Game::setCurrentPlayer(Player player)
 {
-    std::cout << "Hello3" << std::endl;
-}
-
-void func4()
-{
-    std::cout << "Hello4" << std::endl;
-}
-
-void Game::setAllCard()
-{
-    this->allCard[0] = (void *)func;
-    this->allCard[1] = (void *)func2;
-    this->allCard[2] = (void *)func3;
-    this->allCard[3] = (void *)func4;
-}
-
-void **Game::getAllCard()
-{
-    return this->allCard;
+    this->currentPlayer = player;
 }

@@ -4,6 +4,7 @@
 #include <vector>
 #include "Grid.h"
 #include "Player.h"
+#include "./rules/Rules.h"
 
 class Game
 {
@@ -11,7 +12,10 @@ private:
     std::vector<Grid> grids = std::vector<Grid>();
     std::vector<Player> players = std::vector<Player>();
     Player currentPlayer;
-    void *allCard[5];
+    Rules rules;
+
+    bool wait = false;
+    bool haveNetwork = false;
 
 public:
     Game();
@@ -19,6 +23,8 @@ public:
     ~Game();
     Grid getGrid(int index);
     Player getCurrentPlayer();
+    void setCurrentPlayer(Player player);
+    void replacePlayer(Player player);
 
     void switchPlayer();
     void addGrid(const Grid &grid);
@@ -26,8 +32,8 @@ public:
 
     void setGrid(int index, const Grid &grid);
     void createAndSetPiece(int cellX, int cellY, int CurrentGrid);
-    void **getAllCard();
-    void setAllCard();
+
+    Rules getRules();
 };
 
 #endif // Game

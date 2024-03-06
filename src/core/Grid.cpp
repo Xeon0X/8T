@@ -12,6 +12,8 @@ Grid::Grid()
         }
         this->cases.push_back(row);
     }
+
+    this->createGlobalRules();
 }
 
 Grid::~Grid()
@@ -56,80 +58,31 @@ int Grid::getNbAlignToWin()
 bool Grid::checkWin(Player player, int cellX, int cellY)
 {
     std::string symbol = player.getSymbol();
-    int nbAlign = 0;
-    int x = cellX;
-    int y = cellY;
+    int dx[] = {-1, 0, 1, 1};
+    int dy[] = {1, 1, 1, 0};
 
-    // Check horizontal
-    for (int i = 0; i < this->getGridWidth(); i++)
+    for (int dir = 0; dir < 4; ++dir)
     {
-        if (this->getCase(i, y).getPieces().size() > 0 && this->getCase(i, y).getPieces()[0].getSymbol() == symbol)
+        int nbAlign = 0;
+        for (int i = -this->getNbAlignToWin() + 1; i < this->getNbAlignToWin(); ++i)
         {
-            nbAlign++;
-        }
-        else
-        {
-            nbAlign = 0;
-        }
-        if (nbAlign == this->getNbAlignToWin())
-        {
-            return true;
+            int x = cellX + i * dx[dir];
+            int y = cellY + i * dy[dir];
+            if (x >= 0 && y >= 0 && x < this->getGridWidth() && y < this->getGridHeight() &&
+                this->getCase(x, y).getPieces().size() > 0 && this->getCase(x, y).getPieces()[0].getSymbol() == symbol)
+            {
+                nbAlign++;
+                if (nbAlign == this->getNbAlignToWin())
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                nbAlign = 0;
+            }
         }
     }
-
-    // Check vertical
-    nbAlign = 0;
-    for (int j = 0; j < this->getGridHeight(); j++)
-    {
-        if (this->getCase(x, j).getPieces().size() > 0 && this->getCase(x, j).getPieces()[0].getSymbol() == symbol)
-        {
-            nbAlign++;
-        }
-        else
-        {
-            nbAlign = 0;
-        }
-        if (nbAlign == this->getNbAlignToWin())
-        {
-            return true;
-        }
-    }
-
-    // Check diagonal
-    nbAlign = 0;
-    for (int i = 0; i < this->getGridWidth(); i++)
-    {
-        if (x - i >= 0 && y - i >= 0 && this->getCase(x - i, y - i).getPieces().size() > 0 && this->getCase(x - i, y - i).getPieces()[0].getSymbol() == symbol)
-        {
-            nbAlign++;
-        }
-        else
-        {
-            nbAlign = 0;
-        }
-        if (nbAlign == this->getNbAlignToWin())
-        {
-            return true;
-        }
-    }
-
-    nbAlign = 0;
-    for (int i = 0; i < this->getGridWidth(); i++)
-    {
-        if (x + i < this->getGridWidth() && y - i >= 0 && this->getCase(x + i, y - i).getPieces().size() > 0 && this->getCase(x + i, y - i).getPieces()[0].getSymbol() == symbol)
-        {
-            nbAlign++;
-        }
-        else
-        {
-            nbAlign = 0;
-        }
-    }
-    if (nbAlign == this->getNbAlignToWin())
-    {
-        return true;
-    }
-
     return false;
 }
 
@@ -142,5 +95,30 @@ void Grid::resetGrid()
         {
             this->setCase(i, j, Case());
         }
+    }
+}
+
+void Grid::addGlobalRule(Card card)
+{
+    this->globalRules.push_back(card);
+}
+
+void Grid::createGlobalRules()
+{
+    Card card = Card("AlignToWin", "Le nombre d'alignement pour gagner", 1);
+    this->addGlobalRule(card);
+    card = Card("SwitchPlayer", "Switch le joueur", 0);
+    this->addGlobalRule(card);
+}
+
+void Grid::showGridTerminal()
+{
+    for (int i = 0; i < this->getGridWidth(); i++)
+    {
+        for (int j = 0; j < this->getGridHeight(); j++)
+        {
+            std::cout << this->getCase(i, j).getPieces().size() << " ";
+        }
+        std::cout << std::endl;
     }
 }

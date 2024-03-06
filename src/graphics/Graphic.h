@@ -46,7 +46,7 @@ public:
     void handleMouseButtonDownEvent(SDL_Event &event);
     void handleKeyDownEvent(SDL_Event &event);
     void play();
-    void handleCheckWin(int cellX, int cellY);
+    void handleCheckWin(int cellX, int cellY, Game game);
 };
 
 #endif // GRAPHIC

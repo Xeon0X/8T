@@ -8,7 +8,7 @@
 
 struct PlayerEffects
 {
-    bool test;
+    bool posePiece;
 };
 class Player
 {
@@ -27,6 +27,10 @@ public:
     int getCurrentGrid();
     std::string getColor();
     std::tuple<int, int, int> stringToRgb();
+    Deck getDeck(int index);
+
+    PlayerEffects &getPlayerEffects();
+    void setPlayerEffects(PlayerEffects playerEffects);
 };
 
 #endif // PLAYER

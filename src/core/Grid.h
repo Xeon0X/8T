@@ -34,6 +34,10 @@ public:
     Case getCase(int x, int y);
 
     void resetGrid();
+
+    void createGlobalRules();
+
+    void showGridTerminal();
 };
 
 #endif // GRID

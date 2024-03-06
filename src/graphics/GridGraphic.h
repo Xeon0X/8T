@@ -23,9 +23,10 @@ public:
 
     int getCaseWidth() { return 100; }
     int getCaseHeight() { return 100; }
+    Game &getGame();
 
-    Game getGame() { return game; }
     void setGame(Game game) { this->game = game; }
+    void drawDeck(SDL_Renderer *renderer, Graphic &graphic);
 };
 
 #endif // GRAPHIC_GRID

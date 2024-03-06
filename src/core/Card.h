@@ -3,8 +3,8 @@
 
 #include <string>
 
-typedef void (*FuncType)();
-
+class Game;
+typedef void (*FuncType)(int, int, int, Game &);
 class Card
 {
 private:
@@ -15,9 +15,10 @@ private:
     std::string pathCardSound;
 
 public:
-    Card(std::string name, std::string description, int id, std::string pathCardImage, std::string pathCardSound);
+    Card(std::string name, std::string description, int id);
     ~Card();
-    void applyCard(void *allCards[5]);
+    void applyCard(void *allCards[5], int posX, int posY, int currentGrid, Game &game);
+    std::string getName();
 };
 
 #endif // CARD

@@ -12,6 +12,9 @@ Player::Player()
 Player::Player(std::string symbol, std::string color)
     : symbol(symbol), color(color), currentGrid(0), decks{}, playerEffects{PlayerEffects()}
 {
+    Deck deck = Deck();
+    deck.setBaseCard();
+    this->decks.push_back(deck);
 }
 
 Player::~Player()
@@ -51,4 +54,19 @@ std::tuple<int, int, int> Player::stringToRgb()
     {
         return std::make_tuple(255, 255, 0);
     }
+}
+
+Deck Player::getDeck(int index)
+{
+    return this->decks[index];
+}
+
+PlayerEffects &Player::getPlayerEffects()
+{
+    return this->playerEffects;
+}
+
+void Player::setPlayerEffects(PlayerEffects playerEffects)
+{
+    this->playerEffects = playerEffects;
 }

@@ -65,6 +65,7 @@ set(SOURCE_FILES_GRAPHIC
     src/core/Deck.cpp
     src/core/Grid.cpp
     src/core/Piece.cpp
+    src/core/rules/Rules.cpp
     src/graphics/PlayGraphic.cpp
     src/graphics/Graphic.cpp
     src/graphics/GridGraphic.cpp
@@ -84,12 +85,17 @@ set(SOURCE_FILES_CONSOLE
     src/core/Deck.cpp
     src/core/Grid.cpp
     src/core/Piece.cpp
+    src/core/rules/Rules.cpp
+    src/core/rules/RulesCommun.cpp
+    src/core/rules/RulesRare.cpp
+    src/core/rules/RulesEpic.cpp
+    src/core/rules/RulesLegendaire.cpp
     src/console/playConsole.cpp
     src/console/Console.cpp
 )
 
 add_executable(console ${SOURCE_FILES_CONSOLE})
-target_include_directories(console PUBLIC src/core src/console)
+target_include_directories(console PUBLIC src/core src/core/rules src/console)
 target_include_directories(console PRIVATE src)
 target_link_libraries(console
   PRIVATE ftxui::screen

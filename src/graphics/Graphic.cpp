@@ -42,10 +42,15 @@ Graphic::Graphic()
     }
 
     color = {0, 0, 0, 255};
-    font = TTF_OpenFont("font/arial.ttf", 24);
+    this->font = TTF_OpenFont("../font/dogica.ttf", 10);
+    if (font == nullptr)
+    {
+        std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
+        // exit(1);
+    }
 
-    fontColor = {255, 255, 255, 255};
-    fontSize = 24;
+    fontColor = {0, 0, 0, 255};
+    fontSize = 10;
     fontStyle = TTF_STYLE_NORMAL;
 }
 
@@ -103,7 +108,6 @@ void Graphic::drawPoint(int x, int y)
 
 void Graphic::drawText(const char *text, int x, int y)
 {
-    std::cout << text << std::endl;
     SDL_Surface *surface = TTF_RenderText_Solid(font, text, fontColor);
     if (!surface)
     {
@@ -187,6 +191,7 @@ void Graphic::play()
         clear();
 
         grid.showGrid(renderer, *this);
+        this->grid.drawDeck(renderer, *this);
 
         present();
     }
@@ -219,8 +224,9 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     int cellY = mouseY / 100;
 
     Player player = this->grid.getGame().getCurrentPlayer();
+    bool posePiece = player.getPlayerEffects().posePiece;
 
-    if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight)
+    if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight && posePiece)
     {
         Game game = this->grid.getGame();
         Grid grid = game.getGrid(CurrentGrid);
@@ -236,11 +242,34 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         {
             game.createAndSetPiece(cellX, cellY, CurrentGrid);
 
-            handleCheckWin(cellX, cellY);
+            player.getPlayerEffects().posePiece = false;
+
+            game.replacePlayer(player);
+            game.setCurrentPlayer(player);
+
+            handleCheckWin(cellX, cellY, game);
+            this->grid.setGame(game);
 
             game = this->grid.getGame();
             game.switchPlayer();
             this->grid.setGame(game);
+        }
+    }
+    Deck deck = player.getDeck(player.getCurrentGrid());
+    SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
+
+    for (unsigned int i = 0; i < deck.getCards().size(); i++)
+    {
+        int cardX = (i + 1) * 500;
+        int cardY = 900;
+        int cardWidth = 100;
+        int cardHeight = 150;
+
+        // Check if mouse click is within the card
+        if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
+        {
+            deck.getCards()[i].applyCard(this->grid.getGame().getRules().getAllCard(), mouseX, mouseY, player.getCurrentGrid(), this->grid.getGame());
+            break;
         }
     }
 }
@@ -270,11 +299,11 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
     }
 }
 
-void Graphic::handleCheckWin(int cellX, int cellY)
+void Graphic::handleCheckWin(int cellX, int cellY, Game game)
 {
-    Game game = this->grid.getGame();
+
     Grid grid = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
-    std::cout << "Checking win" << std::endl;
+    grid.showGridTerminal();
     if (grid.checkWin(game.getCurrentPlayer(), cellX, cellY))
     {
         std::cout << "Player " << game.getCurrentPlayer().getSymbol() << " wins" << std::endl;
