@@ -226,7 +226,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     Player player = this->grid.getGame().getCurrentPlayer();
     bool posePiece = player.getPlayerEffects().posePiece;
 
-    if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight && posePiece)
+    if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight)
     {
         Game game = this->grid.getGame();
         Grid grid = game.getGrid(CurrentGrid);
