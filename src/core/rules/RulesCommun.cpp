@@ -1,4 +1,3 @@
-#include "Rules.h"
 #include "Game.h"
 
 inline void EnablePosePiece(int cellX, int cellY, int CurrentGrid, Game &game)

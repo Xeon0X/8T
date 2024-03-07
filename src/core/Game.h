@@ -3,8 +3,6 @@
 
 #include <vector>
 #include "Grid.h"
-#include "Player.h"
-#include "./rules/Rules.h"
 
 /**
  * @class Game
@@ -16,7 +14,6 @@ private:
     std::vector<Grid> grids = std::vector<Grid>();       /**< Grids of the game */
     std::vector<Player> players = std::vector<Player>(); /**< Players of the game */
     Player currentPlayer;                                /**< Current player */
-    Rules rules;                                         /**< Rules of the game */
 
     bool wait = false;        // wait for the other player to play
     bool haveNetwork = false; // if the game is played on a network
@@ -112,7 +109,6 @@ public:
      *
      * @return Rules
      */
-    Rules getRules();
 };
 
 #endif // Game

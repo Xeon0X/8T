@@ -268,7 +268,8 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         // Check if mouse click is within the card
         if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
         {
-            deck.getCards()[i].applyCard(this->grid.getGame().getRules().getAllCard(), mouseX, mouseY, player.getCurrentGrid(), this->grid.getGame());
+            std::cout << "Card clicked" << std::endl;
+            (*deck.getCards()[i]).applyCard(mouseX, mouseY, player.getCurrentGrid(), player, this->grid.getGame());
             break;
         }
     }
@@ -291,11 +292,28 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
         this->grid.moveGrid(10, 0);
         break;
     case SDLK_SPACE:
+
+        /*
+            Game game = this->grid.getGame();
+            Grid g = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
+            g.resetGrid();
+            game.setGrid(game.getCurrentPlayer().getCurrentGrid(), g);
+            this->grid.setGame(game);*/
+
         Game game = this->grid.getGame();
-        Grid g = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
-        g.resetGrid();
-        game.setGrid(game.getCurrentPlayer().getCurrentGrid(), g);
-        this->grid.setGame(game);
+        std::vector<Player> players = game.getPlayer();
+
+        std::vector<std::vector<Case>> grid = game.getGrid(0).getCases();
+
+        int windowWidth, windowHeight;
+        SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
+
+        int totalGridWidth = grid[0].size() * 100;
+        int totalGridHeight = grid.size() * 100;
+
+        int startX = (windowWidth - totalGridWidth) / 2;
+        int startY = (windowHeight - totalGridHeight) / 2;
+        this->animatePLayerGravity(startX + 0 * 100 + 50, startY + 0 * 100 + 50, startX + 3 * 100 + 50, startY + 3 * 100 + 50, 40, 5, players[0]);
     }
 }
 
@@ -328,5 +346,17 @@ void Graphic::eventHolder()
             handleKeyDownEvent(event);
             break;
         }
+    }
+}
+
+void Graphic::animatePLayerGravity(int x1, int y1, int x2, int y2, int r, int thickness, Player player)
+{
+    int actualX = x1;
+    int actualY = y1;
+    while (actualY < y2)
+    {
+
+        drawPlayer(actualX, actualY, r, thickness, player);
+        actualY += 1;
     }
 }

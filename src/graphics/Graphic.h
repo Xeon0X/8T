@@ -89,6 +89,8 @@ public:
      * @param x The x coordinate of the point.
      * @param y The y coordinate of the point.
      */
+
+    void animatePLayerGravity(int x1, int y1, int x2, int y2, int r, int thickness, Player player);
     void drawPoint(int x, int y);
 
     /**

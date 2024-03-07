@@ -6,12 +6,12 @@
  * @brief This class is used to represent a card in the game
  */
 #include <string>
-
 class Game;
-typedef void (*FuncType)(int, int, int, Game &); // Function pointer type
+class Player;
+
 class Card
 {
-private:
+protected:
     std::string name;
     std::string description;
     int id;
@@ -35,22 +35,13 @@ public:
     ~Card();
 
     /**
-     * @brief Apply the card effect
-     *
-     * @param allCards
-     * @param posX
-     * @param posY
-     * @param currentGrid
-     * @param game
-     */
-    void applyCard(void *allCards[5], int posX, int posY, int currentGrid, Game &game);
-
-    /**
      * @brief Get the Name object
      *
      * @return std::string
      */
     std::string getName();
+
+    virtual void applyCard(int x, int y, int currentGrid, Player &currentPlayer, Game &game){};
 };
 
 #endif // CARD

@@ -86,7 +86,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderDrawRect(renderer, &rect);
-        std::string text = deck.getCards()[i].getName();
+        std::string text = deck.getCards()[i]->getName();
         const char *cstr = text.c_str();
         graphic.drawText(cstr, cardX + 10, cardY + 50);
     }
