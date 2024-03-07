@@ -42,10 +42,15 @@ Graphic::Graphic()
     }
 
     color = {0, 0, 0, 255};
-    font = TTF_OpenFont("font/arial.ttf", 24);
+    this->font = TTF_OpenFont("../font/dogica.ttf", 10);
+    if (font == nullptr)
+    {
+        std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
+        // exit(1);
+    }
 
-    fontColor = {255, 255, 255, 255};
-    fontSize = 24;
+    fontColor = {0, 0, 0, 255};
+    fontSize = 10;
     fontStyle = TTF_STYLE_NORMAL;
 }
 
@@ -71,21 +76,23 @@ void Graphic::drawLine(int x1, int y1, int x2, int y2)
     SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
 }
 
-void Graphic::drawCircle(int x, int y, int r, int thickness)
+void Graphic::drawCircle(int x, int y, int r, int thickness, Player player)
 {
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
+    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
     for (int z = 0; z < thickness; z++)
     {
         for (int w = 0; w < 360; w++)
         {
-            SDL_RenderDrawPoint(renderer, x + r * cos(w) - z, y + r * sin(w) - z);
+            SDL_RenderDrawPoint(renderer, x + (r - z) * cos(w), y + (r - z) * sin(w));
         }
     }
 }
 
-void Graphic::drawCross(int x, int y, int r, int thickness)
+void Graphic::drawCross(int x, int y, int r, int thickness, Player player)
 {
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
+    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
     for (int z = 0; z < thickness; z++)
     {
         SDL_RenderDrawLine(renderer, x - r, y - r + z, x + r, y + r + z);
@@ -101,7 +108,6 @@ void Graphic::drawPoint(int x, int y)
 
 void Graphic::drawText(const char *text, int x, int y)
 {
-    std::cout << text << std::endl;
     SDL_Surface *surface = TTF_RenderText_Solid(font, text, fontColor);
     if (!surface)
     {
@@ -163,6 +169,20 @@ void Graphic::setFontStyle(int style)
     TTF_SetFontStyle(font, style);
 }
 
+void Graphic::drawPlayer(int x, int y, int radius, int thickness, Player player)
+{
+    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
+    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
+    if (player.getSymbol() == "X")
+    {
+        drawCross(x, y, radius, thickness, player);
+    }
+    else
+    {
+        drawCircle(x, y, radius, thickness, player);
+    }
+}
+
 void Graphic::play()
 {
     while (running)
@@ -171,6 +191,7 @@ void Graphic::play()
         clear();
 
         grid.showGrid(renderer, *this);
+        this->grid.drawDeck(renderer, *this);
 
         present();
     }
@@ -202,6 +223,9 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     int cellX = mouseX / 100;
     int cellY = mouseY / 100;
 
+    Player player = this->grid.getGame().getCurrentPlayer();
+    bool posePiece = player.getPlayerEffects().posePiece;
+
     if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight)
     {
         Game game = this->grid.getGame();
@@ -211,18 +235,42 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         {
             if (grid.getCase(cellX, cellY).getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
             {
-                createAndSetPiece(cellX, cellY, CurrentGrid);
+                game.createAndSetPiece(cellX, cellY, CurrentGrid);
             }
         }
         else
         {
-            createAndSetPiece(cellX, cellY, CurrentGrid);
-        }
-        handleCheckWin(cellX, cellY);
+            game.createAndSetPiece(cellX, cellY, CurrentGrid);
 
-        game = this->grid.getGame();
-        game.switchPlayer();
-        this->grid.setGame(game);
+            player.getPlayerEffects().posePiece = false;
+
+            game.replacePlayer(player);
+            game.setCurrentPlayer(player);
+
+            handleCheckWin(cellX, cellY, game);
+            this->grid.setGame(game);
+
+            game = this->grid.getGame();
+            game.switchPlayer();
+            this->grid.setGame(game);
+        }
+    }
+    Deck deck = player.getDeck(player.getCurrentGrid());
+    SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
+
+    for (unsigned int i = 0; i < deck.getCards().size(); i++)
+    {
+        int cardX = (i + 1) * 500;
+        int cardY = 900;
+        int cardWidth = 100;
+        int cardHeight = 150;
+
+        // Check if mouse click is within the card
+        if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
+        {
+            deck.getCards()[i].applyCard(this->grid.getGame().getRules().getAllCard(), mouseX, mouseY, player.getCurrentGrid(), this->grid.getGame());
+            break;
+        }
     }
 }
 
@@ -251,28 +299,11 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
     }
 }
 
-void Graphic::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
+void Graphic::handleCheckWin(int cellX, int cellY, Game game)
 {
-    std::map<std::string, float> pieceEffects, caseEffects;
-    Game game = this->grid.getGame();
-    Piece piece = Piece(game.getCurrentPlayer().getSymbol(), game.getCurrentPlayer().getColor(), pieceEffects);
-    std::vector<Piece> pieces;
-    pieces.push_back(piece);
-    Case c = Case(pieces, caseEffects);
 
-    Grid grid = game.getGrid(CurrentGrid);
-    grid.setCase(cellX, cellY, c);
-    game.setGrid(CurrentGrid, grid);
-    this->grid.setGame(game);
-
-    std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
-}
-
-void Graphic::handleCheckWin(int cellX, int cellY)
-{
-    Game game = this->grid.getGame();
     Grid grid = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
-    std::cout << "Checking win" << std::endl;
+    grid.showGridTerminal();
     if (grid.checkWin(game.getCurrentPlayer(), cellX, cellY))
     {
         std::cout << "Player " << game.getCurrentPlayer().getSymbol() << " wins" << std::endl;
