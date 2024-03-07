@@ -19,5 +19,4 @@ void **Rules::getAllCard()
 void Rules::setAllCard()
 {
     this->allCard[0] = (void *)&EnablePosePiece;
-    std::cout << this->allCard[0] << std::endl;
 }

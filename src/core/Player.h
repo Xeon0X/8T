@@ -28,7 +28,6 @@ public:
     std::string getColor();
     std::tuple<int, int, int> stringToRgb();
     Deck getDeck(int index);
-
     PlayerEffects &getPlayerEffects();
     void setPlayerEffects(PlayerEffects playerEffects);
 };

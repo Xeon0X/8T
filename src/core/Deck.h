@@ -15,7 +15,6 @@ public:
     ~Deck();
     void addCard(Card card);
     std::vector<Card> getCards();
-
     void setBaseCard();
 };
 
