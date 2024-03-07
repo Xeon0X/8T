@@ -25,3 +25,15 @@ CaseEffects Case::getEffects() const
 {
     return this->caseEffects;
 }
+
+bool Case::isPiecesEmpty() const
+{
+    return this->pieces.empty();
+}
+
+Case Case::operator=(const Case &c)
+{
+    this->pieces = c.pieces;
+    this->caseEffects = c.caseEffects;
+    return *this;
+}

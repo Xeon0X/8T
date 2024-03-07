@@ -25,6 +25,11 @@ std::vector<std::vector<Case>> Grid::getCases()
     return this->cases;
 }
 
+void Grid::setCases(std::vector<std::vector<Case>> cases)
+{
+    this->cases = cases;
+}
+
 int Grid::getGridWidth()
 {
     return this->cases[0].size();
@@ -106,8 +111,6 @@ void Grid::addGlobalRule(Card card)
 void Grid::createGlobalRules()
 {
     Card card = Card("AlignToWin", "Le nombre d'alignement pour gagner", 1);
-    this->addGlobalRule(card);
-    card = Card("SwitchPlayer", "Switch le joueur", 0);
     this->addGlobalRule(card);
 }
 

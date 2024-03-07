@@ -2,6 +2,7 @@
 #include "../Game.h"
 #include "../Grid.h"
 #include "RulesCommun.cpp"
+#include "RulesRare.cpp"
 
 Rules::Rules(/* args */)
 {
@@ -19,4 +20,5 @@ void **Rules::getAllCard()
 void Rules::setAllCard()
 {
     this->allCard[0] = (void *)&EnablePosePiece;
+    this->allCard[1] = (void *)&applyGravity;
 }

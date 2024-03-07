@@ -19,7 +19,7 @@ void Deck::addCard(Card card)
 
 void Deck::setBaseCard()
 {
-    Card card = Card("PlacePiece", "Pose une pièce sur le plateau", 0);
+    Card card = Card("PlacePiece", "Pose une pièce sur le plateau", 1);
     this->cards.push_back(card);
 }
 
