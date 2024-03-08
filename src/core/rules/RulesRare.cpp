@@ -14,6 +14,9 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
+        GridRules rules = currentGrid.getRules();
+        rules.gravity = true;
+        currentGrid.setRules(rules);
         std::vector<std::vector<Case>> cases = currentGrid.getCases();
         for (int i = 0; i < cases.size(); i++)
         {

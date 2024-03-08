@@ -83,3 +83,15 @@ void Game::replacePlayer(Player player)
         }
     }
 }
+
+Player Game::findPlayerBySymbol(std::string symbol)
+{
+    for (unsigned int i = 0; i < this->players.size(); i++)
+    {
+        if (this->players[i].getSymbol() == symbol)
+        {
+            return this->players[i];
+        }
+    }
+    return Player("", "");
+}

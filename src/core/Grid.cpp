@@ -125,3 +125,13 @@ void Grid::showGridTerminal()
         std::cout << std::endl;
     }
 }
+
+GridRules Grid::getRules()
+{
+    return this->rules;
+}
+
+void Grid::setRules(GridRules rules)
+{
+    this->rules = rules;
+}

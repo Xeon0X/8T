@@ -9,6 +9,11 @@
 #include <iostream>
 #include "Piece.h"
 
+struct GridRules
+{
+    bool gravity = false;
+};
+
 /**
  * @class Grid
  * @brief This class is used to represent the game grid
@@ -18,6 +23,7 @@ class Grid
 private:
     std::vector<std::vector<Case>> cases; /**< Cases of the grid */
     std::vector<Card> globalRules;        /**< Global rules of the grid */
+    GridRules rules;                      /**< Rules of the grid */
 
     int nbAlignToWin = 3; /**< Number of pieces to align to win */
 
@@ -130,6 +136,20 @@ public:
      *
      */
     void showGridTerminal();
+
+    /**
+     * @brief Get the rules of the grid
+     *
+     * @return GridRules
+     */
+    GridRules getRules();
+
+    /**
+     * @brief Set the rules of the grid
+     *
+     * @param rules
+     */
+    void setRules(GridRules rules);
 };
 
 #endif // GRID

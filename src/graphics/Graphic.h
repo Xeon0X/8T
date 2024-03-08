@@ -212,6 +212,7 @@ public:
      * @param game The game to be checked.
      */
     void handleCheckWin(int cellX, int cellY, Game game);
+    void applyGravityAnimation();
 };
 
 #endif // GRAPHIC

@@ -109,6 +109,8 @@ public:
      *
      * @return Rules
      */
+
+    Player findPlayerBySymbol(std::string symbol);
 };
 
 #endif // Game
