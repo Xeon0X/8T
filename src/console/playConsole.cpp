@@ -198,39 +198,22 @@ int main() {
   auto action = [&] { value++; };
   auto action_renderer =
       Renderer([&] { return text("count = " + std::to_string(value)); });
- 
-  std::vector<Component> list_buttons;
-  for (int k = 0; k < 100; k++) {
-    list_buttons.push_back(Button("Ascii 1", action, ButtonOption::Ascii()));
+
+  std::vector<Component> containers;
+  for (int k = 0; k < 10; k++) {
+    std::vector<Component> list_buttons;
+    for (int l = 0; l < 10; l++) {
+      list_buttons.push_back(Button("Ascii " + std::to_string(k) + " " + std::to_string(l), action, ButtonOption::Animated()));
+    }
+    auto container = Container::Horizontal(list_buttons);
+    containers.push_back(container);
   }
-  auto buttons =
+
+  auto buttons = 
       Container::Vertical({
           action_renderer,
           Renderer([] { return separator(); }),
-          Container::Horizontal({
-              Container::Vertical(list_buttons),
-              Renderer([] { return separator(); }),
-              Container::Vertical({
-                  Button("Simple 1", action, ButtonOption::Simple()),
-                  Button("Simple 2", action, ButtonOption::Simple()),
-                  Button("Simple 3", action, ButtonOption::Simple()),
-              }),
-              Renderer([] { return separator(); }),
-              Container::Vertical({
-                  Button("Animated 1", action, ButtonOption::Animated()),
-                  Button("Animated 2", action, ButtonOption::Animated()),
-                  Button("Animated 3", action, ButtonOption::Animated()),
-              }),
-              Renderer([] { return separator(); }),
-              Container::Vertical({
-                  Button("Animated 4", action,
-                         ButtonOption::Animated(Color::Red)),
-                  Button("Animated 5", action,
-                         ButtonOption::Animated(Color::Green)),
-                  Button("Animated 6", action,
-                         ButtonOption::Animated(Color::Blue)),
-              }),
-          }),
+          Container::Vertical(containers),
       }) |
       border;
 
@@ -263,10 +246,10 @@ int main() {
                center;
       });
 
-  auto window = grid;
+  auto window = buttons;
   auto right = Renderer([] { return text("Scores") | center; });
   auto top = console;
-  auto bottom = buttons;
+  auto bottom = grid;
 
   int right_size = 20;
   int top_size = 5;
