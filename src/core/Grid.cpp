@@ -3,10 +3,10 @@
 Grid::Grid()
 {
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 7; i++)
     {
         std::vector<Case> row;
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < 14; j++)
         {
             row.push_back(Case());
         }
@@ -42,12 +42,12 @@ int Grid::getGridHeight()
 
 void Grid::setCase(int x, int y, Case c)
 {
-    this->cases[x][y] = c;
+    this->cases[y][x] = c;
 }
 
 Case Grid::getCase(int x, int y)
 {
-    return this->cases[x][y];
+    return this->cases[y][x];
 }
 
 void Grid::setNbAlignToWin(int nb)
@@ -116,6 +116,7 @@ void Grid::createGlobalRules()
 
 void Grid::showGridTerminal()
 {
+    std::cout << "in showGrid\n";
     for (int i = 0; i < this->getGridWidth(); i++)
     {
         for (int j = 0; j < this->getGridHeight(); j++)
@@ -124,4 +125,5 @@ void Grid::showGridTerminal()
         }
         std::cout << std::endl;
     }
+    std::cout << "after showGrid\n";
 }

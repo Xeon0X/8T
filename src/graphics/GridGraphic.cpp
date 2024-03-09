@@ -16,8 +16,8 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
     std::vector<Player> players = this->game.getPlayer();
 
-    int totalGridWidth = grid[0].size() * 100;
-    int totalGridHeight = grid.size() * 100;
+    int totalGridWidth = grid.size() * 100;
+    int totalGridHeight = grid[0].size() * 100;
 
     int startX = (windowWidth - totalGridWidth) / 2;
     int startY = (windowHeight - totalGridHeight) / 2;
@@ -43,7 +43,7 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
                     {
                         if (players[k].getSymbol() == pieces[0].getSymbol())
                         {
-                            graphic.drawPlayer(startX + i * 100 + 50 + this->gridX, startY + j * 100 + 50 + this->gridY, 40, 5, players[k]);
+                            graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                         }
                     }
                 }

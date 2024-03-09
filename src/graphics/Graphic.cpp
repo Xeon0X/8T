@@ -188,12 +188,16 @@ void Graphic::play()
     while (running)
     {
         eventHolder();
+        std::cout << "EventHolder";
         clear();
+        std::cout << "Clear";
 
         grid.showGrid(renderer, *this);
+        std::cout << "ShowGrid";
         this->grid.drawDeck(renderer, *this);
-
+        std::cout << "drawDeck";
         present();
+        std::cout << "Present";
     }
 }
 
@@ -241,18 +245,26 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         else
         {
             game.createAndSetPiece(cellX, cellY, CurrentGrid);
-
+            std::cout << "CeateAndSetPiece 2\n";
             player.getPlayerEffects().posePiece = false;
+            std::cout << "getPlayerEffects\n";
 
             game.replacePlayer(player);
+            std::cout << "replacePlayer\n";
             game.setCurrentPlayer(player);
+            std::cout << "setCurrentPlayer\n";
 
             handleCheckWin(cellX, cellY, game);
+            std::cout << "handleCheckWin\n";
             this->grid.setGame(game);
+            std::cout << "setGame\n";
 
             game = this->grid.getGame();
+            std::cout << "getGame\n";
             game.switchPlayer();
+            std::cout << "switchPlayer\n";
             this->grid.setGame(game);
+            std::cout << "setGame\n";
         }
     }
     Deck deck = player.getDeck(player.getCurrentGrid());
@@ -301,13 +313,16 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
 
 void Graphic::handleCheckWin(int cellX, int cellY, Game game)
 {
-
+    std::cout << " in handleCheckWin\n";
     Grid grid = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
+    std::cout << "getGrid in handleCheckWin\n";
     grid.showGridTerminal();
+    std::cout << "show\n";
     if (grid.checkWin(game.getCurrentPlayer(), cellX, cellY))
     {
         std::cout << "Player " << game.getCurrentPlayer().getSymbol() << " wins" << std::endl;
     }
+    std::cout << "after checkwin\n";
 }
 
 void Graphic::eventHolder()
