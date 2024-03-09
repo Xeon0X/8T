@@ -12,16 +12,16 @@ using namespace ftxui;
  
 Element make_box(int x, int y) {
   std::string title = "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
-  return text(title) | center | size(WIDTH, EQUAL, 18) |
-         size(HEIGHT, EQUAL, 9) | border |
-         bgcolor(Color::HSV(x * 255 / 15, 255, y * 255 / 15));
+  return text(title) | center | size(WIDTH, EQUAL, 10) |
+         size(HEIGHT, EQUAL, 5) | center |
+         bgcolor(Color::HSV(x * 255 / 5, 255, y * 255 / 3));
 };
  
 Element make_grid() {
   std::vector<Elements> rows;
-  for (int i = 0; i < 15; i++) {
+  for (int i = 0; i < 7; i++) {
     std::vector<Element> cols;
-    for (int j = 0; j < 15; j++) {
+    for (int j = 0; j < 4; j++) {
       cols.push_back(make_box(i, j));
     }
     rows.push_back(cols);
@@ -61,7 +61,7 @@ int main() {
                    make_grid() | focusPositionRelative(focus_x, focus_y) |
                        frame | flex,
                }) |
-               border;
+               center;
       });
 
   auto grid = Renderer([] {
