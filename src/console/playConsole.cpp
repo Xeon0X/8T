@@ -12,28 +12,6 @@
 
 using namespace ftxui;
 
-// Grid
-
-Element make_box(int x, int y) {
-  std::string title = "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
-  return text(title) | center | size(WIDTH, EQUAL, 10) |
-         size(HEIGHT, EQUAL, 5) | center |
-         bgcolor(Color::HSV(x * 255 / 5, 255, y * 255 / 3));
-};
- 
-Element make_grid() {
-  std::vector<Elements> rows;
-  for (int i = 0; i < 7; i++) {
-    std::vector<Element> cols;
-    for (int j = 0; j < 4; j++) {
-      cols.push_back(make_box(i, j));
-    }
-    rows.push_back(cols);
-  }
- 
-  return gridbox(rows);
-};
-
 // Input
 
 std::string Stringify(Event event) {
@@ -155,6 +133,46 @@ std::string Stringify(Event event) {
   return out;
 }
 
+// Grid
+
+Element make_box(int x, int y) {
+  std::string title = "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+  return text(title) | center | size(WIDTH, EQUAL, 10) |
+         size(HEIGHT, EQUAL, 5) | center |
+         bgcolor(Color::HSV(x * 255 / 5, 255, y * 255 / 3));
+};
+ 
+Element make_grid() {
+  std::vector<Elements> rows;
+  for (int i = 0; i < 7; i++) {
+    std::vector<Element> cols;
+    for (int j = 0; j < 4; j++) {
+      cols.push_back(make_box(i, j));
+    }
+    rows.push_back(cols);
+  }
+ 
+  return gridbox(rows);
+};
+
+// Component make_button(int x, int y) {
+//   std::string title = "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+//   return Button(text(title), action, ButtonOption::Animated())
+// };
+
+// Element make_buttons_grid() {
+//   std::vector<Elements> rows;
+//   for (int i = 0; i < 7; i++) {
+//     std::vector<Element> cols;
+//     for (int j = 0; j < 4; j++) {
+//       cols.push_back(make_box(i, j));
+//     }
+//     rows.push_back(cols);
+//   }
+ 
+//   return gridbox(rows);
+// };
+
 int main() {
   auto screen = ScreenInteractive::Fullscreen();
 
@@ -162,14 +180,14 @@ int main() {
 
   std::vector<Event> keys;
  
-  auto component = Renderer([&] {
+  auto console = Renderer([&] {
     Elements children;
-    for (size_t i = std::max(0, (int)keys.size() - 20); i < keys.size(); ++i)
+    for (size_t i = std::max(0, (int)keys.size() - 3); i < keys.size(); ++i)
       children.push_back(text(Stringify(keys[i])));
     return window(text("keys"), vbox(std::move(children)));
   });
  
-  component |= CatchEvent([&](Event event) {
+  console |= CatchEvent([&](Event event) {
     keys.push_back(event);
     return true;
   });
@@ -180,6 +198,43 @@ int main() {
   auto action = [&] { value++; };
   auto action_renderer =
       Renderer([&] { return text("count = " + std::to_string(value)); });
+ 
+  std::vector<Component> list_buttons;
+  for (int k = 0; k < 100; k++) {
+    list_buttons.push_back(Button("Ascii 1", action, ButtonOption::Ascii()));
+  }
+  auto buttons =
+      Container::Vertical({
+          action_renderer,
+          Renderer([] { return separator(); }),
+          Container::Horizontal({
+              Container::Vertical(list_buttons),
+              Renderer([] { return separator(); }),
+              Container::Vertical({
+                  Button("Simple 1", action, ButtonOption::Simple()),
+                  Button("Simple 2", action, ButtonOption::Simple()),
+                  Button("Simple 3", action, ButtonOption::Simple()),
+              }),
+              Renderer([] { return separator(); }),
+              Container::Vertical({
+                  Button("Animated 1", action, ButtonOption::Animated()),
+                  Button("Animated 2", action, ButtonOption::Animated()),
+                  Button("Animated 3", action, ButtonOption::Animated()),
+              }),
+              Renderer([] { return separator(); }),
+              Container::Vertical({
+                  Button("Animated 4", action,
+                         ButtonOption::Animated(Color::Red)),
+                  Button("Animated 5", action,
+                         ButtonOption::Animated(Color::Green)),
+                  Button("Animated 6", action,
+                         ButtonOption::Animated(Color::Blue)),
+              }),
+          }),
+      }) |
+      border;
+
+  // ------------------------
 
   float focus_x = 0.5f;
   float focus_y = 0.5f;
@@ -187,7 +242,7 @@ int main() {
   auto slider_x = Slider("x", &focus_x, 0.f, 1.f, 0.01f);
   auto slider_y = Slider("y", &focus_y, 0.f, 1.f, 0.01f);
     
-  auto buttons = Renderer(
+  auto grid = Renderer(
       Container::Vertical({
           slider_x,
           slider_y,
@@ -208,46 +263,21 @@ int main() {
                center;
       });
 
-  auto grid = Renderer([] {
-  // Generate grid elements dynamically here
-  // For example, you can create a vector of rows and columns
-  std::vector<std::vector<Element>> grid_elements;
-  
-  // Populate grid_elements with elements
-  
-  // Create the grid element using the populated grid_elements
-  Element grid_element = vbox({
-      hbox({
-        text("one") | border,
-        text("two") | border | flex,
-        text("three") | border | flex,
-      }),
+  auto window = grid;
+  auto right = Renderer([] { return text("Scores") | center; });
+  auto top = console;
+  auto bottom = buttons;
 
-      gauge(0.25) | color(Color::Red),
-      gauge(0.50) | color(Color::White),
-      gauge(0.75) | color(Color::Blue),
-    });
-  return grid_element | center;
-  });
-  auto middle = Renderer([] { return text("middle") | center; });
-  auto left = Renderer([] { return text("Left") | center; });
-  auto right = Renderer([] { return text("right") | center; });
-  auto top = Renderer([] { return text("top") | center; });
-  auto bottom = Renderer([] { return text("bottom") | center; });
- 
-  int left_size = 20;
   int right_size = 20;
-  int top_size = 10;
-  int bottom_size = 10;
+  int top_size = 5;
+  int bottom_size = 5;
  
-  auto container = component;
-  container = ResizableSplitLeft(left, container, &left_size);
-  container = ResizableSplitRight(right, container, &right_size);
-  container = ResizableSplitTop(top, container, &top_size);
-  container = ResizableSplitBottom(bottom, container, &bottom_size);
+  window = ResizableSplitRight(right, window, &right_size);
+  window = ResizableSplitTop(top, window, &top_size);
+  window = ResizableSplitBottom(bottom, window, &bottom_size);
  
   auto renderer =
-      Renderer(container, [&] { return container->Render() | border; });
+      Renderer(window, [&] { return window->Render() | border; });
  
   screen.Loop(renderer);
 }
