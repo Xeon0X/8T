@@ -42,12 +42,12 @@ int Grid::getGridHeight()
 
 void Grid::setCase(int x, int y, Case c)
 {
-    this->cases[x][y] = c;
+    this->cases[y][x] = c;
 }
 
 Case Grid::getCase(int x, int y)
 {
-    return this->cases[x][y];
+    return this->cases[y][x];
 }
 
 void Grid::setNbAlignToWin(int nb)

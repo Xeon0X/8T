@@ -52,6 +52,8 @@ Graphic::Graphic()
     fontColor = {0, 0, 0, 255};
     fontSize = 10;
     fontStyle = TTF_STYLE_NORMAL;
+    this->grid = GridGraphic();
+    this->grid.setInitialGridSize(3, 3);
 }
 
 Graphic::~Graphic()
@@ -214,14 +216,14 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     int CasesWidth = this->grid.getGame().getGrid(CurrentGrid).getGridWidth();
     int CasesHeight = this->grid.getGame().getGrid(CurrentGrid).getGridHeight();
 
-    int gridX = ((screenWidth - CasesHeight * this->grid.getCaseHeight()) / 2) + this->grid.getGridX();
-    int gridY = ((screenHeight - CasesWidth * this->grid.getCaseHeight()) / 2) + this->grid.getGridY();
+    int gridX = ((screenWidth - CasesWidth * this->grid.getCaseWidth()) / 2) + this->grid.getGridX();
+    int gridY = ((screenHeight - CasesHeight * this->grid.getCaseHeight()) / 2) + this->grid.getGridY();
 
     mouseX -= gridX;
     mouseY -= gridY;
 
-    int cellX = mouseX / 100;
-    int cellY = mouseY / 100;
+    int cellX = std::floor(mouseX / 100);
+    int cellY = std::floor(mouseY / 100);
 
     Player player = this->grid.getGame().getCurrentPlayer();
 

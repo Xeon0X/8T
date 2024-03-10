@@ -16,13 +16,19 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
     std::vector<Player> players = this->game.getPlayer();
 
-    int totalGridWidth = grid[0].size() * 100;
-    int totalGridHeight = grid.size() * 100;
+    int GridWidth = grid[0].size() * 100;
+    int GridHeight = grid.size() * 100;
 
-    int startX = (windowWidth - totalGridWidth) / 2;
-    int startY = (windowHeight - totalGridHeight) / 2;
+    int startX = (windowWidth - GridWidth) / 2;
+    int startY = (windowHeight - GridHeight) / 2;
 
     int thickness = 5;
+
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
+
+    std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
+    graphic.drawText(mouseCoordinates.c_str(), 100, 100);
 
     for (unsigned int i = 0; i < grid.size(); i++)
     {
@@ -43,7 +49,7 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
                     {
                         if (players[k].getSymbol() == pieces[0].getSymbol())
                         {
-                            graphic.drawPlayer(startX + i * 100 + 50 + this->gridX, startY + j * 100 + 50 + this->gridY, 40, 5, players[k]);
+                            graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                         }
                     }
                 }
@@ -90,4 +96,10 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
         const char *cstr = text.c_str();
         graphic.drawText(cstr, cardX + 10, cardY + 50);
     }
+}
+
+void GridGraphic::setInitialGridSize(int width, int height)
+{
+    initialGridWidth = width;
+    initialGridHeight = height;
 }

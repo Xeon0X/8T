@@ -13,27 +13,29 @@ public:
     ~CardGravity(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
+
         Grid currentGrid = game.getGrid(CurrentGrid);
         GridRules rules = currentGrid.getRules();
         rules.gravity = true;
         currentGrid.setRules(rules);
         std::vector<std::vector<Case>> cases = currentGrid.getCases();
-        for (int i = 0; i < cases.size(); i++)
+        for (int i = 0; i < cases[0].size(); i++)
         {
-            for (int y = cases[0].size() - 1; y >= 0; y--)
+            for (int x = cases.size() - 1; x >= 0; x--)
             {
-                if (cases[i][y].getPieces().size() > 0)
+                if (cases[x][i].getPieces().size() > 0)
                 {
-                    int nextEmpty = y;
-                    while (nextEmpty + 1 < cases[i].size() && cases[i][nextEmpty + 1].getPieces().size() == 0)
+                    int nextEmpty = x;
+                    while (nextEmpty + 1 < cases.size() && cases[nextEmpty + 1][i].getPieces().size() == 0)
                     {
                         nextEmpty++;
                     }
-                    if (y != nextEmpty)
+                    if (x != nextEmpty)
                     {
-                        Case c = cases[i][y];
-                        cases[i][y] = cases[i][nextEmpty];
-                        cases[i][nextEmpty] = c;
+                        std::cout << "Gravity" << std::endl;
+                        Case c = cases[x][i];
+                        cases[x][i] = cases[nextEmpty][i];
+                        cases[nextEmpty][i] = c;
                         currentGrid.setCases(cases);
                         game.setGrid(CurrentGrid, currentGrid);
                     }
