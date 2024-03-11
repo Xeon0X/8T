@@ -366,7 +366,6 @@ void Graphic::animatePLayerGravity(int x1, int y1, int x2, int y2, int r, int th
     std ::cout << "Drawing player" << std::endl;
     std::cout << "x1: " << x1 << " y1: " << y1 << " x2: " << x2 << " y2: " << y2 << std::endl;
     drawPlayer(actualX, actualY, r, thickness, player);
-    int wait = 1000000;
     while (actualY < y2)
     {
         this->clear();
@@ -376,10 +375,7 @@ void Graphic::animatePLayerGravity(int x1, int y1, int x2, int y2, int r, int th
         SDL_RenderFillRect(renderer, &whiteRect);
         this->grid.drawDeck(renderer, *this);
         drawPlayer(actualX, actualY, r, thickness, player);
-        for (int i = 0; i < wait; i++)
-        {
-            // wait
-        }
+
         actualY += 1;
         this->present();
     }
@@ -387,47 +383,4 @@ void Graphic::animatePLayerGravity(int x1, int y1, int x2, int y2, int r, int th
 
 void Graphic::applyGravityAnimation()
 {
-    Game game = this->grid.getGame();
-    Grid g = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
-
-    std::vector<Player> players = game.getPlayer();
-    Player player;
-
-    std::vector<std::vector<Case>> grid = g.getCases();
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    int windowWidth, windowHeight;
-    SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
-
-    int totalGridWidth = grid[0].size() * 100;
-    int totalGridHeight = grid.size() * 100;
-
-    int startX = (windowWidth - totalGridWidth) / 2;
-    int startY = (windowHeight - totalGridHeight) / 2;
-
-    for (int i = 0; i < g.getGridWidth(); i++)
-    {
-        for (int j = 0; j < g.getGridHeight(); j++)
-        {
-            if (g.getCase(i, j).getPieces().size() > 0)
-            {
-                player = game.findPlayerBySymbol(g.getCase(i, j).getPieces()[0].getSymbol());
-                int nextEmpty = j;
-                while (nextEmpty + 1 < g.getGridHeight() && g.getCase(i, nextEmpty + 1).getPieces().size() == 0)
-                {
-                    nextEmpty++;
-                }
-                if (j != nextEmpty)
-                {
-
-                    animatePLayerGravity(startX + i * 100 + 50, startY + j * 100 + 50, startX + i * 100 + 50, startY + nextEmpty * 100 + 50, 40, 5, player);
-                    Case c = g.getCase(i, j);
-                    g.setCase(i, j, g.getCase(i, nextEmpty));
-                    g.setCase(i, nextEmpty, c);
-                    game.setGrid(game.getCurrentPlayer().getCurrentGrid(), g);
-                    this->grid.setGame(game);
-                }
-            }
-        }
-    }
 }
