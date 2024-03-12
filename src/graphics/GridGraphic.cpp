@@ -80,7 +80,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         int cardX = (i + 1) * 110 + 500;
-        int cardY = 900;
+        int cardY = 875;
         int cardWidth = 100;
         int cardHeight = 150;
         if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
@@ -101,4 +101,19 @@ void GridGraphic::setInitialGridSize(int width, int height)
 {
     initialGridWidth = width;
     initialGridHeight = height;
+}
+
+void GridGraphic::drawPartInterface(SDL_Renderer *renderer, Graphic &graphic)
+{
+
+    SDL_Rect deckPart;
+    deckPart.x = 200;
+    deckPart.y = 850;
+    deckPart.w = 1500;
+    deckPart.h = 300;
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &deckPart);
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderDrawRect(renderer, &deckPart);
 }

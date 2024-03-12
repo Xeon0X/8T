@@ -193,6 +193,7 @@ void Graphic::play()
         clear();
 
         grid.showGrid(renderer, *this);
+        this->grid.drawPartInterface(renderer, *this);
         this->grid.drawDeck(renderer, *this);
         present();
     }
@@ -201,6 +202,11 @@ void Graphic::play()
 void Graphic::handleQuitEvent()
 {
     running = false;
+}
+
+bool CoIncid(int x, int y, int x1, int y1, int x2, int y2)
+{
+    return (x >= x1 && x <= x2 && y >= y1 && y <= y2);
 }
 
 void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
@@ -225,6 +231,12 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     int cellY = std::floor(mouseY / 100);
 
     Player player = this->grid.getGame().getCurrentPlayer();
+
+    SDL_Rect deckPart;
+    deckPart.x = 200;
+    deckPart.y = 850;
+    deckPart.w = 1500;
+    deckPart.h = 300;
 
     if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight)
     {
@@ -265,7 +277,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
         int cardX = (i + 1) * 110 + 500;
-        int cardY = 900;
+        int cardY = 875;
         int cardWidth = 100;
         int cardHeight = 150;
 
@@ -284,16 +296,16 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
     switch (event.key.keysym.sym)
     {
     case SDLK_UP:
-        this->grid.moveGrid(0, -10);
-        break;
-    case SDLK_DOWN:
         this->grid.moveGrid(0, 10);
         break;
+    case SDLK_DOWN:
+        this->grid.moveGrid(0, -10);
+        break;
     case SDLK_LEFT:
-        this->grid.moveGrid(-10, 0);
+        this->grid.moveGrid(10, 0);
         break;
     case SDLK_RIGHT:
-        this->grid.moveGrid(10, 0);
+        this->grid.moveGrid(-10, 0);
         break;
     case SDLK_SPACE:
 
