@@ -25,7 +25,7 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
     int thickness = 5;
 
     int mouseX, mouseY;
-    SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
+    SDL_GetMouseState(&mouseX, &mouseY);
 
     std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
     graphic.drawText(mouseCoordinates.c_str(), 100, 100);
@@ -78,17 +78,15 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        int cardX = (i + 1) * 500;
+        int cardX = (i + 1) * 110 + 500;
         int cardY = 900;
         int cardWidth = 100;
         int cardHeight = 150;
-        // Check if mouse is over the card
         if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
         {
-            // Increase size and move up if mouse is over
-            cardY -= 20;      // Move up
-            cardWidth += 20;  // Increase width
-            cardHeight += 30; // Increase height
+            cardY -= 20;
+            cardWidth += 10;
+            cardHeight += 20;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderDrawRect(renderer, &rect);

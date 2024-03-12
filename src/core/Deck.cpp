@@ -1,6 +1,6 @@
 #include "Deck.h"
-#include "./rules/RulesRare.cpp"
-#include "./rules/RulesCommun.cpp"
+#include "./rules/RulesRare.hpp"
+#include "./rules/RulesCommun.hpp"
 
 Deck::Deck()
 {
