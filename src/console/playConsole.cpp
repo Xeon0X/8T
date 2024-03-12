@@ -1,11 +1,13 @@
 #include "Console.h"
-#include "../core/Game.h"
-#include "../core/Card.h"
+#include <iostream>
+// #include "../core/Game.h"
+// #include "../core/Card.h"
 
 int main()
 {
-    Console console;
-    console.play();
+    // Console console;
+    // console.play();
+    std::cout << "Hello World!" << std::endl;
     return 0;
 }
 
@@ -151,4 +153,4 @@ int main()
 //   });
 
 //   screen.Loop(renderer);
-}
+// }

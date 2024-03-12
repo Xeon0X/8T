@@ -15,6 +15,6 @@ class GridConsole
         Game &getGame();
         void printDeck();
         void setGame(Game game) { this->game = game; }
-}
+};
 
-#endif
+#endif // CONSOLE

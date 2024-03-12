@@ -27,12 +27,6 @@ if(NOT ftxui_POPULATED)
   add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
-FetchContent_Declare(ftxui-grid-container
-  GIT_REPOSITORY https://github.com/mingsheng13/grid-container-ftxui
-  GIT_TAG master
-)
-FetchContent_MakeAvailable(ftxui-grid-container)
-
 # --- Fetch SDL2 ---------------------------------------------------------------
 
 if (WIN32)

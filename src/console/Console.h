@@ -5,7 +5,7 @@
 class Console
 {
     private:
-        int test;
+        bool running = true;
     public:
         Console();
         ~Console();
