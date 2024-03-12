@@ -1,9 +1,10 @@
-add_requires("ftxui", "libsdl", "libsdl_ttf", "libsdl_image")
-
+add_requires("ftxui", "libsdl_ttf", "libsdl_image")
+add_requires("libsdl", {configs = {sdlmain = false}})
 add_includedirs("src", "src/core", "src/core/rules")
+set_languages("c++17")
 
 target("core")
-    set_kind("shared")
+    set_kind("static")
     add_files("src/core/**.cpp")
 
 target("console")
@@ -11,7 +12,8 @@ target("console")
     add_files("src/console/**.cpp")
     add_packages("ftxui")
     add_deps("core")
-    set_default(true)
+    set_default(false)
+    set_targetdir("bin")
 
 
 target("graphic")
@@ -20,4 +22,5 @@ target("graphic")
     add_packages("libsdl", "libsdl_ttf", "libsdl_image")
     set_rundir("$(projectdir)/bin")
     add_deps("core")
-    set_default(false)
+    set_default(true)
+    set_targetdir("bin")
