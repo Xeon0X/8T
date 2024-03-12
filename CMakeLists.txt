@@ -18,8 +18,7 @@ include(FetchContent)
 set(FETCHCONTENT_UPDATES_DISCONNECTED TRUE)
 FetchContent_Declare(ftxui
   GIT_REPOSITORY https://github.com/ArthurSonzogni/ftxui
-  GIT_TAG v4.0.0
-  GIT_PROGRESS    TRUE
+  GIT_TAG main
 )
 
 FetchContent_GetProperties(ftxui)
@@ -27,6 +26,12 @@ if(NOT ftxui_POPULATED)
   FetchContent_Populate(ftxui)
   add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
+
+FetchContent_Declare(ftxui-grid-container
+  GIT_REPOSITORY https://github.com/mingsheng13/grid-container-ftxui
+  GIT_TAG master
+)
+FetchContent_MakeAvailable(ftxui-grid-container)
 
 # --- Fetch SDL2 ---------------------------------------------------------------
 
@@ -100,5 +105,6 @@ target_include_directories(console PRIVATE src)
 target_link_libraries(console
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
-  PRIVATE ftxui::component # Not needed for this example.
+  PRIVATE ftxui::component
+  PRIVATE ftxui-grid-container
 )
