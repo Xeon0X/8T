@@ -5,7 +5,7 @@
 class Console
 {
     private:
-        int a;
+        int test;
     public:
         Console();
         ~Console();
