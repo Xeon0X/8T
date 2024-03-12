@@ -11,7 +11,7 @@
 class Deck
 {
 private:
-    std::vector<Card> cards; /**< Cards in the deck */
+    std::vector<Card *> cards; /**< Cards in the deck */
 
 public:
     /**
@@ -25,7 +25,7 @@ public:
      *
      * @param cards
      */
-    Deck(std::vector<Card> cards);
+    Deck(std::vector<Card *> cards);
 
     /**
      * @brief Destroy the Deck object
@@ -38,14 +38,14 @@ public:
      *
      * @param card
      */
-    void addCard(Card card);
+    void addCard(Card &card);
 
     /**
      * @brief Get the cards in the deck
      *
      * @return std::vector<Card>
      */
-    std::vector<Card> getCards();
+    std::vector<Card *> getCards();
 
     /**
      * @brief Set the base card of the deck
