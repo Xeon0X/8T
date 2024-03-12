@@ -16,6 +16,10 @@ private:
     Game game;     /**< The game of the grid. */
     int gridX = 0; /**< The x and y coordinates of the grid. */
     int gridY = 0; /**< The x and y coordinates of the grid. */
+    int initialGridWidth;
+    int initialGridHeight;
+    int initialGridX;
+    int initialGridY;
 
 public:
     /**
@@ -93,6 +97,7 @@ public:
      * @param graphic The graphic of the game.
      */
     void drawDeck(SDL_Renderer *renderer, Graphic &graphic);
+    void setInitialGridSize(int width, int height);
 };
 
 #endif // GRAPHIC_GRID

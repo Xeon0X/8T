@@ -70,10 +70,14 @@ set(SOURCE_FILES_GRAPHIC
     src/core/Deck.cpp
     src/core/Grid.cpp
     src/core/Piece.cpp
-    src/core/rules/Rules.cpp
+    src/core/rules/RulesCommun.hpp
+    src/core/rules/RulesRare.hpp
+    src/core/rules/RulesEpic.hpp
+    src/core/rules/RulesLegendaire.hpp
     src/graphics/PlayGraphic.cpp
     src/graphics/Graphic.cpp
     src/graphics/GridGraphic.cpp
+    src/graphics/Animation.cpp
 )
 
 add_executable(graphic ${SOURCE_FILES_GRAPHIC})
@@ -90,11 +94,10 @@ set(SOURCE_FILES_CONSOLE
     src/core/Deck.cpp
     src/core/Grid.cpp
     src/core/Piece.cpp
-    src/core/rules/Rules.cpp
-    src/core/rules/RulesCommun.cpp
-    src/core/rules/RulesRare.cpp
-    src/core/rules/RulesEpic.cpp
-    src/core/rules/RulesLegendaire.cpp
+    src/core/rules/RulesCommun.hpp
+    src/core/rules/RulesRare.hpp
+    src/core/rules/RulesEpic.hpp
+    src/core/rules/RulesLegendaire.hpp
     src/console/playConsole.cpp
     src/console/Console.cpp
 )

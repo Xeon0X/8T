@@ -9,7 +9,6 @@ Game::Game()
 
     this->grids.push_back(Grid());
     this->currentPlayer = this->players[0];
-    this->rules.setAllCard();
 }
 
 Game::~Game()
@@ -69,14 +68,14 @@ void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
     std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
 }
 
-Rules Game::getRules()
+void Game::setCurrentPlayer(Player player)
 {
-    return this->rules;
+    this->currentPlayer = player;
 }
 
 void Game::replacePlayer(Player player)
 {
-    for (unsigned int i = 0; i < this->players.size(); i++)
+    for (int i = 0; i < this->players.size(); i++)
     {
         if (this->players[i].getSymbol() == player.getSymbol())
         {
@@ -85,7 +84,14 @@ void Game::replacePlayer(Player player)
     }
 }
 
-void Game::setCurrentPlayer(Player player)
+Player Game::findPlayerBySymbol(std::string symbol)
 {
-    this->currentPlayer = player;
+    for (unsigned int i = 0; i < this->players.size(); i++)
+    {
+        if (this->players[i].getSymbol() == symbol)
+        {
+            return this->players[i];
+        }
+    }
+    return Player("", "");
 }

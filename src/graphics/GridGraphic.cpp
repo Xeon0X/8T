@@ -16,13 +16,19 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
     std::vector<Player> players = this->game.getPlayer();
 
-    int totalGridWidth = grid.size() * 100;
-    int totalGridHeight = grid[0].size() * 100;
+    int GridWidth = grid[0].size() * 100;
+    int GridHeight = grid.size() * 100;
 
-    int startX = (windowWidth - totalGridWidth) / 2;
-    int startY = (windowHeight - totalGridHeight) / 2;
+    int startX = (windowWidth - GridWidth) / 2;
+    int startY = (windowHeight - GridHeight) / 2;
 
     int thickness = 5;
+
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+
+    std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
+    graphic.drawText(mouseCoordinates.c_str(), 100, 100);
 
     for (unsigned int i = 0; i < grid.size(); i++)
     {
@@ -43,6 +49,7 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
                     {
                         if (players[k].getSymbol() == pieces[0].getSymbol())
                         {
+                            graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                             graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                         }
                     }
@@ -72,22 +79,26 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        int cardX = (i + 1) * 500;
+        int cardX = (i + 1) * 110 + 500;
         int cardY = 900;
         int cardWidth = 100;
         int cardHeight = 150;
-        // Check if mouse is over the card
         if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
         {
-            // Increase size and move up if mouse is over
-            cardY -= 20;      // Move up
-            cardWidth += 20;  // Increase width
-            cardHeight += 30; // Increase height
+            cardY -= 20;
+            cardWidth += 10;
+            cardHeight += 20;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderDrawRect(renderer, &rect);
-        std::string text = deck.getCards()[i].getName();
+        std::string text = deck.getCards()[i]->getName();
         const char *cstr = text.c_str();
         graphic.drawText(cstr, cardX + 10, cardY + 50);
     }
+}
+
+void GridGraphic::setInitialGridSize(int width, int height)
+{
+    initialGridWidth = width;
+    initialGridHeight = height;
 }

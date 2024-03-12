@@ -52,6 +52,8 @@ Graphic::Graphic()
     fontColor = {0, 0, 0, 255};
     fontSize = 10;
     fontStyle = TTF_STYLE_NORMAL;
+    this->grid = GridGraphic();
+    this->grid.setInitialGridSize(3, 3);
 }
 
 Graphic::~Graphic()
@@ -213,17 +215,16 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     int CasesWidth = this->grid.getGame().getGrid(CurrentGrid).getGridWidth();
     int CasesHeight = this->grid.getGame().getGrid(CurrentGrid).getGridHeight();
 
-    int gridX = ((screenWidth - CasesHeight * this->grid.getCaseHeight()) / 2) + this->grid.getGridX();
-    int gridY = ((screenHeight - CasesWidth * this->grid.getCaseHeight()) / 2) + this->grid.getGridY();
+    int gridX = ((screenWidth - CasesWidth * this->grid.getCaseWidth()) / 2) + this->grid.getGridX();
+    int gridY = ((screenHeight - CasesHeight * this->grid.getCaseHeight()) / 2) + this->grid.getGridY();
 
     mouseX -= gridX;
     mouseY -= gridY;
 
-    int cellX = mouseX / 100;
-    int cellY = mouseY / 100;
+    int cellX = std::floor(mouseX / 100);
+    int cellY = std::floor(mouseY / 100);
 
     Player player = this->grid.getGame().getCurrentPlayer();
-    bool posePiece = player.getPlayerEffects().posePiece;
 
     if (cellX >= 0 && cellX < CasesWidth && cellY >= 0 && cellY < CasesHeight)
     {
@@ -252,21 +253,27 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
             game.switchPlayer();
             this->grid.setGame(game);
         }
+        if (grid.getRules().gravity)
+        {
+            applyGravityAnimation();
+            drawText("Gravity is on", 100, 100);
+        }
     }
     Deck deck = player.getDeck(player.getCurrentGrid());
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
 
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
-        int cardX = (i + 1) * 500;
+        int cardX = (i + 1) * 110 + 500;
         int cardY = 900;
         int cardWidth = 100;
         int cardHeight = 150;
 
-        // Check if mouse click is within the card
         if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
         {
-            deck.getCards()[i].applyCard(this->grid.getGame().getRules().getAllCard(), mouseX, mouseY, player.getCurrentGrid(), this->grid.getGame());
+            std::cout << "Card clicked" << std::endl;
+            (*deck.getCards()[i]).applyCard(mouseX, mouseY, player.getCurrentGrid(), player, this->grid.getGame());
+
             break;
         }
     }
@@ -289,11 +296,29 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
         this->grid.moveGrid(10, 0);
         break;
     case SDLK_SPACE:
+
+        /*
+            Game game = this->grid.getGame();
+            Grid g = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
+            g.resetGrid();
+            game.setGrid(game.getCurrentPlayer().getCurrentGrid(), g);
+            this->grid.setGame(game);*/
+
+        std::cout << "Space clicked" << std::endl;
         Game game = this->grid.getGame();
-        Grid g = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
-        g.resetGrid();
-        game.setGrid(game.getCurrentPlayer().getCurrentGrid(), g);
-        this->grid.setGame(game);
+        std::vector<Player> players = game.getPlayer();
+
+        std::vector<std::vector<Case>> grid = game.getGrid(0).getCases();
+
+        int windowWidth, windowHeight;
+        SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
+
+        int totalGridWidth = grid[0].size() * 100;
+        int totalGridHeight = grid.size() * 100;
+
+        int startX = (windowWidth - totalGridWidth) / 2;
+        int startY = (windowHeight - totalGridHeight) / 2;
+        this->animatePLayerGravity(startX + 0 * 100 + 50, startY + 0 * 100 + 50, startX + 2 * 100 + 50, startY + 2 * 100 + 50, 40, 5, players[0]);
     }
 }
 
