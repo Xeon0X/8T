@@ -192,7 +192,6 @@ void Graphic::play()
 
         grid.showGrid(renderer, *this);
         this->grid.drawDeck(renderer, *this);
-
         present();
     }
 }
@@ -241,7 +240,6 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         else
         {
             game.createAndSetPiece(cellX, cellY, CurrentGrid);
-
             player.getPlayerEffects().posePiece = false;
 
             game.replacePlayer(player);
@@ -301,7 +299,6 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
 
 void Graphic::handleCheckWin(int cellX, int cellY, Game game)
 {
-
     Grid grid = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
     grid.showGridTerminal();
     if (grid.checkWin(game.getCurrentPlayer(), cellX, cellY))
