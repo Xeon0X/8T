@@ -271,7 +271,6 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         int cardWidth = 100;
         int cardHeight = 150;
 
-        // Check if mouse click is within the card
         if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
         {
             std::cout << "Card clicked" << std::endl;
