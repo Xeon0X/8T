@@ -27,6 +27,8 @@ void Deck::setBaseCard()
     this->cards.push_back(card2);
     CardAddColumn *card3 = new CardAddColumn("AddColumn", "Ajoute une colonne au plateau", 3);
     this->cards.push_back(card3);
+    CardTurnGrid *card4 = new CardTurnGrid("TurnGrid", "Tourne le plateau", 4);
+    this->cards.push_back(card4);
 }
 
 std::vector<Card *> Deck::getCards()

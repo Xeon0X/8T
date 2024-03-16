@@ -106,14 +106,9 @@ void GridGraphic::setInitialGridSize(int width, int height)
 void GridGraphic::drawPartInterface(SDL_Renderer *renderer, Graphic &graphic)
 {
 
-    SDL_Rect deckPart;
-    deckPart.x = 200;
-    deckPart.y = 850;
-    deckPart.w = 1500;
-    deckPart.h = 300;
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &deckPart);
+    SDL_RenderFillRect(renderer, &graphic.deckPart);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderDrawRect(renderer, &deckPart);
+    SDL_RenderDrawRect(renderer, &graphic.deckPart);
 }
