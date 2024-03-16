@@ -3,10 +3,10 @@
 
 Grid::Grid()
 {
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 4; i++)
     {
         std::vector<Case *> row; // Change the type of the vector from std::vector<Case> to std::vector<Case*>
-        for (int j = 0; j < 14; j++)
+        for (int j = 0; j < 3; j++)
         {
             row.push_back(new Case()); // Allocate new Case objects with 'new'
         }
