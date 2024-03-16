@@ -3,12 +3,12 @@
 
 #include <vector>
 #include "Player.h"
-#include "Case.h"
 #include "Card.h"
 #include <string>
 #include <iostream>
 #include "Piece.h"
 
+class Case;
 struct GridRules
 {
     bool gravity = false;

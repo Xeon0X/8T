@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include "Case.h"
 
 Grid::Grid()
 {

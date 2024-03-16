@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Case.h"
 #include <iostream>
 
 Game::Game()

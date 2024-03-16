@@ -1,7 +1,7 @@
 #include "Card.h"
 #include "Game.h"
 #include "Player.h"
-
+#include "Case.h"
 #include "Grid.h"
 #include <iostream>
 #include <vector>
