@@ -43,12 +43,10 @@ int Grid::getGridHeight()
 void Grid::setCase(int x, int y, Case *c)
 {
     this->cases[y][x] = c;
-    this->cases[y][x] = c;
 }
 
 Case *Grid::getCase(int x, int y)
 {
-    return this->cases[y][x];
     return this->cases[y][x];
 }
 
