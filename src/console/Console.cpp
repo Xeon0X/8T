@@ -6,17 +6,17 @@
 
 Console::Console()
 {
-    
 }
 
 Console::~Console()
 {
-
 }
 
 void Console::play()
 {
-    while (running) {
+
+    while (running)
+    {
         console.printGrid();
         running = false;
     }

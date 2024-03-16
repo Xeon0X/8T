@@ -100,6 +100,7 @@ set(SOURCE_FILES_CONSOLE
     src/core/rules/RulesLegendaire.hpp
     src/console/playConsole.cpp
     src/console/Console.cpp
+    src/console/GameConsole.cpp
 )
 
 add_executable(console ${SOURCE_FILES_CONSOLE})
