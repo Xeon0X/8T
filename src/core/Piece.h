@@ -5,10 +5,6 @@
 #include <string>
 #include <vector>
 
-#include <map>
-#include <string>
-#include <vector>
-
 /**
  * @brief Structure to store the effects of a piece
  */

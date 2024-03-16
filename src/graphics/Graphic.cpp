@@ -1,4 +1,5 @@
 #include "Graphic.h"
+#include "Case.h"
 #include <iostream>
 
 Graphic::Graphic()
@@ -231,9 +232,9 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         Game game = this->grid.getGame();
         Grid grid = game.getGrid(CurrentGrid);
 
-        if (grid.getCase(cellX, cellY).getPieces().size() > 0)
+        if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
         {
-            if (grid.getCase(cellX, cellY).getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
+            if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
             {
                 game.createAndSetPiece(cellX, cellY, CurrentGrid);
             }
@@ -308,7 +309,7 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
         Game game = this->grid.getGame();
         std::vector<Player> players = game.getPlayer();
 
-        std::vector<std::vector<Case>> grid = game.getGrid(0).getCases();
+        std::vector<std::vector<Case *>> grid = game.getGrid(0).getCases();
 
         int windowWidth, windowHeight;
         SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);

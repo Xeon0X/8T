@@ -15,11 +15,11 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
-        std::vector<std::vector<Case>> cases = currentGrid.getCases();
-        std::vector<Case> row;
+        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
+        std::vector<Case *> row;
         for (int i = 0; i < cases[0].size(); i++)
         {
-            row.push_back(Case());
+            row.push_back(new Case());
         }
         cases.push_back(row);
         currentGrid.setCases(cases);
@@ -36,10 +36,10 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
-        std::vector<std::vector<Case>> cases = currentGrid.getCases();
+        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         for (int i = 0; i < cases.size(); i++)
         {
-            cases[i].push_back(Case());
+            cases[i].push_back(new Case());
         }
         currentGrid.setCases(cases);
         game.setGrid(CurrentGrid, currentGrid);

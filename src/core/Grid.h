@@ -6,7 +6,6 @@
 #include "Card.h"
 #include <string>
 #include <iostream>
-#include "Piece.h"
 
 class Case;
 struct GridRules
@@ -21,9 +20,9 @@ struct GridRules
 class Grid
 {
 private:
-    std::vector<std::vector<Case>> cases; /**< Cases of the grid */
-    std::vector<Card> globalRules;        /**< Global rules of the grid */
-    GridRules rules;                      /**< Rules of the grid */
+    std::vector<std::vector<Case *>> cases; /**< Cases of the grid */
+    std::vector<Card> globalRules;          /**< Global rules of the grid */
+    GridRules rules;                        /**< Rules of the grid */
 
     int nbAlignToWin = 3; /**< Number of pieces to align to win */
 
@@ -53,14 +52,14 @@ public:
      *
      * @return std::vector<Card>
      */
-    std::vector<std::vector<Case>> getCases();
+    std::vector<std::vector<Case *>> getCases();
 
     /**
      * @brief Set the cases of the grid
      *
      * @param cases
      */
-    void setCases(std::vector<std::vector<Case>> cases);
+    void setCases(std::vector<std::vector<Case *>> cases);
 
     /**
      * @brief Get the width of the grid
@@ -108,7 +107,7 @@ public:
      * @param y
      * @param c
      */
-    void setCase(int x, int y, Case c);
+    void setCase(int x, int y, Case *c);
 
     /**
      * @brief Get the case at the given position
@@ -117,7 +116,7 @@ public:
      * @param y
      * @return Case
      */
-    Case getCase(int x, int y);
+    Case *getCase(int x, int y);
 
     /**
      * @brief Reset the grid
