@@ -18,13 +18,6 @@ Grid::Grid()
 
 Grid::~Grid()
 {
-    for (int i = 0; i < this->getGridWidth(); i++)
-    {
-        for (int j = 0; j < this->getGridHeight(); j++)
-        {
-            delete this->cases[i][j]; // Deallocate the Case objects with 'delete'
-        }
-    }
 }
 
 std::vector<std::vector<Case *>> Grid::getCases()
