@@ -3,14 +3,13 @@
 
 #include "../core/Game.h"
 
-class Console;
-class GridConsole
+class GameConsole
 {
     private:
         Game game;
     public:
-        GridConsole();
-        ~GridConsole();	
+        GameConsole();
+        ~GameConsole();	
         void printGrid();
         Game &getGame();
         void printDeck();
