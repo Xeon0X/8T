@@ -52,7 +52,6 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
                         if (players[k].getSymbol() == pieces[0].getSymbol())
                         {
                             graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
-                            graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                         }
                     }
                 }

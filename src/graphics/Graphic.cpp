@@ -244,7 +244,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
     Player player = this->grid.getGame().getCurrentPlayer();
     Deck deck = player.getDeck(player.getCurrentGrid());
-    SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
+    SDL_GetMouseState(&mouseX, &mouseY);
 
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
@@ -253,7 +253,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         int cardWidth = 100;
         int cardHeight = 150;
 
-        if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
+        if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
         {
             std::cout << "Card clicked" << std::endl;
             cardClicked = true;

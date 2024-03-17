@@ -55,7 +55,7 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
-        std::vector<std::vector<Case>> cases = currentGrid.getCases();
+        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         cases.pop_back();
         currentGrid.setCases(cases);
         game.setGrid(CurrentGrid, currentGrid);
@@ -71,7 +71,7 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
-        std::vector<std::vector<Case>> cases = currentGrid.getCases();
+        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         for (int i = 0; i < cases.size(); i++)
         {
             cases[i].pop_back();
@@ -90,12 +90,12 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
-        std::vector<std::vector<Case>> cases = currentGrid.getCases();
-        std::vector<std::vector<Case>> newCases;
+        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
+        std::vector<std::vector<Case *>> newCases;
 
         for (int i = 0; i < cases[0].size(); i++)
         {
-            std::vector<Case> newRow;
+            std::vector<Case *> newRow;
             for (int j = cases.size() - 1; j >= 0; j--)
             {
                 newRow.push_back(cases[j][i]);
@@ -117,12 +117,12 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
-        std::vector<std::vector<Case>> cases = currentGrid.getCases();
-        std::vector<std::vector<Case>> newCases;
+        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
+        std::vector<std::vector<Case *>> newCases;
 
         for (int i = cases.size() - 1; i >= 0; i--)
         {
-            std::vector<Case> newRow;
+            std::vector<Case *> newRow;
             for (int j = cases[i].size() - 1; j >= 0; j--)
             {
                 newRow.push_back(cases[i][j]);
