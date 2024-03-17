@@ -11,9 +11,9 @@ private:
 public:
     GameConsole();
     ~GameConsole();
-    void printGrid();
+    void printGrid(int gridIndex);
+    void printDeck(int gridIndex);
     Game &getGame();
-    void printDeck();
     void setGame(Game game) { this->game = game; }
 };
 
