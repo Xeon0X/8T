@@ -3,8 +3,6 @@
 
 #include <map>
 #include <string>
-#include <map>
-#include <string>
 #include <vector>
 #include "Piece.h"
 

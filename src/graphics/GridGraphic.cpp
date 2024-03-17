@@ -1,5 +1,7 @@
 #include "GridGraphic.h"
 #include "Graphic.h"
+#include "Piece.h"
+#include "Case.h"
 
 GridGraphic::GridGraphic(/* args */)
 {
@@ -11,7 +13,7 @@ GridGraphic::~GridGraphic()
 
 void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
 {
-    std::vector<std::vector<Case>> grid = this->game.getGrid(0).getCases();
+    std::vector<std::vector<Case *>> grid = this->game.getGrid(0).getCases();
     int windowWidth, windowHeight;
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
     std::vector<Player> players = this->game.getPlayer();
@@ -38,7 +40,7 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
 
             for (int t = 0; t < thickness; t++)
             {
-                std::vector<Piece> pieces = grid[i][j].getPieces();
+                std::vector<Piece> pieces = grid[i][j]->getPieces();
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
                 SDL_Rect rect = {(int)(startX + j * 100 + this->gridX - t), (int)(startY + i * 100 + this->gridY - t), 100 + 2 * t, 100 + 2 * t};

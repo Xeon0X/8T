@@ -1,6 +1,10 @@
-#include "../core/Game.h"
+#include "Console.h"
+#include <iostream>
 
 int main()
 {
+
+  Console console;
+  console.play();
   return 0;
 }
