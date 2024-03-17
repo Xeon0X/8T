@@ -123,6 +123,7 @@ int GameConsole::menu(int gridIndex)
             std::cout << "\ny: ";
             int y = inputVerification(1, game.getGrid(gridIndex).getGridHeight());
             game.createAndSetPiece(x-1, y-1, gridIndex);
+            game.switchPlayer();
             return 1;
         }
 

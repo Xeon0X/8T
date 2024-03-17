@@ -37,6 +37,5 @@ void Console::play()
             running = false;
         }
         clear();
-        
     }
 }
