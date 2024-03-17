@@ -27,6 +27,7 @@ private:
     GridGraphic grid; /**< The grid of the game. */
 
 public:
+    SDL_Rect deckPart;
     /**
      * @brief Constructor for the Graphic class.
      *
@@ -213,6 +214,7 @@ public:
      */
     void handleCheckWin(int cellX, int cellY, Game game);
     void applyGravityAnimation();
+    bool MouseClickInterface(int x, int y);
 };
 
 #endif // GRAPHIC

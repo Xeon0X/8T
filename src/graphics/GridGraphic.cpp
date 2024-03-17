@@ -1,5 +1,7 @@
 #include "GridGraphic.h"
 #include "Graphic.h"
+#include "Piece.h"
+#include "Case.h"
 
 GridGraphic::GridGraphic(/* args */)
 {
@@ -11,7 +13,7 @@ GridGraphic::~GridGraphic()
 
 void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
 {
-    std::vector<std::vector<Case>> grid = this->game.getGrid(0).getCases();
+    std::vector<std::vector<Case *>> grid = this->game.getGrid(0).getCases();
     int windowWidth, windowHeight;
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
     std::vector<Player> players = this->game.getPlayer();
@@ -38,7 +40,7 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
 
             for (int t = 0; t < thickness; t++)
             {
-                std::vector<Piece> pieces = grid[i][j].getPieces();
+                std::vector<Piece> pieces = grid[i][j]->getPieces();
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
                 SDL_Rect rect = {(int)(startX + j * 100 + this->gridX - t), (int)(startY + i * 100 + this->gridY - t), 100 + 2 * t, 100 + 2 * t};
@@ -49,7 +51,6 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
                     {
                         if (players[k].getSymbol() == pieces[0].getSymbol())
                         {
-                            graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                             graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                         }
                     }
@@ -80,7 +81,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         int cardX = (i + 1) * 110 + 500;
-        int cardY = 900;
+        int cardY = 875;
         int cardWidth = 100;
         int cardHeight = 150;
         if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
@@ -101,4 +102,14 @@ void GridGraphic::setInitialGridSize(int width, int height)
 {
     initialGridWidth = width;
     initialGridHeight = height;
+}
+
+void GridGraphic::drawPartInterface(SDL_Renderer *renderer, Graphic &graphic)
+{
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &graphic.deckPart);
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderDrawRect(renderer, &graphic.deckPart);
 }

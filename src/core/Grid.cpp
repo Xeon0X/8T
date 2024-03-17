@@ -1,14 +1,15 @@
 #include "Grid.h"
+#include "Case.h"
 
 Grid::Grid()
 {
-
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 3; i++)
     {
-        std::vector<Case> row;
-        for (int j = 0; j < 14; j++)
+        std::vector<Case *> row; // Change the type of the vector from std::vector<Case> to std::vector<Case*>
+
+        for (int j = 0; j < 3; j++)
         {
-            row.push_back(Case());
+            row.push_back(new Case()); // Allocate new Case objects with 'new'
         }
         this->cases.push_back(row);
     }
@@ -20,12 +21,12 @@ Grid::~Grid()
 {
 }
 
-std::vector<std::vector<Case>> Grid::getCases()
+std::vector<std::vector<Case *>> Grid::getCases()
 {
     return this->cases;
 }
 
-void Grid::setCases(std::vector<std::vector<Case>> cases)
+void Grid::setCases(std::vector<std::vector<Case *>> cases)
 {
     this->cases = cases;
 }
@@ -40,15 +41,13 @@ int Grid::getGridHeight()
     return this->cases.size();
 }
 
-void Grid::setCase(int x, int y, Case c)
+void Grid::setCase(int x, int y, Case *c)
 {
-    this->cases[y][x] = c;
     this->cases[y][x] = c;
 }
 
-Case Grid::getCase(int x, int y)
+Case *Grid::getCase(int x, int y)
 {
-    return this->cases[y][x];
     return this->cases[y][x];
 }
 
@@ -76,7 +75,7 @@ bool Grid::checkWin(Player player, int cellX, int cellY)
             int x = cellX + i * dx[dir];
             int y = cellY + i * dy[dir];
             if (x >= 0 && y >= 0 && x < this->getGridWidth() && y < this->getGridHeight() &&
-                this->getCase(x, y).getPieces().size() > 0 && this->getCase(x, y).getPieces()[0].getSymbol() == symbol)
+                this->getCase(x, y)->getPieces().size() > 0 && this->getCase(x, y)->getPieces()[0].getSymbol() == symbol)
             {
                 nbAlign++;
                 if (nbAlign == this->getNbAlignToWin())
@@ -100,7 +99,7 @@ void Grid::resetGrid()
     {
         for (int j = 0; j < this->getGridHeight(); j++)
         {
-            this->setCase(i, j, Case());
+            this->setCase(i, j, new Case());
         }
     }
 }
@@ -123,7 +122,7 @@ void Grid::showGridTerminal()
     {
         for (int j = 0; j < this->getGridHeight(); j++)
         {
-            std::cout << this->getCase(i, j).getPieces().size() << " ";
+            std::cout << this->getCase(i, j)->getPieces().size() << " ";
         }
         std::cout << std::endl;
     }

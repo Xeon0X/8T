@@ -1,5 +1,7 @@
 #include "Game.h"
+#include "Case.h"
 #include <iostream>
+#include "Piece.h"
 
 Game::Game()
 {
@@ -60,7 +62,7 @@ void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
     Piece piece = Piece(currentPlayer.getSymbol(), currentPlayer.getColor(), pieceEffects);
     std::vector<Piece> pieces;
     pieces.push_back(piece);
-    Case c = Case(pieces, caseEffects);
+    Case *c = new Case(pieces, caseEffects);
     Grid grid = this->getGrid(CurrentGrid);
     grid.setCase(cellX, cellY, c);
     this->setGrid(CurrentGrid, grid);
