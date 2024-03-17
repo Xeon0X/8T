@@ -38,8 +38,7 @@ public:
      *
      * @param card
      */
-    void addCard(Card &card);
-
+    void addCard(const Card &card);
     /**
      * @brief Get the cards in the deck
      *
@@ -52,6 +51,7 @@ public:
      *
      */
     void setBaseCard();
+    void piocheCart();
 };
 
 #endif // DECK

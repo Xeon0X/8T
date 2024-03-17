@@ -99,6 +99,7 @@ public:
     void drawDeck(SDL_Renderer *renderer, Graphic &graphic);
     void setInitialGridSize(int width, int height);
     void drawPartInterface(SDL_Renderer *renderer, Graphic &graphic);
+    void drawPioche(SDL_Renderer *renderer, Graphic &graphic);
 };
 
 #endif // GRAPHIC_GRID

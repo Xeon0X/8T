@@ -5,6 +5,7 @@
 
 Game::Game()
 {
+    std::cout << "Game created" << std::endl;
 
     this->players.push_back(Player("X", "red"));
     this->players.push_back(Player("O", "blue"));

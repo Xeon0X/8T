@@ -28,6 +28,7 @@ private:
 
 public:
     SDL_Rect deckPart;
+    SDL_Rect pioche;
     /**
      * @brief Constructor for the Graphic class.
      *

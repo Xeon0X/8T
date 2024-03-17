@@ -12,7 +12,7 @@ target("console")
     add_files("src/console/**.cpp")
     add_packages("ftxui")
     add_deps("core")
-    set_default(true)
+    set_default(false)
     set_targetdir("bin")
 
 
