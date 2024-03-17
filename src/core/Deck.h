@@ -52,6 +52,8 @@ public:
      */
     void setBaseCard();
     void piocheCart();
+
+    void createNewCard(int id, std::string name, std::string description);
 };
 
 #endif // DECK

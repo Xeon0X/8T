@@ -93,19 +93,16 @@ void Graphic::drawCircle(int x, int y, int r, int thickness, Player player)
 {
     std::tuple<int, int, int> colorPlayer = player.stringToRgb();
     SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
-    for (int z = 0; z < thickness; z++)
+
+    for (int w = 0; w < thickness; ++w)
     {
-        for (int w = 0; w < r * 2; w++)
+        for (int i = 0; i < 360; ++i)
         {
-            for (int h = 0; h < r * 2; h++)
-            {
-                int dx = r - w;
-                int dy = r - h;
-                if ((dx * dx + dy * dy) <= (r * r))
-                {
-                    SDL_RenderDrawPoint(renderer, x + dx, y + dy + z);
-                }
-            }
+            double angle = i * M_PI / 180.0;
+            int px = x + (int)((r + w * 0.5) * cos(angle));
+            int py = y + (int)((r + w * 0.5) * sin(angle));
+
+            SDL_RenderDrawPoint(renderer, px, py);
         }
     }
 }

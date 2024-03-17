@@ -60,3 +60,27 @@ void Deck::piocheCart()
         break;
     }
 }
+
+void Deck::createNewCard(int id, std::string name, std::string description)
+{
+    switch (id)
+    {
+    case 1:
+        this->cards.push_back(new CardGravity(name, description, id));
+        break;
+
+    case 2:
+        this->cards.push_back(new CardAddLine(name, description, id));
+        break;
+
+    case 3:
+        this->cards.push_back(new CardAddColumn(name, description, id));
+        break;
+
+    case 4:
+        this->cards.push_back(new CardTurnGrid(name, description, id));
+        break;
+    default:
+        break;
+    }
+}
