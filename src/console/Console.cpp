@@ -1,8 +1,4 @@
 #include "Console.h"
-#include <iostream>
-#include "../core/Game.h"
-#include "../core/Card.h"
-#include "../core/Case.h"
 
 Console::Console()
 {

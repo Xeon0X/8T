@@ -1,5 +1,4 @@
 #include "GameConsole.h"
-#include <cstddef>
 #include <iostream>
 #include "../core/Piece.h"
 #include "../core/Case.h"
