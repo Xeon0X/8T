@@ -17,8 +17,6 @@ void GameConsole::printGrid()
     int gridIndex = 0;
     std::vector<std::vector<Case *>> grid = this->game.getGrid(gridIndex).getCases();
 
-    std::string symbol = grid[0][0]->getPieces()[0].getSymbol();
-
     for (unsigned int y = 0; y < game.getGrid(gridIndex).getGridHeight(); y++)
     {
         for (unsigned int x = 0; x < game.getGrid(gridIndex).getGridWidth(); x++)
