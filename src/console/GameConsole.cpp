@@ -1,5 +1,7 @@
 #include "GameConsole.h"
+#include <functional>
 #include <iostream>
+#include <vector>
 #include "../core/Piece.h"
 #include "../core/Case.h"
 
@@ -17,11 +19,11 @@ void GameConsole::printGrid(int gridIndex)
     // std::vector<std::vector<Case *>> grid = this->game.getGrid(gridIndex).getCases();
     // std::string symbol = grid[0][0]->getPieces()[0].getSymbol();
 
-    std::cout << "\n----- Grid " << gridIndex << " -----" <<std::endl;
+    std::cout << "\n----- Grid " << gridIndex << " -----\n" <<std::endl;
 
-    for (unsigned int y = 0; y < game.getGrid(gridIndex).getGridHeight(); y++)
+    for (int y = 0; y < game.getGrid(gridIndex).getGridHeight(); y++)
     {
-        for (unsigned int x = 0; x < game.getGrid(gridIndex).getGridWidth(); x++)
+        for (int x = 0; x < game.getGrid(gridIndex).getGridWidth(); x++)
         {
             Case *c = this->game.getGrid(gridIndex).getCase(x, y);
             std::vector<Piece> pieces = c->getPieces();
@@ -47,7 +49,7 @@ void GameConsole::printGrid(int gridIndex)
 
 void GameConsole::printDeck(int gridIndex)
 {
-    std::cout << "\n----- Deck " << gridIndex << " -----" << std::endl;
+    std::cout << "\n----- Deck " << gridIndex << " -----\n" << std::endl;
     for (unsigned int i = 0; i < game.getCurrentPlayer().getDeck(gridIndex).getCards().size(); i++)
     {
         Card *card = this->game.getCurrentPlayer().getDeck(gridIndex).getCards()[i];
@@ -65,4 +67,89 @@ void GameConsole::printDeck(int gridIndex)
         }
     }
     std::cout << std::endl;
+}
+
+int GameConsole::menu(int gridIndex)
+{
+    auto inputVerification = [] (int min, int max) 
+    {
+        int input;
+        std::cout << "\nSelect an action [" << min << "-" << max << "]: ";
+         while (true) {
+            std::cin >> input;
+            if (input >= min && input <= max) {
+                break;
+            } else  {
+                std::cout << "\nInvalid input. Please enter a number between " << min << " and " << max << ": ";
+            }
+        }
+        return input;
+    };
+
+    // struct Option 
+    // { 
+    //     std::string displayName;
+    //     std::function<void()> function;
+    // };
+    // int x, y;
+    // Option options;
+    // options.displayName = "Place a piece";
+    // options.function = [x, y, gridIndex](GameConsole* console) { game.createAndSetPiece(x, y, gridIndex) }
+    // std::vector<Option> options = {
+    //     {Option.displayName = "Place a piece", [](GameConsole* console) { /* code here */ }},
+    // };
+
+    auto showOptions = [] (std::vector<std::string> options)
+    {
+        for (unsigned int i = 1; i<options.size()+1; i++)
+        {
+            std::cout << "\n[" << i <<  "] " << options[i-1];
+        }
+    };
+
+    std::cout << "\n**--- Player " << game.getCurrentPlayer().getSymbol() << " ---**" << std::endl;
+    
+    std::vector<std::string> options = {"Place a piece", "Play a card", "Exit"};
+    showOptions(options);
+    int input = inputVerification(1, options.size());
+
+    switch (input) 
+    {
+        case 1:
+        {
+            std::cout << "\nEnter coordinates: " << std::endl;
+            std::cout << "\nx: ";
+            int x = inputVerification(1, game.getGrid(gridIndex).getGridWidth());
+            std::cout << "\ny: ";
+            int y = inputVerification(1, game.getGrid(gridIndex).getGridHeight());
+            game.createAndSetPiece(x-1, y-1, gridIndex);
+            return 1;
+        }
+
+        case 2:
+        {
+            Deck deck = game.getCurrentPlayer().getDeck(gridIndex);
+            std::vector<std::string> options;
+            for (unsigned int i = 0; i< deck.getCards().size(); i++)
+            {
+                Card card = *game.getCurrentPlayer().getDeck(gridIndex).getCards()[i];
+                options.push_back(card.getName());
+            }
+            showOptions(options);
+            int index = inputVerification(1, deck.getCards().size())-1;
+            // std::cout << "\nEnter coordinates: " << std::endl;
+            // std::cout << "\nx: " << std::endl;
+            // int x = inputVerification(1, game.getGrid(gridIndex).getGridHeight());
+            // std::cout << "\ny: " << std::endl;
+            // int y = inputVerification(1, game.getGrid(gridIndex).getGridWidth());
+            Player player = game.getCurrentPlayer();
+            (*deck.getCards()[index]).applyCard(0, 0, gridIndex, player, game);
+            return 1;
+        }
+        case 3:
+        {
+            return 0;
+        }
+    }
+    return 0;
 }
