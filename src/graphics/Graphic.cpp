@@ -60,6 +60,11 @@ Graphic::Graphic()
     deckPart.y = 850;
     deckPart.w = 1500;
     deckPart.h = 300;
+
+    pioche.x = 10;
+    pioche.y = 500;
+    pioche.w = 100;
+    pioche.h = 150;
 }
 
 Graphic::~Graphic()
@@ -88,11 +93,16 @@ void Graphic::drawCircle(int x, int y, int r, int thickness, Player player)
 {
     std::tuple<int, int, int> colorPlayer = player.stringToRgb();
     SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
-    for (int z = 0; z < thickness; z++)
+
+    for (int w = 0; w < thickness; ++w)
     {
-        for (int w = 0; w < 360; w++)
+        for (int i = 0; i < 360; ++i)
         {
-            SDL_RenderDrawPoint(renderer, x + (r - z) * cos(w), y + (r - z) * sin(w));
+            double angle = i * M_PI / 180.0;
+            int px = x + (int)((r + w * 0.5) * cos(angle));
+            int py = y + (int)((r + w * 0.5) * sin(angle));
+
+            SDL_RenderDrawPoint(renderer, px, py);
         }
     }
 }
@@ -201,6 +211,7 @@ void Graphic::play()
         grid.showGrid(renderer, *this);
         this->grid.drawPartInterface(renderer, *this);
         this->grid.drawDeck(renderer, *this);
+        this->grid.drawPioche(renderer, *this);
         present();
     }
 }
@@ -212,7 +223,7 @@ void Graphic::handleQuitEvent()
 
 bool CoIncid(int x, int y, int x1, int y1, int x2, int y2)
 {
-    return (x >= x1 && x <= x2 && y >= y1 && y <= y2);
+    return (x >= x1 && x < x2 && y >= y1 && y < y2);
 }
 
 bool Graphic::MouseClickInterface(int x, int y)
@@ -258,9 +269,16 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
             std::cout << "Card clicked" << std::endl;
             cardClicked = true;
             (*deck.getCards()[i]).applyCard(mouseX, mouseY, player.getCurrentGrid(), player, this->grid.getGame());
-
             break;
         }
+    }
+
+    if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
+    {
+        std::cout << "Pioche clicked" << std::endl;
+        player.piocheCart();
+        this->grid.getGame().replacePlayer(player);
+        this->grid.getGame().setCurrentPlayer(player);
     }
 
     if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !cardClicked && !MouseClickInterface(mouseX, mouseY))

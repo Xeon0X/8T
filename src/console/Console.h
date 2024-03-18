@@ -7,7 +7,7 @@ class Console
 {
 private:
     bool running = true;
-    GameConsole console;
+    GameConsole gameConsole;
 
 public:
     Console();

@@ -5,6 +5,7 @@
 
 Game::Game()
 {
+    std::cout << "Game created" << std::endl;
 
     this->players.push_back(Player("X", "red"));
     this->players.push_back(Player("O", "blue"));
@@ -56,6 +57,7 @@ std::vector<Player> Game::getPlayer()
 
 void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
 {
+
     PieceEffects pieceEffects;
     CaseEffects caseEffects;
     Player currentPlayer = this->getCurrentPlayer();
@@ -66,7 +68,6 @@ void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
     Grid grid = this->getGrid(CurrentGrid);
     grid.setCase(cellX, cellY, c);
     this->setGrid(CurrentGrid, grid);
-
     std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
 }
 

@@ -2,6 +2,7 @@
 #define PLAYER
 
 #include <vector>
+#include <iostream>
 #include <map>
 #include <tuple>
 #include "Deck.h"
@@ -99,6 +100,8 @@ public:
      * @param playerEffects
      */
     void setPlayerEffects(PlayerEffects playerEffects);
+
+    void piocheCart();
 };
 
 #endif // PLAYER

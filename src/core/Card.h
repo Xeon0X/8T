@@ -15,8 +15,6 @@ protected:
     std::string name;
     std::string description;
     int id;
-    std::string pathCardImage;
-    std::string pathCardSound;
 
 public:
     /**
@@ -42,6 +40,7 @@ public:
     std::string getName();
 
     virtual void applyCard(int x, int y, int currentGrid, Player &currentPlayer, Game &game){};
+    Card(const Card &other);
 };
 
 #endif // CARD

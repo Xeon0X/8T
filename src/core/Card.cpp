@@ -13,3 +13,7 @@ std::string Card::getName()
 {
     return this->name;
 }
+
+Card::Card(const Card &other) : name(other.name), description(other.description), id(other.id)
+{
+}

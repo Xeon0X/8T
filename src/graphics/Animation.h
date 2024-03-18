@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "../core/Game.h"
+#include "../core/Case.h"
 class Animation
 {
 protected:
@@ -32,7 +33,7 @@ private:
             int count = 0;
             for (int j = 0; j < grid.getGridWidth(); j++)
             {
-                if (grid.getCase(j, i).isPiecesEmpty())
+                if (grid.getCase(j, i)->isPiecesEmpty())
                 {
                     count++;
                 }

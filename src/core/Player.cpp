@@ -70,3 +70,8 @@ void Player::setPlayerEffects(PlayerEffects playerEffects)
 {
     this->playerEffects = playerEffects;
 }
+
+void Player::piocheCart()
+{
+    this->decks[0].piocheCart();
+}
