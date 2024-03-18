@@ -2,9 +2,6 @@
 #include "Case.h"
 #include <iostream>
 #include "Piece.h"
-#include "network/readAndWrite.cpp"
-#include "network/reciever.cpp"
-#include "network/sender.cpp"
 
 Game::Game()
 {
@@ -43,15 +40,14 @@ void Game::setGrid(int index, const Grid &grid)
 
 void Game::switchPlayer()
 {
-    /*if (this->currentPlayer.getSymbol() == "X")
-      {
-          this->currentPlayer = this->players[1];
-      }
-      else
-      {
-          this->currentPlayer = this->players[0];
-      }*/
-    send();
+    if (this->currentPlayer.getSymbol() == "X")
+    {
+        this->currentPlayer = this->players[1];
+    }
+    else
+    {
+        this->currentPlayer = this->players[0];
+    }
 }
 
 std::vector<Player> Game::getPlayer()
@@ -61,8 +57,6 @@ std::vector<Player> Game::getPlayer()
 
 void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
 {
-    updateFile("createAndSetPiece", {cellX, cellY, CurrentGrid}, "save.json");
-    afficher(read("save.json"));
 
     PieceEffects pieceEffects;
     CaseEffects caseEffects;
@@ -74,7 +68,6 @@ void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
     Grid grid = this->getGrid(CurrentGrid);
     grid.setCase(cellX, cellY, c);
     this->setGrid(CurrentGrid, grid);
-
     std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
 }
 
