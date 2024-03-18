@@ -11,10 +11,13 @@ private:
 public:
     GameConsole();
     ~GameConsole();
-    void printGrid();
-    Game &getGame();
-    void printDeck();
-    void setGame(Game game) { this->game = game; }
+    void printGrid(int gridIndex);
+    void printDeck(int gridIndex);
+    int menu(int gridIndex);
+    void placePiece(int gridIndex, int x, int y);
+    void playCard(int gridIndex, int cardIndex);
+    // Game &getGame();
+    // void setGame(Game game) { this->game = game; }
 };
 
 #endif // CONSOLE
