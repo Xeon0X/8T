@@ -68,7 +68,6 @@ void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
     Grid grid = this->getGrid(CurrentGrid);
     grid.setCase(cellX, cellY, c);
     this->setGrid(CurrentGrid, grid);
-    std::cout << "Case " << cellX << " " << cellY << " clicked" << std::endl;
 }
 
 void Game::setCurrentPlayer(Player player)

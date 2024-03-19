@@ -12,7 +12,7 @@ target("console")
     add_files("src/console/**.cpp")
     add_packages("ftxui")
     add_deps("core")
-    set_default(false)
+    set_default(true)
     set_targetdir("bin")
 
 
@@ -22,5 +22,13 @@ target("graphic")
     add_packages("libsdl", "libsdl_ttf", "libsdl_image")
     set_rundir("$(projectdir)/bin")
     add_deps("core")
-    set_default(false)
+    set_default(true)
     set_targetdir("bin")
+
+
+target("test")
+    set_kind("binary")
+    add_files("src/core/**.cpp")
+    set_default(true)
+    set_targetdir("bin")
+    
