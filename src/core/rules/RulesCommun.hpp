@@ -1,4 +1,4 @@
-#include "Card.h"
+#include "../Case.h"
 #include "Game.h"
 #include "Player.h"
 
@@ -56,9 +56,12 @@ public:
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
-        cases.pop_back();
-        currentGrid.setCases(cases);
-        game.setGrid(CurrentGrid, currentGrid);
+        if (cases.size() > 1)
+        {
+            cases.pop_back();
+            currentGrid.setCases(cases);
+            game.setGrid(CurrentGrid, currentGrid);
+        }
     }
 };
 
@@ -74,7 +77,10 @@ public:
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         for (int i = 0; i < cases.size(); i++)
         {
-            cases[i].pop_back();
+            if (cases[i].size() > 1)
+            {
+                cases[i].pop_back();
+            }
         }
         currentGrid.setCases(cases);
         game.setGrid(CurrentGrid, currentGrid);
