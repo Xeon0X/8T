@@ -9,6 +9,16 @@
 class Game;
 class Player;
 
+enum
+{
+    GravityId,
+    AddLineId,
+    AddColumnId,
+    TurnGridId,
+    RemoveLineId,
+    RemoveColumnId
+
+};
 class Card
 {
 protected:
@@ -41,6 +51,7 @@ public:
 
     virtual void applyCard(int x, int y, int currentGrid, Player &currentPlayer, Game &game){};
     Card(const Card &other);
+    void createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game);
 };
 
 #endif // CARD

@@ -18,6 +18,16 @@
         "name":"TurnGrid",
         "description":"Tourne le plateau",
         "id": 4
+    },
+    "5":{
+        "name": "RemoveLine",
+        "description": "Enlève une ligne du plateau",
+        "id": 5
+    },
+    "6":{
+        "name": "RemoveColumn",
+        "description": "Enlève une colonne du plateau",
+        "id": 6
     }
 }
 

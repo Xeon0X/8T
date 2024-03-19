@@ -38,47 +38,26 @@ std::vector<Card *> Deck::getCards()
 
 void Deck::piocheCart()
 {
-    int randomIndex = rand() % 4 + 1;
+    int randomIndex = rand() % 6 + 1;
     switch (randomIndex)
     {
     case 1:
         this->cards.push_back(new CardGravity("Gravity", "Pose une pièce sur le plateau", 1));
         break;
-
     case 2:
         this->cards.push_back(new CardAddLine("AddLine", "Ajoute une ligne au plateau", 2));
         break;
-
     case 3:
         this->cards.push_back(new CardAddColumn("AddColumn", "Ajoute une colonne au plateau", 3));
         break;
-
     case 4:
         this->cards.push_back(new CardTurnGrid("TurnGrid", "Tourne le plateau", 4));
         break;
-    default:
+    case 5:
+        this->cards.push_back(new CardRemoveLine("RemoveLine", "Supprime une ligne du plateau", 5));
         break;
-    }
-}
-
-void Deck::createNewCard(int id, std::string name, std::string description)
-{
-    switch (id)
-    {
-    case 1:
-        this->cards.push_back(new CardGravity(name, description, id));
-        break;
-
-    case 2:
-        this->cards.push_back(new CardAddLine(name, description, id));
-        break;
-
-    case 3:
-        this->cards.push_back(new CardAddColumn(name, description, id));
-        break;
-
-    case 4:
-        this->cards.push_back(new CardTurnGrid(name, description, id));
+    case 6:
+        this->cards.push_back(new CardRemoveColumn("RemoveCol", "Supprime une colonne du plateau", 6));
         break;
     default:
         break;

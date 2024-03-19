@@ -8,6 +8,7 @@
  * @class Deck
  * @brief This class is used to represent a deck of cards
  */
+
 class Deck
 {
 private:
@@ -53,7 +54,7 @@ public:
     void setBaseCard();
     void piocheCart();
 
-    void createNewCard(int id, std::string name, std::string description);
+    void createNewCard(int id);
 };
 
 #endif // DECK
