@@ -75,3 +75,8 @@ void Player::piocheCart()
 {
     this->decks[0].piocheCart();
 }
+
+void Player::setDeck(int index, Deck deck)
+{
+    this->decks[index] = deck;
+}

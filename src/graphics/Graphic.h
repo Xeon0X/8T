@@ -26,6 +26,9 @@ private:
 
     GridGraphic grid; /**< The grid of the game. */
 
+    Card *cardClicked; /**< The card of the game. */
+    std::string sens;  /**< The sens of the card. */
+
 public:
     SDL_Rect deckPart;
     SDL_Rect pioche;
@@ -216,6 +219,9 @@ public:
     void handleCheckWin(int cellX, int cellY, Game game);
     void applyGravityAnimation();
     bool MouseClickInterface(int x, int y);
+    bool isCardEmpty();
+    void deleteCard();
+    void setCard(Card *card);
 };
 
 #endif // GRAPHIC

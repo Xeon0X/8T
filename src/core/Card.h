@@ -6,6 +6,7 @@
  * @brief This class is used to represent a card in the game
  */
 #include <string>
+#include <iostream>
 class Game;
 class Player;
 
@@ -48,10 +49,14 @@ public:
      * @return std::string
      */
     std::string getName();
-
-    virtual void applyCard(int x, int y, int currentGrid, Player &currentPlayer, Game &game){};
+    int getId() { return id; }
+    bool operator==(const Card &other) const;
+    virtual void applyCard(int x, int y, int currentGrid, Player &currentPlayer, Game &game, std::string sens)
+    {
+        std::cout << "This is not supposed to show up" << std::endl;
+    };
     Card(const Card &other);
-    void createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game);
+    void createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game, std::string sens);
 };
 
 #endif // CARD

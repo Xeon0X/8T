@@ -2,6 +2,8 @@
 #define DECK
 
 #include <vector>
+#include <iostream>
+#include <algorithm>
 #include "Card.h"
 
 /**
@@ -55,6 +57,7 @@ public:
     void piocheCart();
 
     void createNewCard(int id);
+    void removeCard(Card *card);
 };
 
 #endif // DECK

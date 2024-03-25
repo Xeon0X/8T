@@ -86,7 +86,6 @@ public:
      * @return Deck
      */
     Deck getDeck(int index);
-
     /**
      * @brief Get the player effects
      *
@@ -102,6 +101,7 @@ public:
     void setPlayerEffects(PlayerEffects playerEffects);
 
     void piocheCart();
+    void setDeck(int index, Deck deck);
 };
 
 #endif // PLAYER

@@ -11,7 +11,7 @@ class CardGravity : public Card
 public:
     CardGravity(std::string name, std::string description, int id) : Card(name, description, id){};
     ~CardGravity(){};
-    void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
+    void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
 
         Grid currentGrid = game.getGrid(CurrentGrid);

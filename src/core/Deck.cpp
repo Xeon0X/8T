@@ -63,3 +63,12 @@ void Deck::piocheCart()
         break;
     }
 }
+
+void Deck::removeCard(Card *card)
+{
+    auto it = std::find(this->cards.begin(), this->cards.end(), card);
+    if (it != this->cards.end())
+    {
+        this->cards.erase(it);
+    }
+}

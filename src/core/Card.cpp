@@ -20,7 +20,12 @@ Card::Card(const Card &other) : name(other.name), description(other.description)
 {
 }
 
-void Card::createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game)
+bool Card::operator==(const Card &other) const
+{
+    return name == other.name && description == other.description;
+}
+
+void Card::createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game, std::string sens)
 {
 
     Card *card = nullptr;
@@ -29,27 +34,27 @@ void Card::createNewCardAndApply(int id, int x, int y, int currentGrid, Player &
     {
     case GravityId:
         card = new CardGravity("Gravity", "Pose une pièce sur le plateau", 1);
-        card->applyCard(x, y, currentGrid, currentPlayer, game);
+        card->applyCard(x, y, currentGrid, currentPlayer, game, sens);
         break;
     case AddLineId:
         card = new CardAddLine("AddLine", "Ajoute une ligne au plateau", 2);
-        card->applyCard(x, y, currentGrid, currentPlayer, game);
+        card->applyCard(x, y, currentGrid, currentPlayer, game, sens);
         break;
     case AddColumnId:
         card = new CardAddColumn("AddCol", "Ajoute une colonne au plateau", 3);
-        card->applyCard(x, y, currentGrid, currentPlayer, game);
+        card->applyCard(x, y, currentGrid, currentPlayer, game, sens);
         break;
     case TurnGridId:
         card = new CardTurnGrid("TurnGrid", "Tourne le plateau", 4);
-        card->applyCard(x, y, currentGrid, currentPlayer, game);
+        card->applyCard(x, y, currentGrid, currentPlayer, game, sens);
         break;
     case RemoveLineId:
         card = new CardRemoveLine("RemoveLine", "Supprime une ligne du plateau", 5);
-        card->applyCard(x, y, currentGrid, currentPlayer, game);
+        card->applyCard(x, y, currentGrid, currentPlayer, game, sens);
         break;
     case RemoveColumnId:
         card = new CardRemoveColumn("RemoveCol", "Supprime une colonne du plateau", 6);
-        card->applyCard(x, y, currentGrid, currentPlayer, game);
+        card->applyCard(x, y, currentGrid, currentPlayer, game, sens);
         break;
     default:
         break;

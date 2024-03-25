@@ -65,6 +65,8 @@ Graphic::Graphic()
     pioche.y = 500;
     pioche.w = 100;
     pioche.h = 150;
+
+    this->cardClicked = nullptr;
 }
 
 Graphic::~Graphic()
@@ -268,7 +270,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         {
             std::cout << "Card clicked" << std::endl;
             cardClicked = true;
-            (*deck.getCards()[i]).applyCard(mouseX, mouseY, player.getCurrentGrid(), player, this->grid.getGame());
+            this->setCard(deck.getCards()[i]);
             break;
         }
     }
@@ -323,41 +325,32 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
     switch (event.key.keysym.sym)
     {
     case SDLK_UP:
-        this->grid.moveGrid(0, 10);
+        // this->grid.moveGrid(0, 10);
+        this->sens = "up";
         break;
     case SDLK_DOWN:
-        this->grid.moveGrid(0, -10);
+        // this->grid.moveGrid(0, -10);
+        this->sens = "down";
         break;
     case SDLK_LEFT:
-        this->grid.moveGrid(10, 0);
+        // this->grid.moveGrid(10, 0);
+        this->sens = "left";
         break;
     case SDLK_RIGHT:
-        this->grid.moveGrid(-10, 0);
+        // this->grid.moveGrid(-10, 0);
+        this->sens = "right";
         break;
     case SDLK_SPACE:
 
-        /*
-            Game game = this->grid.getGame();
-            Grid g = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
-            g.resetGrid();
-            game.setGrid(game.getCurrentPlayer().getCurrentGrid(), g);
-            this->grid.setGame(game);*/
+        Player player = this->grid.getGame().getCurrentPlayer();
 
-        std::cout << "Space clicked" << std::endl;
-        Game game = this->grid.getGame();
-        std::vector<Player> players = game.getPlayer();
-
-        std::vector<std::vector<Case *>> grid = game.getGrid(0).getCases();
-
-        int windowWidth, windowHeight;
-        SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
-
-        int totalGridWidth = grid[0].size() * 100;
-        int totalGridHeight = grid.size() * 100;
-
-        int startX = (windowWidth - totalGridWidth) / 2;
-        int startY = (windowHeight - totalGridHeight) / 2;
-        this->animatePLayerGravity(startX + 0 * 100 + 50, startY + 0 * 100 + 50, startX + 2 * 100 + 50, startY + 2 * 100 + 50, 40, 5, players[0]);
+        if (!this->isCardEmpty())
+        {
+            std::cout << "Card applied" << std::endl;
+            this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), this->sens);
+            this->deleteCard();
+        }
+        break;
     }
 }
 
@@ -389,4 +382,24 @@ void Graphic::eventHolder()
             break;
         }
     }
+}
+
+bool Graphic::isCardEmpty()
+{
+    return this->cardClicked == nullptr;
+}
+
+void Graphic::deleteCard()
+{
+    Player player = this->grid.getGame().getCurrentPlayer();
+    Deck deck = player.getDeck(player.getCurrentGrid());
+    deck.removeCard(this->cardClicked);
+    player.setDeck(player.getCurrentGrid(), deck);
+    this->grid.getGame().replacePlayer(player);
+    this->grid.getGame().setCurrentPlayer(player);
+    this->cardClicked = nullptr;
+}
+void Graphic::setCard(Card *card)
+{
+    this->cardClicked = card;
 }
