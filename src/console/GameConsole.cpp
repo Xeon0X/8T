@@ -117,7 +117,7 @@ int GameConsole::menu(int gridIndex)
 
     std::cout << "\n**--- Player " << game.getCurrentPlayer().getSymbol() << " ---**" << std::endl;
 
-    std::vector<std::string> options = {"Place a piece", "Play a card", "Exit"};
+    std::vector<std::string> options = {"Place a piece", "Play a card", "Draw a card", "Exit"};
     showOptions(options);
     int input = inputVerification(1, options.size());
 
@@ -156,6 +156,12 @@ int GameConsole::menu(int gridIndex)
         return 1;
     }
     case 3:
+    {
+        Player player = game.getCurrentPlayer();
+        player.drawCard();
+        return 1;
+    }
+    case 4:
     {
         return 0;
     }

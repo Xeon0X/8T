@@ -273,3 +273,30 @@ public:
         game.setGrid(CurrentGrid, currentGrid);
     }
 };
+
+class Test : public Card
+{
+
+public:
+    Test(std::string name, std::string description, int id) : Card(name, description, id){};
+    ~Test(){};
+    void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
+    {
+        Grid currentGrid = game.getGrid(CurrentGrid);
+        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
+        std::vector<std::vector<Case *>> newCases;
+
+        for (int i = cases.size() - 1; i >= 0; i--)
+        {
+            std::vector<Case *> newRow;
+            for (int j = cases[i].size() - 1; j >= 0; j--)
+            {
+                newRow.push_back(cases[i][j]);
+            }
+            newCases.push_back(newRow);
+        }
+
+        currentGrid.setCases(newCases);
+        game.setGrid(CurrentGrid, currentGrid);
+    }
+};

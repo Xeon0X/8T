@@ -54,7 +54,7 @@ public:
      *
      */
     void setBaseCard();
-    void piocheCart();
+    void drawCard();
 
     void createNewCard(int id);
     void removeCard(Card *card);

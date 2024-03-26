@@ -100,7 +100,7 @@ public:
      */
     void setPlayerEffects(PlayerEffects playerEffects);
 
-    void piocheCart();
+    void drawCard();
     void setDeck(int index, Deck deck);
 };
 

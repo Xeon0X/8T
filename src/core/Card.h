@@ -17,8 +17,8 @@ enum
     AddColumnId,
     TurnGridId,
     RemoveLineId,
-    RemoveColumnId
-
+    RemoveColumnId,
+    TestId
 };
 class Card
 {
