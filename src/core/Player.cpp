@@ -73,5 +73,5 @@ void Player::setPlayerEffects(PlayerEffects playerEffects)
 
 void Player::piocheCart()
 {
-    this->decks[0].piocheCart();
+    this->decks[0].drawCard();
 }

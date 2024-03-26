@@ -29,6 +29,8 @@ void Deck::setBaseCard()
     this->cards.push_back(card3);
     CardTurnGrid *card4 = new CardTurnGrid("TurnGrid", "Tourne le plateau", 4);
     this->cards.push_back(card4);
+    Test *card5 = new Test("Test", "Tourne le plateau", 7);
+    this->cards.push_back(card5);
 }
 
 std::vector<Card *> Deck::getCards()
@@ -36,9 +38,9 @@ std::vector<Card *> Deck::getCards()
     return this->cards;
 }
 
-void Deck::piocheCart()
+void Deck::drawCard()
 {
-    int randomIndex = rand() % 6 + 1;
+    int randomIndex = rand() % 7 + 1;
     switch (randomIndex)
     {
     case 1:
@@ -58,6 +60,9 @@ void Deck::piocheCart()
         break;
     case 6:
         this->cards.push_back(new CardRemoveColumn("RemoveCol", "Supprime une colonne du plateau", 6));
+        break;
+    case 7:
+        this->cards.push_back(new Test("Test", "Test grid desc", 7));
         break;
     default:
         break;
