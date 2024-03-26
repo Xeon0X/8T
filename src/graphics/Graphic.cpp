@@ -276,7 +276,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
     {
         std::cout << "Pioche clicked" << std::endl;
-        player.piocheCart();
+        player.drawCard();
         this->grid.getGame().replacePlayer(player);
         this->grid.getGame().setCurrentPlayer(player);
     }

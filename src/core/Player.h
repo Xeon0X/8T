@@ -101,7 +101,7 @@ public:
      */
     void setPlayerEffects(PlayerEffects playerEffects);
 
-    void piocheCart();
+    void drawCard();
 };
 
 #endif // PLAYER
