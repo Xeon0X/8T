@@ -222,6 +222,8 @@ public:
     bool isCardEmpty();
     void deleteCard();
     void setCard(Card *card);
+    Card *getCard();
+    void drawArrow(int x1, int y1, int x2, int y2, int size, int thickness, std::string sens);
 };
 
 #endif // GRAPHIC

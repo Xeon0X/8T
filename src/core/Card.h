@@ -7,6 +7,7 @@
  */
 #include <string>
 #include <iostream>
+#include <vector>
 class Game;
 class Player;
 
@@ -26,6 +27,8 @@ protected:
     std::string name;
     std::string description;
     int id;
+
+    std::vector<std::string> arrowDirection;
 
 public:
     /**
@@ -57,6 +60,7 @@ public:
     };
     Card(const Card &other);
     void createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game, std::string sens);
+    std::vector<std::string> getArrowDirection();
 };
 
 #endif // CARD

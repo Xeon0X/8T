@@ -10,7 +10,11 @@ class CardAddLine : public Card
 {
 
 public:
-    CardAddLine(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardAddLine(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        arrowDirection.push_back("up");
+        arrowDirection.push_back("down");
+    };
     ~CardAddLine(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -57,7 +61,11 @@ class CardAddColumn : public Card
 {
 
 public:
-    CardAddColumn(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardAddColumn(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        arrowDirection.push_back("left");
+        arrowDirection.push_back("right");
+    };
     ~CardAddColumn(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -100,7 +108,11 @@ class CardRemoveLine : public Card
 {
 
 public:
-    CardRemoveLine(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardRemoveLine(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        arrowDirection.push_back("up");
+        arrowDirection.push_back("down");
+    };
     ~CardRemoveLine(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -143,7 +155,11 @@ class CardRemoveColumn : public Card
 {
 
 public:
-    CardRemoveColumn(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardRemoveColumn(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        arrowDirection.push_back("left");
+        arrowDirection.push_back("right");
+    };
     ~CardRemoveColumn(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -192,7 +208,11 @@ class CardTurnGrid : public Card
 {
 
 public:
-    CardTurnGrid(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardTurnGrid(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        arrowDirection.push_back("left");
+        arrowDirection.push_back("right");
+    };
     ~CardTurnGrid(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -254,33 +274,6 @@ public:
     CardInvertColumnLine(std::string name, std::string description, int id) : Card(name, description, id){};
     ~CardInvertColumnLine(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
-    {
-        Grid currentGrid = game.getGrid(CurrentGrid);
-        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
-        std::vector<std::vector<Case *>> newCases;
-
-        for (int i = cases.size() - 1; i >= 0; i--)
-        {
-            std::vector<Case *> newRow;
-            for (int j = cases[i].size() - 1; j >= 0; j--)
-            {
-                newRow.push_back(cases[i][j]);
-            }
-            newCases.push_back(newRow);
-        }
-
-        currentGrid.setCases(newCases);
-        game.setGrid(CurrentGrid, currentGrid);
-    }
-};
-
-class Test : public Card
-{
-
-public:
-    Test(std::string name, std::string description, int id) : Card(name, description, id){};
-    ~Test(){};
-    void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();

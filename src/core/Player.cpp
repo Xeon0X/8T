@@ -73,7 +73,7 @@ void Player::setPlayerEffects(PlayerEffects playerEffects)
 
 void Player::drawCard()
 {
-    this->decks[0].drawCard();
+    this->decks[currentGrid].drawCard();
 }
 
 void Player::setDeck(int index, Deck deck)

@@ -211,9 +211,11 @@ void Graphic::play()
         clear();
 
         grid.showGrid(renderer, *this);
+
         this->grid.drawPartInterface(renderer, *this);
         this->grid.drawDeck(renderer, *this);
         this->grid.drawPioche(renderer, *this);
+        this->grid.drawArrowDirection(renderer, *this);
         present();
     }
 }
@@ -268,10 +270,18 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
         if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
         {
-            std::cout << "Card clicked" << std::endl;
-            cardClicked = true;
-            this->setCard(deck.getCards()[i]);
-            break;
+            if (this->cardClicked == deck.getCards()[i])
+            {
+                this->cardClicked = nullptr;
+                break;
+            }
+            else
+            {
+                std::cout << "Card clicked" << std::endl;
+                cardClicked = true;
+                this->setCard(deck.getCards()[i]);
+                break;
+            }
         }
     }
 
@@ -402,4 +412,9 @@ void Graphic::deleteCard()
 void Graphic::setCard(Card *card)
 {
     this->cardClicked = card;
+}
+
+Card *Graphic::getCard()
+{
+    return this->cardClicked;
 }

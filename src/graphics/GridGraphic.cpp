@@ -32,6 +32,15 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
     std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
     graphic.drawText(mouseCoordinates.c_str(), 100, 100);
 
+    std::string currentPlayer = "Current player: " + this->game.getCurrentPlayer().getSymbol();
+    graphic.drawText(currentPlayer.c_str(), 100, 150);
+
+    if (graphic.getCard() != nullptr)
+    {
+        std::string currendCard = "Current card: " + graphic.getCard()->getName();
+        graphic.drawText(currendCard.c_str(), 100, 200);
+    }
+
     for (unsigned int i = 0; i < grid.size(); i++)
     {
         for (unsigned int j = 0; j < grid[i].size(); j++)
@@ -84,7 +93,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
         int cardY = 875;
         int cardWidth = 100;
         int cardHeight = 150;
-        if (mouseX >= cardX && mouseX <= cardX + cardWidth && mouseY >= cardY && mouseY <= cardY + cardHeight)
+        if (graphic.getCard() != nullptr && graphic.getCard()->getId() == deck.getCards()[i]->getId())
         {
             cardY -= 20;
             cardWidth += 10;
@@ -112,4 +121,70 @@ void GridGraphic::drawPartInterface(SDL_Renderer *renderer, Graphic &graphic)
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderDrawRect(renderer, &graphic.deckPart);
+}
+
+void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
+{
+    std::vector<std::vector<Case *>> grid = this->game.getGrid(0).getCases();
+    int windowWidth, windowHeight;
+    SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
+
+    int GridWidth = grid[0].size() * 100;
+    int GridHeight = grid.size() * 100;
+
+    int startX = (windowWidth - GridWidth) / 2;
+    int startY = (windowHeight - GridHeight) / 2;
+
+    int endX = startX + GridWidth;
+    int endY = startY + GridHeight;
+
+    if (graphic.getCard() != nullptr)
+    {
+
+        Card *card = graphic.getCard();
+        std::vector<std::string> directions = card->getArrowDirection();
+        for (int i = 0; i < directions.size(); i++)
+        {
+            if (directions[i] == "up")
+            {
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                for (int i = 0; i < 5; i++)
+                {
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, startY - 20 - i, startX + GridWidth / 2, startY - 50 - i);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, startY - 50 - i, startX + GridWidth / 2 - 5, startY - 45 - i);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, startY - 50 - i, startX + GridWidth / 2 + 5, startY - 45 - i);
+                }
+            }
+            if (directions[i] == "down")
+            {
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                for (int i = 0; i < 5; i++)
+                {
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, endY + 20 + i, startX + GridWidth / 2, endY + 50 + i);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, endY + 50 + i, startX + GridWidth / 2 - 5, endY + 45 + i);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, endY + 50 + i, startX + GridWidth / 2 + 5, endY + 45 + i);
+                }
+            }
+            if (directions[i] == "left")
+            {
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                for (int i = 0; i < 5; i++)
+                {
+                    SDL_RenderDrawLine(renderer, startX - 20 - i, startY + GridHeight / 2, startX - 50 - i, startY + GridHeight / 2);
+                    SDL_RenderDrawLine(renderer, startX - 50 - i, startY + GridHeight / 2, startX - 45 - i, startY + GridHeight / 2 - 5);
+                    SDL_RenderDrawLine(renderer, startX - 50 - i, startY + GridHeight / 2, startX - 45 - i, startY + GridHeight / 2 + 5);
+                }
+            }
+            if (directions[i] == "right")
+            {
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                for (int i = 0; i < 5; i++)
+                {
+                    SDL_RenderDrawLine(renderer, endX + 20 + i, startY + GridHeight / 2, endX + 50 + i, startY + GridHeight / 2);
+                    SDL_RenderDrawLine(renderer, endX + 50 + i, startY + GridHeight / 2, endX + 45 + i, startY + GridHeight / 2 - 5);
+                    SDL_RenderDrawLine(renderer, endX + 50 + i, startY + GridHeight / 2, endX + 45 + i, startY + GridHeight / 2 + 5);
+                }
+            }
+        }
+    }
 }

@@ -56,12 +56,14 @@ void Card::createNewCardAndApply(int id, int x, int y, int currentGrid, Player &
         card = new CardRemoveColumn("RemoveCol", "Supprime une colonne du plateau", 6);
         card->applyCard(x, y, currentGrid, currentPlayer, game, sens);
         break;
-    case TestId:
-        card = new Test("Test", "Test Descritption", 7);
-        card->applyCard(x, y, currentGrid, currentPlayer, game);
-        break;
+
     default:
         break;
     }
     delete card;
+}
+
+std::vector<std::string> Card::getArrowDirection()
+{
+    return arrowDirection;
 }
