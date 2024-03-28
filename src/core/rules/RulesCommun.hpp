@@ -226,7 +226,7 @@ public:
         }
     }
 
-    void turnLeft(int CurrentGrid, Game &game)
+    void turnRight(int CurrentGrid, Game &game)
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
@@ -246,7 +246,7 @@ public:
         game.setGrid(CurrentGrid, currentGrid);
     }
 
-    void turnRight(int CurrentGrid, Game &game)
+    void turnLeft(int CurrentGrid, Game &game)
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();

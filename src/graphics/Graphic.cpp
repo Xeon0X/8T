@@ -252,14 +252,20 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
     mouseX -= gridX;
     mouseY -= gridY;
+    int cellX = -1;
+    int cellY = -1;
 
-    int cellX = std::floor(mouseX / 100);
-    int cellY = std::floor(mouseY / 100);
-    bool cardClicked = false;
+    if (mouseX > 0 && mouseY > 0)
+    {
+        cellX = std::floor(mouseX / 100);
+        cellY = std::floor(mouseY / 100);
+    }
 
     Player player = this->grid.getGame().getCurrentPlayer();
     Deck deck = player.getDeck(player.getCurrentGrid());
     SDL_GetMouseState(&mouseX, &mouseY);
+
+    handleArrowClick(mouseX, mouseY, screenWidth, screenHeight);
 
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
@@ -273,12 +279,14 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
             if (this->cardClicked == deck.getCards()[i])
             {
                 this->cardClicked = nullptr;
+                this->isCardClicked = false;
+
                 break;
             }
             else
             {
                 std::cout << "Card clicked" << std::endl;
-                cardClicked = true;
+                this->isCardClicked = true;
                 this->setCard(deck.getCards()[i]);
                 break;
             }
@@ -293,7 +301,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         this->grid.getGame().setCurrentPlayer(player);
     }
 
-    if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !cardClicked && !MouseClickInterface(mouseX, mouseY))
+    if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
     {
         std::cout << "Cell clicked" << std::endl;
         std::cout << "CellX: " << cellX << " CellY: " << cellY << std::endl;
@@ -330,36 +338,82 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     }
 }
 
+void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
+{
+    std::vector<std::vector<Case *>> grid = this->grid.getGame().getGrid(0).getCases();
+    int GridWidth = grid[0].size() * 100;
+    int GridHeight = grid.size() * 100;
+    int startX = (screenWidth - GridWidth) / 2;
+    int startY = (screenHeight - GridHeight) / 2;
+
+    int endX = startX + GridWidth;
+    int endY = startY + GridHeight;
+
+    int arrowUpX = startX + GridWidth / 2 - 5;
+    int arrowUpY = startY - 50;
+    int arrowUpWidth = 10;
+    int arrowUpHeight = 50;
+
+    int arrowDownX = startX + GridWidth / 2 - 5;
+    int arrowDownY = endY;
+    int arrowDownWidth = 10;
+    int arrowDownHeight = 50;
+
+    int arrowLeftX = startX - 50;
+    int arrowLeftY = startY + GridHeight / 2 - 5;
+    int arrowLeftWidth = 50;
+    int arrowLeftHeight = 10;
+
+    int arrowRightX = endX;
+    int arrowRightY = startY + GridHeight / 2 - 5;
+    int arrowRightWidth = 50;
+    int arrowRightHeight = 10;
+
+    Player player = this->grid.getGame().getCurrentPlayer();
+
+    if (CoIncid(mouseX, mouseY, arrowUpX, arrowUpY, arrowUpX + arrowUpWidth, arrowUpY + arrowUpHeight))
+    {
+        this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "up");
+        this->deleteCard();
+        this->isCardClicked = false;
+    }
+    else if (CoIncid(mouseX, mouseY, arrowDownX, arrowDownY, arrowDownX + arrowDownWidth, arrowDownY + arrowDownHeight))
+    {
+        this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
+        this->deleteCard();
+        this->isCardClicked = false;
+    }
+    else if (CoIncid(mouseX, mouseY, arrowLeftX, arrowLeftY, arrowLeftX + arrowLeftWidth, arrowLeftY + arrowLeftHeight))
+    {
+
+        this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "left");
+        this->deleteCard();
+        this->isCardClicked = false;
+    }
+    else if (CoIncid(mouseX, mouseY, arrowRightX, arrowRightY, arrowRightX + arrowRightWidth, arrowRightY + arrowRightHeight))
+    {
+
+        this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "right");
+        this->deleteCard();
+        this->isCardClicked = false;
+    }
+}
+
 void Graphic::handleKeyDownEvent(SDL_Event &event)
 {
     switch (event.key.keysym.sym)
     {
     case SDLK_UP:
-        // this->grid.moveGrid(0, 10);
-        this->sens = "up";
+        this->grid.moveGrid(0, 10);
         break;
     case SDLK_DOWN:
-        // this->grid.moveGrid(0, -10);
-        this->sens = "down";
+        this->grid.moveGrid(0, -10);
         break;
     case SDLK_LEFT:
-        // this->grid.moveGrid(10, 0);
-        this->sens = "left";
+        this->grid.moveGrid(10, 0);
         break;
     case SDLK_RIGHT:
-        // this->grid.moveGrid(-10, 0);
-        this->sens = "right";
-        break;
-    case SDLK_SPACE:
-
-        Player player = this->grid.getGame().getCurrentPlayer();
-
-        if (!this->isCardEmpty())
-        {
-            std::cout << "Card applied" << std::endl;
-            this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), this->sens);
-            this->deleteCard();
-        }
+        this->grid.moveGrid(-10, 0);
         break;
     }
 }

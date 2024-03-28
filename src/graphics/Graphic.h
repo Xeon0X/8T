@@ -26,9 +26,8 @@ private:
 
     GridGraphic grid; /**< The grid of the game. */
 
-    Card *cardClicked; /**< The card of the game. */
-    std::string sens;  /**< The sens of the card. */
-
+    Card *cardClicked;          /**< The card of the game. */
+    bool isCardClicked = false; /**< The state of the card. */
 public:
     SDL_Rect deckPart;
     SDL_Rect pioche;
@@ -224,6 +223,7 @@ public:
     void setCard(Card *card);
     Card *getCard();
     void drawArrow(int x1, int y1, int x2, int y2, int size, int thickness, std::string sens);
+    void handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
 };
 
 #endif // GRAPHIC
