@@ -15,6 +15,7 @@ class Deck
 {
 private:
     std::vector<Card *> cards; /**< Cards in the deck */
+    int uniqueIdCounter = 0;
 
 public:
     /**

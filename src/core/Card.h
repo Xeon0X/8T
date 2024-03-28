@@ -27,7 +27,7 @@ protected:
     std::string name;
     std::string description;
     int id;
-
+    int uniqueId;
     std::vector<std::string> arrowDirection;
 
 public:
@@ -61,6 +61,8 @@ public:
     Card(const Card &other);
     void createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game, std::string sens);
     std::vector<std::string> getArrowDirection();
+    void setUniqueId(int id) { uniqueId = id; };
+    int getUniqueId() { return uniqueId; };
 };
 
 #endif // CARD

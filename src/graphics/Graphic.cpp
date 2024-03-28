@@ -349,23 +349,23 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
     int endX = startX + GridWidth;
     int endY = startY + GridHeight;
 
-    int arrowUpX = startX + GridWidth / 2 - 5;
-    int arrowUpY = startY - 50;
+    int arrowUpX = startX + GridWidth / 2 - 5 + this->grid.getGridX();
+    int arrowUpY = startY - 50 + this->grid.getGridY();
     int arrowUpWidth = 10;
     int arrowUpHeight = 50;
 
-    int arrowDownX = startX + GridWidth / 2 - 5;
-    int arrowDownY = endY;
+    int arrowDownX = startX + GridWidth / 2 - 5 + this->grid.getGridX();
+    int arrowDownY = endY + this->grid.getGridY();
     int arrowDownWidth = 10;
     int arrowDownHeight = 50;
 
-    int arrowLeftX = startX - 50;
-    int arrowLeftY = startY + GridHeight / 2 - 5;
+    int arrowLeftX = startX - 50 + this->grid.getGridX();
+    int arrowLeftY = startY + GridHeight / 2 - 5 + this->grid.getGridY();
     int arrowLeftWidth = 50;
     int arrowLeftHeight = 10;
 
-    int arrowRightX = endX;
-    int arrowRightY = startY + GridHeight / 2 - 5;
+    int arrowRightX = endX + this->grid.getGridX();
+    int arrowRightY = startY + GridHeight / 2 - 5 + this->grid.getGridY();
     int arrowRightWidth = 50;
     int arrowRightHeight = 10;
 

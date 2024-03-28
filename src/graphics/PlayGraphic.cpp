@@ -2,7 +2,7 @@
 
 int main()
 {
-
+    srand(time(NULL));
     Graphic graphic;
     graphic.play();
 

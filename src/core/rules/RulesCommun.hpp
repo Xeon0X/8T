@@ -173,7 +173,7 @@ public:
         }
     }
 
-    void removeLeft(int CurrentGrid, Game &game)
+    void removeRight(int CurrentGrid, Game &game)
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
@@ -188,7 +188,7 @@ public:
         game.setGrid(CurrentGrid, currentGrid);
     }
 
-    void removeRight(int CurrentGrid, Game &game)
+    void removeLeft(int CurrentGrid, Game &game)
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();

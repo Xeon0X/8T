@@ -93,7 +93,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
         int cardY = 875;
         int cardWidth = 100;
         int cardHeight = 150;
-        if (graphic.getCard() != nullptr && graphic.getCard()->getId() == deck.getCards()[i]->getId())
+        if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == deck.getCards()[i]->getUniqueId())
         {
             cardY -= 20;
             cardWidth += 10;
@@ -150,9 +150,9 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                 for (int i = 0; i < 5; i++)
                 {
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, startY - 20 - i, startX + GridWidth / 2, startY - 50 - i);
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, startY - 50 - i, startX + GridWidth / 2 - 5, startY - 45 - i);
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, startY - 50 - i, startX + GridWidth / 2 + 5, startY - 45 - i);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, startY - 20 - i + this->gridY, startX + GridWidth / 2 + this->gridX, startY - 50 - i + this->gridY);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, startY - 50 - i + this->gridY, startX + GridWidth / 2 - 5 + this->gridX, startY - 45 - i + this->gridY);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, startY - 50 - i + this->gridY, startX + GridWidth / 2 + 5 + this->gridX, startY - 45 - i + this->gridY);
                 }
             }
             if (directions[i] == "down")
@@ -160,9 +160,9 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                 for (int i = 0; i < 5; i++)
                 {
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, endY + 20 + i, startX + GridWidth / 2, endY + 50 + i);
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, endY + 50 + i, startX + GridWidth / 2 - 5, endY + 45 + i);
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2, endY + 50 + i, startX + GridWidth / 2 + 5, endY + 45 + i);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, endY + 20 + i + this->gridY, startX + GridWidth / 2 + this->gridX, endY + 50 + i + this->gridY);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, endY + 50 + i + this->gridY, startX + GridWidth / 2 - 5 + this->gridX, endY + 45 + i + this->gridY);
+                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, endY + 50 + i + this->gridY, startX + GridWidth / 2 + 5 + this->gridX, endY + 45 + i + this->gridY);
                 }
             }
             if (directions[i] == "left")
@@ -170,9 +170,9 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                 for (int i = 0; i < 5; i++)
                 {
-                    SDL_RenderDrawLine(renderer, startX - 20 - i, startY + GridHeight / 2, startX - 50 - i, startY + GridHeight / 2);
-                    SDL_RenderDrawLine(renderer, startX - 50 - i, startY + GridHeight / 2, startX - 45 - i, startY + GridHeight / 2 - 5);
-                    SDL_RenderDrawLine(renderer, startX - 50 - i, startY + GridHeight / 2, startX - 45 - i, startY + GridHeight / 2 + 5);
+                    SDL_RenderDrawLine(renderer, startX - 20 - i + this->gridX, startY + GridHeight / 2 + this->gridY, startX - 50 - i + this->gridX, startY + GridHeight / 2 + this->gridY);
+                    SDL_RenderDrawLine(renderer, startX - 50 - i + this->gridX, startY + GridHeight / 2 + this->gridY, startX - 45 - i + this->gridX, startY + GridHeight / 2 - 5 + this->gridY);
+                    SDL_RenderDrawLine(renderer, startX - 50 - i + this->gridX, startY + GridHeight / 2 + this->gridY, startX - 45 - i + this->gridX, startY + GridHeight / 2 + 5 + this->gridY);
                 }
             }
             if (directions[i] == "right")
@@ -180,9 +180,9 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                 for (int i = 0; i < 5; i++)
                 {
-                    SDL_RenderDrawLine(renderer, endX + 20 + i, startY + GridHeight / 2, endX + 50 + i, startY + GridHeight / 2);
-                    SDL_RenderDrawLine(renderer, endX + 50 + i, startY + GridHeight / 2, endX + 45 + i, startY + GridHeight / 2 - 5);
-                    SDL_RenderDrawLine(renderer, endX + 50 + i, startY + GridHeight / 2, endX + 45 + i, startY + GridHeight / 2 + 5);
+                    SDL_RenderDrawLine(renderer, endX + 20 + i + this->gridX, startY + GridHeight / 2 + this->gridY, endX + 50 + i + this->gridX, startY + GridHeight / 2 + this->gridY);
+                    SDL_RenderDrawLine(renderer, endX + 50 + i + this->gridX, startY + GridHeight / 2 + this->gridY, endX + 45 + i + this->gridX, startY + GridHeight / 2 - 5 + this->gridY);
+                    SDL_RenderDrawLine(renderer, endX + 50 + i + this->gridX, startY + GridHeight / 2 + this->gridY, endX + 45 + i + this->gridX, startY + GridHeight / 2 + 5 + this->gridY);
                 }
             }
         }
