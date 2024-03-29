@@ -22,12 +22,20 @@ void Deck::addCard(const Card &card)
 void Deck::setBaseCard()
 {
     CardGravity *card = new CardGravity("Gravity", "Pose une pièce sur le plateau", 1);
+    card->setUniqueId(uniqueIdCounter);
+    uniqueIdCounter++;
     this->cards.push_back(card);
     CardAddLine *card2 = new CardAddLine("AddLine", "Ajoute une ligne au plateau", 2);
+    card2->setUniqueId(uniqueIdCounter);
+    uniqueIdCounter++;
     this->cards.push_back(card2);
     CardAddColumn *card3 = new CardAddColumn("AddColumn", "Ajoute une colonne au plateau", 3);
+    card3->setUniqueId(uniqueIdCounter);
+    uniqueIdCounter++;
     this->cards.push_back(card3);
     CardTurnGrid *card4 = new CardTurnGrid("TurnGrid", "Tourne le plateau", 4);
+    card4->setUniqueId(uniqueIdCounter);
+    uniqueIdCounter++;
     this->cards.push_back(card4);
 }
 
@@ -36,30 +44,70 @@ std::vector<Card *> Deck::getCards()
     return this->cards;
 }
 
-void Deck::piocheCart()
+void Deck::drawCard()
 {
-    int randomIndex = rand() % 6 + 1;
+    int randomIndex = rand() % 7 + 1;
     switch (randomIndex)
     {
     case 1:
-        this->cards.push_back(new CardGravity("Gravity", "Pose une pièce sur le plateau", 1));
+    {
+        CardGravity *card = new CardGravity("Gravity", "Pose une pièce sur le plateau", 1);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
         break;
+    }
     case 2:
-        this->cards.push_back(new CardAddLine("AddLine", "Ajoute une ligne au plateau", 2));
+    {
+        CardAddLine *card = new CardAddLine("AddLine", "Ajoute une ligne au plateau", 2);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
         break;
+    }
     case 3:
-        this->cards.push_back(new CardAddColumn("AddColumn", "Ajoute une colonne au plateau", 3));
+    {
+        CardAddColumn *card = new CardAddColumn("AddColumn", "Ajoute une colonne au plateau", 3);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
         break;
+    }
     case 4:
-        this->cards.push_back(new CardTurnGrid("TurnGrid", "Tourne le plateau", 4));
+    {
+        CardTurnGrid *card = new CardTurnGrid("TurnGrid", "Tourne le plateau", 4);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
         break;
+    }
     case 5:
-        this->cards.push_back(new CardRemoveLine("RemoveLine", "Supprime une ligne du plateau", 5));
+    {
+        CardRemoveLine *card = new CardRemoveLine("RemoveLine", "Supprime une ligne du plateau", 5);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
         break;
+    }
     case 6:
-        this->cards.push_back(new CardRemoveColumn("RemoveCol", "Supprime une colonne du plateau", 6));
+    {
+        CardRemoveColumn *card = new CardRemoveColumn("RemoveCol", "Supprime une colonne du plateau", 6);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
         break;
+    }
+
     default:
         break;
+    }
+}
+
+void Deck::removeCard(Card *card)
+{
+    auto it = std::find(this->cards.begin(), this->cards.end(), card);
+    if (it != this->cards.end())
+    {
+        this->cards.erase(it);
     }
 }

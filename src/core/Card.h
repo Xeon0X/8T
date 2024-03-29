@@ -6,6 +6,8 @@
  * @brief This class is used to represent a card in the game
  */
 #include <string>
+#include <iostream>
+#include <vector>
 class Game;
 class Player;
 
@@ -16,8 +18,8 @@ enum
     AddColumnId,
     TurnGridId,
     RemoveLineId,
-    RemoveColumnId
-
+    RemoveColumnId,
+    TestId
 };
 class Card
 {
@@ -25,6 +27,8 @@ protected:
     std::string name;
     std::string description;
     int id;
+    int uniqueId;
+    std::vector<std::string> arrowDirection;
 
 public:
     /**
@@ -48,10 +52,17 @@ public:
      * @return std::string
      */
     std::string getName();
-
-    virtual void applyCard(int x, int y, int currentGrid, Player &currentPlayer, Game &game){};
+    int getId() { return id; }
+    bool operator==(const Card &other) const;
+    virtual void applyCard(int x, int y, int currentGrid, Player &currentPlayer, Game &game, std::string sens)
+    {
+        std::cout << "This is not supposed to show up" << std::endl;
+    };
     Card(const Card &other);
-    void createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game);
+    void createNewCardAndApply(int id, int x, int y, int currentGrid, Player &currentPlayer, Game &game, std::string sens);
+    std::vector<std::string> getArrowDirection();
+    void setUniqueId(int id) { uniqueId = id; };
+    int getUniqueId() { return uniqueId; };
 };
 
 #endif // CARD

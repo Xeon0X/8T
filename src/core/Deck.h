@@ -2,6 +2,8 @@
 #define DECK
 
 #include <vector>
+#include <iostream>
+#include <algorithm>
 #include "Card.h"
 
 /**
@@ -13,6 +15,7 @@ class Deck
 {
 private:
     std::vector<Card *> cards; /**< Cards in the deck */
+    int uniqueIdCounter = 0;
 
 public:
     /**
@@ -52,9 +55,10 @@ public:
      *
      */
     void setBaseCard();
-    void piocheCart();
+    void drawCard();
 
     void createNewCard(int id);
+    void removeCard(Card *card);
 };
 
 #endif // DECK

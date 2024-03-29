@@ -71,7 +71,12 @@ void Player::setPlayerEffects(PlayerEffects playerEffects)
     this->playerEffects = playerEffects;
 }
 
-void Player::piocheCart()
+void Player::drawCard()
 {
-    this->decks[0].piocheCart();
+    this->decks[currentGrid].drawCard();
+}
+
+void Player::setDeck(int index, Deck deck)
+{
+    this->decks[index] = deck;
 }
