@@ -1,5 +1,7 @@
 #include "Grid.h"
 #include "Case.h"
+#include "./rules/GlobalRules.hpp"
+
 
 Grid::Grid()
 {
@@ -113,6 +115,8 @@ void Grid::createGlobalRules()
 {
     Card card = Card("AlignToWin", "Le nombre d'alignement pour gagner", 1);
     this->addGlobalRule(card);
+    Card card1 = CardDrawCard("DrawCard", "Pioche une carte", 1);
+    this->addGlobalRule(card1);
 }
 
 std::vector<Card *> Grid::getGlobalRules(){
@@ -141,4 +145,14 @@ GridRules Grid::getRules()
 void Grid::setRules(GridRules rules)
 {
     this->rules = rules;
+}
+
+int Grid::getActualGlobalRule() const
+{
+    return this->actualGlobalRule;
+}
+
+void Grid::nextGlobalRule()
+{
+    this->actualGlobalRule = (this->actualGlobalRule + 1) % (this->globalRules.size());
 }

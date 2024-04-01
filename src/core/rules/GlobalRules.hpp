@@ -6,14 +6,14 @@
 #include <iostream>
 #include <vector>
 
-class CardGravity : public Card
+class CardDrawCard : public Card
 {
 public:
-    CardGravity(std::string name, std::string description, int id) : Card(name, description, id)
+    CardDrawCard(std::string name, std::string description, int id) : Card(name, description, id)
     {
         arrowDirection.push_back("down");
     };
-    ~CardGravity(){};
+    ~CardDrawCard(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
 
@@ -35,7 +35,7 @@ public:
                     }
                     if (x != nextEmpty)
                     {
-                        std::cout << "Gravity" << std::endl;
+                        std::cout << "Draw" << std::endl;
                         Case *c = cases[x][i];
                         cases[x][i] = cases[nextEmpty][i];
                         cases[nextEmpty][i] = c;
