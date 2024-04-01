@@ -271,29 +271,33 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
     handleArrowClick(mouseX, mouseY, screenWidth, screenHeight);
 
-
-    for (unsigned int i = 0; i < deck.getCards().size(); i++)
-    {
-        int cardX = (i + 1) * 110 + 500;
-        int cardY = 775;
-        int cardWidth = 100;
-        int cardHeight = 150;
-
-        if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
+    if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "PlayCard") {
+        for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
-            if (this->cardClicked == deck.getCards()[i])
-            {
-                this->cardClicked = nullptr;
-                this->isCardClicked = false;
+            int cardX = (i + 1) * 110 + 500;
+            int cardY = 775;
+            int cardWidth = 100;
+            int cardHeight = 150;
 
-                break;
-            }
-            else
+            if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
             {
-                std::cout << "Card clicked" << std::endl;
-                this->isCardClicked = true;
-                this->setCard(deck.getCards()[i]);
-                break;
+                if (this->cardClicked == deck.getCards()[i])
+                {
+                    this->cardClicked = nullptr;
+                    this->isCardClicked = false;
+
+                    break;
+                }
+                else
+                {
+                    std::cout << "Card clicked" << std::endl;
+                    this->isCardClicked = true;
+                    this->setCard(deck.getCards()[i]);
+                    grid.nextGlobalRule();
+                    game.setGrid(CurrentGrid, grid);
+                    this->grid.setGame(game); // Update the grid with next global rule
+                    break;
+                }
             }
         }
     }

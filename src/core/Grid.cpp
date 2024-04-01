@@ -121,6 +121,8 @@ void Grid::createGlobalRules()
     this->addGlobalRule(card2);
     Card card3 = CardPlacePiece("PlacePiece", "Pose une pièce", 1);
     this->addGlobalRule(card3);
+    Card card4 = CardPlayCard("PlayCard", "Joue une carte", 1);
+    this->addGlobalRule(card4);
 }
 
 std::vector<Card *> Grid::getGlobalRules(){
