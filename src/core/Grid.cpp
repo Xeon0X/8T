@@ -154,5 +154,7 @@ int Grid::getActualGlobalRule() const
 
 void Grid::nextGlobalRule()
 {
+    std::cout << this->actualGlobalRule << std::endl;
     this->actualGlobalRule = (this->actualGlobalRule + 1) % (this->globalRules.size());
+    std::cout << this->actualGlobalRule << std::endl;
 }
