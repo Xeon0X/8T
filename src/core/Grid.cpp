@@ -1,6 +1,7 @@
 #include "Grid.h"
 #include "Case.h"
 #include "./rules/GlobalRules.hpp"
+#include "./rules/RulesRare.hpp"
 
 
 Grid::Grid()
@@ -113,6 +114,8 @@ void Grid::addGlobalRule(Card card)
 
 void Grid::createGlobalRules()
 {
+    Card card5 = CardGravity("Gravity", "Applique la gravité", 1);
+    this->addGlobalRule(card5);
     Card card = Card("AlignToWin", "Le nombre d'alignement pour gagner", 1);
     this->addGlobalRule(card);
     Card card1 = CardDrawCard("DrawCard", "Pioche une carte", 1);

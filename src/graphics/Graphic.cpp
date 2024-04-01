@@ -271,6 +271,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
     handleArrowClick(mouseX, mouseY, screenWidth, screenHeight);
 
+    // Play a card
     if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "PlayCard") {
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
@@ -368,6 +369,30 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
                 // game.switchPlayer();
         }
     }
+
+    // Apply everything
+    if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "Gravity") {
+        grid.nextGlobalRule();
+        game.setGrid(0, grid);
+        this->grid.setGame(game); // Update the grid with next global rule
+    }
+
+    // TODO : problem when clicking a card, then drawing, without clicking on an arrow
+    // TODO : fix applycard : this is not supposed to show up
+    // TODO : can't select an other card
+    // TODO : add a card to globalRules
+    // TODO : how to have everything inside the card and not here?
+    // TODO : how to handle non player action automatically and not on click?
+    
+    #include <typeinfo>
+    std::cout << typeid(decltype(deck.getCards()[0])).name() << std::endl;
+    // deck.getCards()[0]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
+    grid.getGlobalRules()[0]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
+    std::cout << "test";
+    // for (int i = 0; i < grid.getGlobalRules().size(); i++) {
+    //     std::cout << i;
+    //     grid.getGlobalRules()[i]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
+    // }
 }
 
 void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
