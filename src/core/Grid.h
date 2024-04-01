@@ -21,7 +21,7 @@ class Grid
 {
 private:
     std::vector<std::vector<Case *>> cases; /**< Cases of the grid */
-    std::vector<Card> globalRules;          /**< Global rules of the grid */
+    std::vector<Card *> globalRules;          /**< Global rules of the grid */
     GridRules rules;                        /**< Rules of the grid */
 
     int nbAlignToWin = 3; /**< Number of pieces to align to win */
@@ -129,7 +129,7 @@ public:
      *
      */
     void createGlobalRules();
-    const std::vector<Card>& getGlobalRules() const;
+    std::vector<Card *> getGlobalRules();
     /**
      * @brief Show the grid terminal
      *

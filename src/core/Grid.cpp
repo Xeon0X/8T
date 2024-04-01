@@ -106,7 +106,7 @@ void Grid::resetGrid()
 
 void Grid::addGlobalRule(Card card)
 {
-    this->globalRules.push_back(card);
+    this->globalRules.push_back(new Card(card));
 }
 
 void Grid::createGlobalRules()
@@ -115,8 +115,8 @@ void Grid::createGlobalRules()
     this->addGlobalRule(card);
 }
 
-const std::vector<Card>& Grid::getGlobalRules() const {
-        return globalRules;
+std::vector<Card *> Grid::getGlobalRules(){
+        return this->globalRules;
     }
 
 void Grid::showGridTerminal()

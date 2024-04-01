@@ -112,7 +112,6 @@ void GridGraphic::drawGamerules(SDL_Renderer *renderer, Graphic &graphic)
 {
     Player player = this->game.getCurrentPlayer();
     Grid grid = this->game.getGrid(player.getCurrentGrid());
-    Deck deck = player.getDeck(player.getCurrentGrid());
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
     for (unsigned int i = 0; i < grid.getGlobalRules().size(); i++)
@@ -125,7 +124,7 @@ void GridGraphic::drawGamerules(SDL_Renderer *renderer, Graphic &graphic)
 
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderDrawRect(renderer, &rect);
-        std::string text = deck.getCards()[i]->getName();
+        std::string text = grid.getGlobalRules()[i]->getName();
         const char *cstr = text.c_str();
         graphic.drawText(cstr, cardX + 10, cardY + 50);
     }
