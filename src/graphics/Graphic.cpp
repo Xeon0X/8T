@@ -298,10 +298,6 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         }
     }
 
-
-    std::cout << "\nCurrentGrid: " << CurrentGrid << std::endl;
-    std::cout << "\nCurrentRule: " << grid.getActualGlobalRule() << std::endl;
-
     // Switchplayer
     if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "SwitchPlayer") {
         game.switchPlayer();
@@ -336,37 +332,23 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     // Place a piece
     if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
     {
-        std::cout << "Cell clicked" << std::endl;
-        std::cout << "CellX: " << cellX << " CellY: " << cellY << std::endl;
-
         if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "PlacePiece") {
-            std::cout << "registered";
             if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
             {
                 if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
                 {
-                    std::cout << "first condition met";
-                    game.createAndSetPiece(cellX, cellY, CurrentGrid);
-                    grid.nextGlobalRule();
-                    game.setGrid(0, grid);
-                    this->grid.setGame(game); // Update the grid with next global rule
+                    // TODO : working with multiple pieces on one case
                 }
             } else { // Place a piece on a new piece
                 grid.nextGlobalRule();
                 game.setGrid(0, grid);
-                this->grid.setGame(game); // Update the grid with next global rule
-                
+
                 game.createAndSetPiece(cellX, cellY, CurrentGrid);
                 player.getPlayerEffects().posePiece = false;
 
                 game.replacePlayer(player);
                 game.setCurrentPlayer(player);
 
-                handleCheckWin(cellX, cellY, game);
-                this->grid.setGame(game);
-
-                game = this->grid.getGame();
-                game.switchPlayer();
                 this->grid.setGame(game);
             }
                 // this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "up");
