@@ -90,15 +90,39 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         int cardX = (i + 1) * 110 + 500;
-        int cardY = 875;
+        int cardY = 775;
         int cardWidth = 100;
         int cardHeight = 150;
         if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == deck.getCards()[i]->getUniqueId())
         {
-            cardY -= 20;
+            cardY -= 10;
+            cardX -= 5;
             cardWidth += 10;
             cardHeight += 20;
         }
+        SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
+        SDL_RenderDrawRect(renderer, &rect);
+        std::string text = deck.getCards()[i]->getName();
+        const char *cstr = text.c_str();
+        graphic.drawText(cstr, cardX + 10, cardY + 50);
+    }
+}
+
+void GridGraphic::drawGamerules(SDL_Renderer *renderer, Graphic &graphic)
+{
+    Player player = this->game.getCurrentPlayer();
+    Grid grid = this->game.getGrid(player.getCurrentGrid());
+    Deck deck = player.getDeck(player.getCurrentGrid());
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
+    for (unsigned int i = 0; i < grid.getGlobalRules().size(); i++)
+    {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        int cardX = (i + 1) * 110 + 500;
+        int cardY = 075;
+        int cardWidth = 100;
+        int cardHeight = 150;
+
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderDrawRect(renderer, &rect);
         std::string text = deck.getCards()[i]->getName();

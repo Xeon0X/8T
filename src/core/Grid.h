@@ -129,7 +129,7 @@ public:
      *
      */
     void createGlobalRules();
-
+    const std::vector<Card>& getGlobalRules() const;
     /**
      * @brief Show the grid terminal
      *

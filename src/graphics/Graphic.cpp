@@ -214,6 +214,7 @@ void Graphic::play()
 
         this->grid.drawPartInterface(renderer, *this);
         this->grid.drawDeck(renderer, *this);
+        this->grid.drawGamerules(renderer, *this);
         this->grid.drawPioche(renderer, *this);
         this->grid.drawArrowDirection(renderer, *this);
         present();
@@ -270,7 +271,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
         int cardX = (i + 1) * 110 + 500;
-        int cardY = 875;
+        int cardY = 775;
         int cardWidth = 100;
         int cardHeight = 150;
 

@@ -115,6 +115,10 @@ void Grid::createGlobalRules()
     this->addGlobalRule(card);
 }
 
+const std::vector<Card>& Grid::getGlobalRules() const {
+        return globalRules;
+    }
+
 void Grid::showGridTerminal()
 {
     std::cout << "in showGrid\n";
