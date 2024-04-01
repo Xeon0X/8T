@@ -266,7 +266,11 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     Deck deck = player.getDeck(player.getCurrentGrid());
     SDL_GetMouseState(&mouseX, &mouseY);
 
+    std::cout << "\nTest 1\n";
+
     handleArrowClick(mouseX, mouseY, screenWidth, screenHeight);
+
+    std::cout << "\nTest 2\n";
 
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
@@ -318,6 +322,11 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         }
         else
         {
+            for (unsigned int i = 0; i < grid.getGlobalRules().size(); i++)
+            {
+                std::cout << grid.getGlobalRules()[i]->getName() << " ---";
+            }
+            // this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "up");
             game.createAndSetPiece(cellX, cellY, CurrentGrid);
             player.getPlayerEffects().posePiece = false;
 
