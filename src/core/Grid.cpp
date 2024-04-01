@@ -117,6 +117,10 @@ void Grid::createGlobalRules()
     this->addGlobalRule(card);
     Card card1 = CardDrawCard("DrawCard", "Pioche une carte", 1);
     this->addGlobalRule(card1);
+    Card card2 = CardSwitchPlayer("SwitchPlayer", "Change de joueur", 1);
+    this->addGlobalRule(card2);
+    Card card3 = CardPlacePiece("PlacePiece", "Pose une pièce", 1);
+    this->addGlobalRule(card3);
 }
 
 std::vector<Card *> Grid::getGlobalRules(){
@@ -154,7 +158,7 @@ int Grid::getActualGlobalRule() const
 
 void Grid::nextGlobalRule()
 {
-    std::cout << this->actualGlobalRule << std::endl;
+    std::cout << "globalRule: " << this->actualGlobalRule << std::endl;
     this->actualGlobalRule = (this->actualGlobalRule + 1) % (this->globalRules.size());
-    std::cout << this->actualGlobalRule << std::endl;
+    std::cout << "globalRule: " << this->actualGlobalRule << std::endl;
 }

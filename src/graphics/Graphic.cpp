@@ -298,56 +298,88 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         }
     }
 
+
+    std::cout << "\nCurrentGrid: " << CurrentGrid << std::endl;
+    std::cout << "\nCurrentRule: " << grid.getActualGlobalRule() << std::endl;
+
+    // Switchplayer
+    if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "SwitchPlayer") {
+        game.switchPlayer();
+        grid.nextGlobalRule();
+        game.setGrid(CurrentGrid, grid);
+        this->grid.setGame(game);
+    }
+
+    // Checkwin
+    if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "AlignToWin") {
+        handleCheckWin(cellX, cellY, game);
+        grid.nextGlobalRule();
+        game.setGrid(CurrentGrid, grid);
+        this->grid.setGame(game); // Update the grid with next global rule
+    }
+
+    // Draw a card
     if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
     {
         if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "DrawCard") {
             std::cout << grid.getGlobalRules()[grid.getActualGlobalRule()]->getName();
             grid.nextGlobalRule();
             game.setGrid(0, grid);
-            this->grid.setGame(game); //update the grid with next global rule
+            this->grid.setGame(game); // Update the grid with next global rule
+
             player.drawCard();
             this->grid.getGame().replacePlayer(player);
-            this->grid.getGame().setCurrentPlayer(player);
+            this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
         }
     }
 
+    // Place a piece
     if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
     {
         std::cout << "Cell clicked" << std::endl;
         std::cout << "CellX: " << cellX << " CellY: " << cellY << std::endl;
-        
 
-        if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
-        {
-            if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
+        if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "PlacePiece") {
+            std::cout << "registered";
+            if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
             {
+                if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
+                {
+                    std::cout << "first condition met";
+                    game.createAndSetPiece(cellX, cellY, CurrentGrid);
+                    grid.nextGlobalRule();
+                    game.setGrid(0, grid);
+                    this->grid.setGame(game); // Update the grid with next global rule
+                }
+            } else { // Place a piece on a new piece
+                grid.nextGlobalRule();
+                game.setGrid(0, grid);
+                this->grid.setGame(game); // Update the grid with next global rule
+                
                 game.createAndSetPiece(cellX, cellY, CurrentGrid);
+                player.getPlayerEffects().posePiece = false;
+
+                game.replacePlayer(player);
+                game.setCurrentPlayer(player);
+
+                handleCheckWin(cellX, cellY, game);
+                this->grid.setGame(game);
+
+                game = this->grid.getGame();
+                game.switchPlayer();
+                this->grid.setGame(game);
             }
-        }
-        else
-        {
-            for (unsigned int i = 0; i < grid.getGlobalRules().size(); i++)
-            {
-                std::cout << grid.getGlobalRules()[i]->getName() << " ---";
-            }
-            // this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "up");
-            game.createAndSetPiece(cellX, cellY, CurrentGrid);
-            player.getPlayerEffects().posePiece = false;
+                // this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "up");
+                // game.createAndSetPiece(cellX, cellY, CurrentGrid);
+                // player.getPlayerEffects().posePiece = false;
 
-            game.replacePlayer(player);
-            game.setCurrentPlayer(player);
+                // game.replacePlayer(player);
+                // game.setCurrentPlayer(player);
 
-            handleCheckWin(cellX, cellY, game);
-            this->grid.setGame(game);
+                // // handlecheckwin
 
-            game = this->grid.getGame();
-            game.switchPlayer();
-            this->grid.setGame(game);
-        }
-        if (grid.getRules().gravity)
-        {
-            applyGravityAnimation();
-            drawText("Gravity is on", 100, 100);
+                // game = this->grid.getGame();
+                // game.switchPlayer();
         }
     }
 }
