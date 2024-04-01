@@ -2,6 +2,7 @@
 #include "Graphic.h"
 #include "Piece.h"
 #include "Case.h"
+#include <string>
 
 GridGraphic::GridGraphic(/* args */)
 {
@@ -28,6 +29,9 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
 
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
+
+    std::string currentRule= "Current rule: " + std::to_string(this->game.getGrid(0).getActualGlobalRule());
+    graphic.drawText(currentRule.c_str(), 100, 50);
 
     std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
     graphic.drawText(mouseCoordinates.c_str(), 100, 100);

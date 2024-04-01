@@ -300,13 +300,15 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
     if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
     {
-        std::cout << "Pioche clicked" << grid.getActualGlobalRule() << grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() << std::endl;
-        grid.nextGlobalRule();
-        game.setGrid(0, grid);
-        this->grid.setGame(game);
-        player.drawCard();
-        this->grid.getGame().replacePlayer(player);
-        this->grid.getGame().setCurrentPlayer(player);
+        if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "DrawCard") {
+            std::cout << grid.getGlobalRules()[grid.getActualGlobalRule()]->getName();
+            grid.nextGlobalRule();
+            game.setGrid(0, grid);
+            this->grid.setGame(game); //update the grid with next global rule
+            player.drawCard();
+            this->grid.getGame().replacePlayer(player);
+            this->grid.getGame().setCurrentPlayer(player);
+        }
     }
 
     if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
