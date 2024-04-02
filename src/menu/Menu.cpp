@@ -28,8 +28,7 @@ void drawMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_Renderer 
 
     if (ImGui::Button("Play", ImVec2(200, 50)))
     {
-        gamestate = GameState::Game;
-        graphic = *(new Graphic(window, renderer));
+        gamestate = GameState::ChooseGameMode;
     }
 
     ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
@@ -58,6 +57,74 @@ void menu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event &even
     ImGui_ImplSDL2_NewFrame(window);
     ImGui::NewFrame();
     drawMenu(io, gamestate, graphic, renderer, window);
+    ImGui::Render();
+    glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(window);
+}
+
+void drawChooseGameModeMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_Window *window, SDL_Renderer *renderer)
+{
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(io.DisplaySize);
+    ImGui::Begin("Game Mode Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+    ImGui::SetWindowFontScale(1.7f);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Game Mode Menu").x) * 0.5f);
+    ImGui::SetCursorPosY(100);
+
+    ImGui::Text("Game Mode Menu");
+    ImGui::Separator();
+
+    ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+    if (ImGui::Button("Local", ImVec2(200, 50)))
+    {
+        gamestate = GameState::GameCreation;
+    }
+
+    ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+    if (ImGui::Button("Multiplayer", ImVec2(200, 50)))
+    {
+        gamestate = GameState::Game;
+    }
+    ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+    ImGui::SetCursorPosX(50);
+
+    if (ImGui::Button("Back", ImVec2(200, 50)))
+    {
+        gamestate = GameState::Menu;
+    }
+    ImGui::PopStyleColor(); // Restore default text color
+
+    ImGui::End();
+}
+
+void chooseGameModeMenu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event &event, Graphic &graphic, SDL_Renderer *renderer)
+{
+    while (SDL_PollEvent(&event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+        if (event.type == SDL_QUIT)
+        {
+            gamestate = GameState::Quit;
+        }
+    }
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(window);
+    ImGui::NewFrame();
+    drawChooseGameModeMenu(io, gamestate, graphic, window, renderer);
     ImGui::Render();
     glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -121,7 +188,6 @@ void pauseMenu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event 
         {
             gamestate = GameState::Quit;
         }
-        e
     }
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
@@ -131,6 +197,104 @@ void pauseMenu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event 
     glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(window);
+}
+
+void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_Window *window, SDL_Renderer *renderer)
+{
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(io.DisplaySize);
+    ImGui::Begin("Game Creation", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+    ImGui::SetWindowFontScale(1.7f);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Game Creation").x) * 0.5f);
+    ImGui::SetCursorPosY(100);
+
+    ImGui::Text("Game Creation");
+    ImGui::Separator();
+
+    ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+    ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 250);
+
+    static int player1Shape = 0;
+    static int player1Color = 0;
+    static int player2Shape = 0;
+    static int player2Color = 0;
+
+    const char *shapes[] = {"Croix", "Rond", "Triangle", "Carrée"};
+    const char *colors[] = {"Rouge", "Bleu", "Vert", "Jaune"};
+
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Set text color to white
+
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Joueur 1").x) * 0.5f);
+    ImGui::Text("Joueur 1");
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Forme").x) * 0.5f);
+    ImGui::Combo("Forme", &player1Shape, shapes, IM_ARRAYSIZE(shapes));
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Couleur").x) * 0.5f);
+    ImGui::Combo("Couleur", &player1Color, colors, IM_ARRAYSIZE(colors));
+
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Joueur 2").x) * 0.5f);
+    ImGui::Text("Joueur 2");
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Forme").x) * 0.5f);
+    ImGui::Combo("Forme", &player2Shape, shapes, IM_ARRAYSIZE(shapes));
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Couleur").x) * 0.5f);
+    ImGui::Combo("Couleur", &player2Color, colors, IM_ARRAYSIZE(colors));
+
+    ImGui::PopStyleColor();
+
+    ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+    ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 250);
+
+    if (ImGui::Button("Start", ImVec2(200, 50)))
+    {
+        gamestate = GameState::Game;
+        graphic = *(new Graphic(window, renderer));
+    }
+
+    ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+    ImGui::SetCursorPosX(50);
+
+    if (ImGui::Button("Back", ImVec2(200, 50)))
+    {
+        gamestate = GameState::ChooseGameMode;
+    }
+    ImGui::PopStyleColor(); // Restore default text color
+
+    ImGui::End();
+}
+void gameCreation(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event &event, Graphic &graphic, SDL_Renderer *renderer)
+{
+    while (SDL_PollEvent(&event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+        if (event.type == SDL_QUIT)
+        {
+            gamestate = GameState::Quit;
+        }
+    }
+
+    // Draw with OpenGL
+    glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(window);
+    ImGui::NewFrame();
+    drawGameCreation(io, gamestate, graphic, window, renderer);
+    ImGui::Render();
+
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     SDL_GL_SwapWindow(window);
@@ -210,6 +374,14 @@ int start()
             break;
         case GameState::Pause:
             pauseMenu(window, io, gamestate, event, graphic);
+            break;
+        case GameState::ChooseGameMode:
+            chooseGameModeMenu(window, io, gamestate, event, graphic, renderer);
+            break;
+        case GameState::Options:
+            break;
+        case GameState::GameCreation:
+            gameCreation(window, io, gamestate, event, graphic, renderer);
             break;
         default:
             break;

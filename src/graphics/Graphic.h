@@ -13,6 +13,8 @@ enum class GameState
 {
     Menu,
     Game,
+    ChooseGameMode,
+    GameCreation,
     Options,
     Pause,
     Quit
