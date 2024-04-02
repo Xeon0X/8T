@@ -118,8 +118,8 @@ void Grid::createGlobalRules()
     // this->addGlobalRule(card5);
     // CardAlignToWin *card = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 1);
     // this->addGlobalRule(card);
-    // CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 1);
-    // this->addGlobalRule(card1);
+    CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 1);
+    this->addGlobalRule(card1);
     // CardPlacePiece *card3 = new CardPlacePiece("PlacePiece", "Pose une pièce", 1);
     // this->addGlobalRule(card3);
     CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 1);

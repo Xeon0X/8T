@@ -324,20 +324,26 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     //     this->grid.setGame(game); // Update the grid with next global rule
     // }
 
-    // // Draw a card
-    // if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
-    // {
-    //     if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "DrawCard") {
-    //         std::cout << grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName();
-    //         grid.nextGlobalRule();
-    //         game.setGrid(0, grid);
-    //         this->grid.setGame(game); // Update the grid with next global rule
+    // Draw a card
+    if (grid.getRules().canDrawCard)
+    {
+        if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
+        {
+            if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "DrawCard") {
+                std::cout << grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName();
+                grid.nextGlobalRule();
+                GridRules rules = grid.getRules();
+                rules.canDrawCard = false;
+                grid.setRules(rules);
+                game.setGrid(0, grid);
+                this->grid.setGame(game); // Update the grid with next global rule
 
-    //         player.drawCard();
-    //         this->grid.getGame().replacePlayer(player);
-    //         this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
-    //     }
-    // }
+                player.drawCard();
+                this->grid.getGame().replacePlayer(player);
+                this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
+            }
+        }
+    }
 
     // Place a piece
     if (grid.getRules().canPlacePiece) {
@@ -359,6 +365,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
                     game.setGrid(CurrentGrid, grid);
                     game.createAndSetPiece(cellX, cellY, CurrentGrid);
 
+                    // TODO : manage player effect
                     // player.getPlayerEffects().posePiece = false;
                     // game.replacePlayer(player);
                     // game.setCurrentPlayer(player);
@@ -369,29 +376,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         }
     }
 
-    // Apply everything
-    // if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "Gravity") {
-    //     grid.nextGlobalRule();
-    //     game.setGrid(0, grid);
-    //     this->grid.setGame(game); // Update the grid with next global rule
-    // }
-
-    // TODO : problem when clicking a card, then drawing, without clicking on an arrow
-    // TODO : can't select an other card
     // TODO : add a card to globalRules
-    // TODO : how to have everything inside the card and not here?
-    // TODO : how to handle non player action automatically and not on click?
-    
-    // Can delete
-    // #include <typeinfo>
-    // std::cout << typeid(decltype(deck.getCards()[0])).name() << std::endl;
-    // deck.getCards()[0]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
-    // grid.getGlobalRules()[0]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
-    // std::cout << "test";
-    // for (int i = 0; i < grid.getGlobalRules().size(); i++) {
-    //     std::cout << i;
-    //     grid.getGlobalRules()[i]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
-    // }
 }
 
 void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight)

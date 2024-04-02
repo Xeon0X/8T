@@ -33,7 +33,13 @@ public:
     ~CardDrawCard(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "nothing to applied";
+        std::cout << "Draw a card...\n";
+        Grid grid = game.getGrid(CurrentGrid);
+        GridRules rules = grid.getRules();
+        rules.canDrawCard = true;
+        // grid.nextGlobalRule(); // Wait for player input
+        grid.setRules(rules);
+        game.setGrid(CurrentGrid, grid);
     }
 };
 
