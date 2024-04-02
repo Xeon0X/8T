@@ -161,9 +161,22 @@ int Grid::getCurrentGlobalRule() const
     return this->currentGlobalRule;
 }
 
+int Grid::getCurrentGlobalRuleIteration() const
+{
+    return this->currentGlobalRuleIteration;
+}
+
+void Grid::addCurrentGlobalRuleIteration()
+{
+    this->currentGlobalRule += 1;
+}
+
+void Grid::resetCurrentGlobalRuleIteration()
+{
+    this->currentGlobalRule = 0;
+}
+
 void Grid::nextGlobalRule()
 {
-    std::cout << "globalRule: " << this->currentGlobalRule << std::endl;
     this->currentGlobalRule = (this->currentGlobalRule + 1) % (this->globalRules.size());
-    std::cout << "globalRule: " << this->currentGlobalRule << std::endl;
 }

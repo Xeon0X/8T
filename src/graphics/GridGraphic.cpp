@@ -30,7 +30,7 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
 
-    std::string currentRule= "Current rule: " + std::to_string(this->game.getGrid(0).getActualGlobalRule());
+    std::string currentRule= "Current rule: " + std::to_string(this->game.getGrid(0).getCurrentGlobalRule());
     graphic.drawText(currentRule.c_str(), 100, 50);
 
     std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
