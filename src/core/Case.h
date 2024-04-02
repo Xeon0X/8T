@@ -18,7 +18,6 @@ struct CaseEffects
  * @class Case
  * @brief This class is used to represent a case in the game
  */
-
 class Case
 {
 private:

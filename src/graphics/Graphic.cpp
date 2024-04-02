@@ -69,13 +69,45 @@ Graphic::Graphic()
     this->cardClicked = nullptr;
 }
 
+Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, ImGuiIO &io)
+{
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        exit(1);
+    }
+    this->window = window;
+    this->renderer = renderer;
+    this->io = &io;
+    color = {0, 0, 0, 255};
+    this->font = TTF_OpenFont("../font/dogica.ttf", 10);
+    if (font == nullptr)
+    {
+        std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
+        exit(1);
+    }
+
+    fontColor = {0, 0, 0, 255};
+    fontSize = 10;
+    fontStyle = TTF_STYLE_NORMAL;
+    this->grid = GridGraphic();
+    this->grid.setInitialGridSize(3, 3);
+
+    deckPart.x = 200;
+    deckPart.y = 850;
+    deckPart.w = 1500;
+    deckPart.h = 300;
+
+    pioche.x = 10;
+    pioche.y = 500;
+    pioche.w = 100;
+    pioche.h = 150;
+
+    this->cardClicked = nullptr;
+}
+
 Graphic::~Graphic()
 {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    TTF_CloseFont(font);
-    TTF_Quit();
-    SDL_Quit();
 }
 
 void Graphic::drawRect(int x, int y, int w, int h)
@@ -203,11 +235,11 @@ void Graphic::drawPlayer(int x, int y, int radius, int thickness, Player player)
     }
 }
 
-void Graphic::play()
+void Graphic::play(GameState &gamestate)
 {
-    while (running)
+    while (GameState::Game == gamestate)
     {
-        eventHolder();
+        eventHolder(gamestate);
         clear();
 
         grid.showGrid(renderer, *this);
@@ -220,9 +252,9 @@ void Graphic::play()
     }
 }
 
-void Graphic::handleQuitEvent()
+void Graphic::handleQuitEvent(GameState &gamestate)
 {
-    running = false;
+    gamestate = GameState::Quit;
 }
 
 bool CoIncid(int x, int y, int x1, int y1, int x2, int y2)
@@ -399,7 +431,7 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
     }
 }
 
-void Graphic::handleKeyDownEvent(SDL_Event &event)
+void Graphic::handleKeyDownEvent(SDL_Event &event, GameState &gamestate)
 {
     switch (event.key.keysym.sym)
     {
@@ -415,6 +447,9 @@ void Graphic::handleKeyDownEvent(SDL_Event &event)
     case SDLK_RIGHT:
         this->grid.moveGrid(-10, 0);
         break;
+    case SDLK_ESCAPE:
+        gamestate = GameState::Menu;
+        break;
     }
 }
 
@@ -427,7 +462,7 @@ void Graphic::handleCheckWin(int cellX, int cellY, Game game)
     }
 }
 
-void Graphic::eventHolder()
+void Graphic::eventHolder(GameState &gamestate)
 {
     SDL_Event event;
 
@@ -436,13 +471,13 @@ void Graphic::eventHolder()
         switch (event.type)
         {
         case SDL_QUIT:
-            handleQuitEvent();
+            this->handleQuitEvent(gamestate);
             break;
         case SDL_MOUSEBUTTONDOWN:
-            handleMouseButtonDownEvent(event);
+            this->handleMouseButtonDownEvent(event);
             break;
         case SDL_KEYDOWN:
-            handleKeyDownEvent(event);
+            handleKeyDownEvent(event, gamestate);
             break;
         }
     }

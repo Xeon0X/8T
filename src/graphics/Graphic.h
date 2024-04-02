@@ -3,7 +3,19 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_opengl.h>
+#include <imgui.h>
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_opengl3.h>
 #include "GridGraphic.h"
+
+enum class GameState
+{
+    Menu,
+    Game,
+    Options,
+    Quit
+};
 
 /**
  * @class Graphic
@@ -16,13 +28,12 @@ class Graphic
 private:
     SDL_Window *window;     /**< The window of the game. */
     SDL_Renderer *renderer; /**< The renderer of the game. */
+    ImGuiIO *io;            /**< The io of the game. */
     SDL_Color color;        /**< The color of the renderer. */
     TTF_Font *font;         /**< The font of the renderer. */
     SDL_Color fontColor;    /**< The color of the font. */
     int fontSize;           /**< The size of the font. */
     int fontStyle;          /**< The style of the font. */
-
-    bool running = true; /**< The state of the game. */
 
     GridGraphic grid; /**< The grid of the game. */
 
@@ -37,6 +48,8 @@ public:
      * Initializes the color, font, fontColor, fontSize, and fontStyle.
      */
     Graphic();
+
+    Graphic(SDL_Window *window, SDL_Renderer *renderer, ImGuiIO &io);
 
     /**
      * @brief Destructor for the Graphic class.
@@ -182,12 +195,12 @@ public:
     /**
      * @brief Handle all the event of the game.
      */
-    void eventHolder();
+    void eventHolder(GameState &gamestate);
 
     /**
      * @brief Handle the quit event of the game.
      */
-    void handleQuitEvent();
+    void handleQuitEvent(GameState &gamestate);
 
     /**
      * @brief Handle the mouse button down event of the game.
@@ -201,12 +214,12 @@ public:
      *
      * @param event The event to be handled.
      */
-    void handleKeyDownEvent(SDL_Event &event);
+    void handleKeyDownEvent(SDL_Event &event, GameState &gamestate);
 
     /**
      * @brief Play the game.
      */
-    void play();
+    void play(GameState &gamestate);
 
     /**
      * @brief Handle the check win event of the game.
@@ -224,6 +237,7 @@ public:
     Card *getCard();
     void drawArrow(int x1, int y1, int x2, int y2, int size, int thickness, std::string sens);
     void handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
+    GridGraphic &getGrid() { return grid; };
 };
 
 #endif // GRAPHIC
