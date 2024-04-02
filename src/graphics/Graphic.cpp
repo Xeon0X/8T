@@ -217,7 +217,9 @@ void Graphic::play()
         this->grid.drawGamerules(renderer, *this);
         this->grid.drawPioche(renderer, *this);
         this->grid.drawArrowDirection(renderer, *this);
+
         present();
+        gameloop();
     }
 }
 
@@ -234,6 +236,17 @@ bool CoIncid(int x, int y, int x1, int y1, int x2, int y2)
 bool Graphic::MouseClickInterface(int x, int y)
 {
     return CoIncid(x, y, this->deckPart.x, this->deckPart.y, this->deckPart.x + this->deckPart.w, this->deckPart.y + this->deckPart.h);
+}
+
+void Graphic::gameloop()
+{
+    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+    Player player = this->grid.getGame().getCurrentPlayer();
+    Deck deck = player.getDeck(player.getCurrentGrid());
+    Game game = this->grid.getGame();
+    Grid grid = game.getGrid(CurrentGrid);
+
+    grid.getGlobalRules()[grid.getCurrentGlobalRule()]->applyCard(0, 0, CurrentGrid, player, game, "down");
 }
 
 void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
@@ -272,7 +285,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     handleArrowClick(mouseX, mouseY, screenWidth, screenHeight);
 
     // Play a card
-    if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "PlayCard") {
+    if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "PlayCard") {
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
             int cardX = (i + 1) * 110 + 500;
@@ -304,7 +317,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     }
 
     // Switchplayer
-    if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "SwitchPlayer") {
+    if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "SwitchPlayer") {
         game.switchPlayer();
         grid.nextGlobalRule();
         game.setGrid(CurrentGrid, grid);
@@ -312,7 +325,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     }
 
     // Checkwin
-    if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "AlignToWin") {
+    if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "AlignToWin") {
         handleCheckWin(cellX, cellY, game);
         grid.nextGlobalRule();
         game.setGrid(CurrentGrid, grid);
@@ -322,8 +335,8 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     // Draw a card
     if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
     {
-        if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "DrawCard") {
-            std::cout << grid.getGlobalRules()[grid.getActualGlobalRule()]->getName();
+        if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "DrawCard") {
+            std::cout << grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName();
             grid.nextGlobalRule();
             game.setGrid(0, grid);
             this->grid.setGame(game); // Update the grid with next global rule
@@ -337,7 +350,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     // Place a piece
     if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
     {
-        if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "PlacePiece") {
+        if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "PlacePiece") {
             if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
             {
                 if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
@@ -371,14 +384,13 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     }
 
     // Apply everything
-    if (grid.getGlobalRules()[grid.getActualGlobalRule()]->getName() == "Gravity") {
+    if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "Gravity") {
         grid.nextGlobalRule();
         game.setGrid(0, grid);
         this->grid.setGame(game); // Update the grid with next global rule
     }
 
     // TODO : problem when clicking a card, then drawing, without clicking on an arrow
-    // TODO : fix applycard : this is not supposed to show up
     // TODO : can't select an other card
     // TODO : add a card to globalRules
     // TODO : how to have everything inside the card and not here?

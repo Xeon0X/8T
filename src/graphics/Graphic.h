@@ -209,6 +209,11 @@ public:
     void play();
 
     /**
+     * @brief Apply global rules one by one.
+     */
+    void gameloop();
+
+    /**
      * @brief Handle the check win event of the game.
      *
      * @param cellX The x coordinate of the cell to be checked.

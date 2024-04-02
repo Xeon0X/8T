@@ -156,14 +156,14 @@ void Grid::setRules(GridRules rules)
     this->rules = rules;
 }
 
-int Grid::getActualGlobalRule() const
+int Grid::getCurrentGlobalRule() const
 {
-    return this->actualGlobalRule;
+    return this->currentGlobalRule;
 }
 
 void Grid::nextGlobalRule()
 {
-    std::cout << "globalRule: " << this->actualGlobalRule << std::endl;
-    this->actualGlobalRule = (this->actualGlobalRule + 1) % (this->globalRules.size());
-    std::cout << "globalRule: " << this->actualGlobalRule << std::endl;
+    std::cout << "globalRule: " << this->currentGlobalRule << std::endl;
+    this->currentGlobalRule = (this->currentGlobalRule + 1) % (this->globalRules.size());
+    std::cout << "globalRule: " << this->currentGlobalRule << std::endl;
 }
