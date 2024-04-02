@@ -69,7 +69,7 @@ Graphic::Graphic()
     this->cardClicked = nullptr;
 }
 
-Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, ImGuiIO &io)
+Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -78,7 +78,6 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, ImGuiIO &io)
     }
     this->window = window;
     this->renderer = renderer;
-    this->io = &io;
     color = {0, 0, 0, 255};
     this->font = TTF_OpenFont("../font/dogica.ttf", 10);
     if (font == nullptr)
@@ -448,7 +447,7 @@ void Graphic::handleKeyDownEvent(SDL_Event &event, GameState &gamestate)
         this->grid.moveGrid(-10, 0);
         break;
     case SDLK_ESCAPE:
-        gamestate = GameState::Menu;
+        gamestate = GameState::Pause;
         break;
     }
 }

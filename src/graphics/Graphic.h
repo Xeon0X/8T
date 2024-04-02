@@ -14,6 +14,7 @@ enum class GameState
     Menu,
     Game,
     Options,
+    Pause,
     Quit
 };
 
@@ -28,7 +29,6 @@ class Graphic
 private:
     SDL_Window *window;     /**< The window of the game. */
     SDL_Renderer *renderer; /**< The renderer of the game. */
-    ImGuiIO *io;            /**< The io of the game. */
     SDL_Color color;        /**< The color of the renderer. */
     TTF_Font *font;         /**< The font of the renderer. */
     SDL_Color fontColor;    /**< The color of the font. */
@@ -49,7 +49,7 @@ public:
      */
     Graphic();
 
-    Graphic(SDL_Window *window, SDL_Renderer *renderer, ImGuiIO &io);
+    Graphic(SDL_Window *window, SDL_Renderer *renderer);
 
     /**
      * @brief Destructor for the Graphic class.
