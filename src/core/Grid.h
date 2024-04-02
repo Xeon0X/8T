@@ -46,7 +46,7 @@ public:
      *
      * @param card
      */
-    void addGlobalRule(Card card);
+    void addGlobalRule(Card *card);
 
     /**
      * @brief Get the global rules of the grid

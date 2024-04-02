@@ -6,6 +6,20 @@
 #include <iostream>
 #include <vector>
 
+class CardAlignToWin : public Card
+{
+public:
+    CardAlignToWin(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+
+    };
+    ~CardAlignToWin(){};
+    void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
+    {
+        std::cout << "nothing to applied yet";
+    }
+};
+
 class CardDrawCard : public Card
 {
 public:

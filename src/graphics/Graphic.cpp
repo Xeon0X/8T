@@ -389,10 +389,10 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     // deck.getCards()[0]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
     grid.getGlobalRules()[0]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
     std::cout << "test";
-    // for (int i = 0; i < grid.getGlobalRules().size(); i++) {
-    //     std::cout << i;
-    //     grid.getGlobalRules()[i]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
-    // }
+    for (int i = 0; i < grid.getGlobalRules().size(); i++) {
+        std::cout << i;
+        grid.getGlobalRules()[i]->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
+    }
 }
 
 void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
