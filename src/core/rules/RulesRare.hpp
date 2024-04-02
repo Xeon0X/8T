@@ -1,8 +1,8 @@
 #include "../Card.h"
-#include "Game.h"
-#include "Player.h"
-#include "Case.h"
-#include "Grid.h"
+#include "../Game.h"
+#include "../Player.h"
+#include "../Case.h"
+#include "../Grid.h"
 #include <iostream>
 #include <vector>
 class CardGravity : public Card
@@ -17,6 +17,8 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
+        currentGrid.nextGlobalRule();
+        game.setGrid(CurrentGrid, currentGrid);
         GridRules rules = currentGrid.getRules();
         rules.gravity = true;
         currentGrid.setRules(rules);
