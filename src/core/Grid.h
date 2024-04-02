@@ -10,6 +10,8 @@
 class Case;
 struct GridRules
 {
+    bool canPlayCard = false;
+    bool canPlacePiece = false;
     bool gravity = false;
 };
 

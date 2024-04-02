@@ -16,7 +16,10 @@ public:
     ~CardAlignToWin(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "nothing to applied yet";
+        Grid grid = game.getGrid(CurrentGrid);
+        std::cout << "Applying...\n";
+        game.getGrid(CurrentGrid);
+        game.setGrid(CurrentGrid, grid);
     }
 };
 
@@ -44,7 +47,11 @@ public:
     ~CardSwitchPlayer(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "nothing to applied";
+        std::cout << "Switching...\n";
+        Grid grid = game.getGrid(CurrentGrid);
+        game.switchPlayer();
+        grid.nextGlobalRule();
+        game.setGrid(CurrentGrid, grid);
     }
 };
 
@@ -57,8 +64,14 @@ public:
     };
     ~CardPlacePiece(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
-    {
-        std::cout << "nothing to applied";
+    {   
+        std::cout << "Place a piece...\n";
+        Grid grid = game.getGrid(CurrentGrid);
+        GridRules rules = grid.getRules();
+        rules.canPlacePiece = true;
+        // grid.nextGlobalRule(); // Wait for player input
+        grid.setRules(rules);
+        game.setGrid(CurrentGrid, grid);
     }
 };
 
@@ -72,6 +85,12 @@ public:
     ~CardPlayCard(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "nothing to applied";
+        std::cout << "Play a card...\n";
+        Grid grid = game.getGrid(CurrentGrid);
+        GridRules rules = grid.getRules();
+        rules.canPlayCard = true;
+        // grid.nextGlobalRule(); // Wait for player input
+        grid.setRules(rules);
+        game.setGrid(CurrentGrid, grid);
     }
 };
