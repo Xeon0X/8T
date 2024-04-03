@@ -174,7 +174,7 @@ void drawPauseMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic)
     {
         gamestate = GameState::Menu;
     }
-    ImGui::PopStyleColor(); // Restore default text color
+    ImGui::PopStyleColor();
 
     ImGui::End();
 }
@@ -223,9 +223,6 @@ void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_W
 
     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 
-    ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
-    ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 250);
-
     static int player1Shape = 0;
     static int player1Color = 0;
     static int player2Shape = 0;
@@ -234,31 +231,90 @@ void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_W
     const char *shapes[] = {"Croix", "Rond", "Triangle", "Carrée"};
     const char *colors[] = {"Rouge", "Bleu", "Vert", "Jaune"};
 
-    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Set text color to white
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+    float windowWidth = ImGui::GetWindowSize().x;
+    float textWidth, comboWidth;
 
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Joueur 1").x) * 0.5f);
+    ImVec2 oldCursorPos = ImGui::GetCursorPos();
+
+    ImGui::SetCursorPos(ImVec2(-9999, -9999));
+    ImGui::Combo("##invisible", &player1Shape, shapes, IM_ARRAYSIZE(shapes));
+    comboWidth = ImGui::GetItemRectSize().x;
+    textWidth = ImGui::CalcTextSize("Joueur 1").x;
+
+    ImGui::SetCursorPos(oldCursorPos);
+    ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 100);
+
     ImGui::Text("Joueur 1");
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Forme").x) * 0.5f);
-    ImGui::Combo("Forme", &player1Shape, shapes, IM_ARRAYSIZE(shapes));
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Couleur").x) * 0.5f);
-    ImGui::Combo("Couleur", &player1Color, colors, IM_ARRAYSIZE(colors));
+    textWidth = ImGui::CalcTextSize("Joueur 1").x;
+    ImGui::SetCursorPosX((windowWidth - comboWidth) / 2);
+    ImGui::Combo("Forme1", &player1Shape, shapes, IM_ARRAYSIZE(shapes));
+    ImGui::SetCursorPosX((windowWidth - comboWidth) / 2);
+    ImGui::Combo("Couleur1", &player1Color, colors, IM_ARRAYSIZE(colors));
 
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Joueur 2").x) * 0.5f);
+    ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
+
     ImGui::Text("Joueur 2");
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Forme").x) * 0.5f);
-    ImGui::Combo("Forme", &player2Shape, shapes, IM_ARRAYSIZE(shapes));
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Couleur").x) * 0.5f);
-    ImGui::Combo("Couleur", &player2Color, colors, IM_ARRAYSIZE(colors));
+    textWidth = ImGui::CalcTextSize("Joueur 2").x;
+    ImGui::SetCursorPosX((windowWidth - comboWidth) / 2);
+    ImGui::Combo("Forme2", &player2Shape, shapes, IM_ARRAYSIZE(shapes));
+    ImGui::SetCursorPosX((windowWidth - comboWidth) / 2);
+    ImGui::Combo("Couleur2", &player2Color, colors, IM_ARRAYSIZE(colors));
 
     ImGui::PopStyleColor();
-
     ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
     ImGui::SetCursorPosX(ImGui::GetWindowSize().x - 250);
 
     if (ImGui::Button("Start", ImVec2(200, 50)))
     {
-        gamestate = GameState::Game;
-        graphic = *(new Graphic(window, renderer));
+        if (player1Shape != player2Shape || player1Color != player2Color)
+        {
+            gamestate = GameState::Game;
+
+            char shape1;
+            char shape2;
+            if (shapes[player1Shape] == "Croix")
+            {
+                shape1 = 'X';
+            }
+            else if (shapes[player1Shape] == "Rond")
+            {
+                shape1 = 'O';
+            }
+            else if (shapes[player1Shape] == "Triangle")
+            {
+                shape1 = 'T';
+            }
+            else
+            {
+                shape1 = 'C';
+            }
+
+            if (shapes[player2Shape] == "Croix")
+            {
+                shape2 = 'X';
+            }
+            else if (shapes[player2Shape] == "Rond")
+            {
+
+                shape2 = 'O';
+            }
+            else if (shapes[player2Shape] == "Triangle")
+            {
+                shape2 = 'T';
+            }
+            else
+            {
+                shape2 = 'C';
+            }
+            if (shape1 != shape2 && colors[player1Color] != colors[player2Color])
+            {
+                Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
+                Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
+                graphic = *(new Graphic(window, renderer, player1, player2));
+            }
+        }
     }
 
     ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
@@ -268,7 +324,7 @@ void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_W
     {
         gamestate = GameState::ChooseGameMode;
     }
-    ImGui::PopStyleColor(); // Restore default text color
+    ImGui::PopStyleColor();
 
     ImGui::End();
 }
@@ -283,10 +339,9 @@ void gameCreation(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Eve
         }
     }
 
-    // Draw with OpenGL
     glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     ImGui_ImplOpenGL3_NewFrame();

@@ -27,6 +27,8 @@ public:
      */
     GridGraphic(/* args */);
 
+    GridGraphic(Player player1, Player player2);
+
     /**
      * @brief Destructor for the GridGraphic class.
      */

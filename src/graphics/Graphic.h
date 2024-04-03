@@ -51,6 +51,8 @@ public:
      */
     Graphic();
 
+    Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Player player2);
+
     Graphic(SDL_Window *window, SDL_Renderer *renderer);
 
     /**
@@ -240,6 +242,8 @@ public:
     void drawArrow(int x1, int y1, int x2, int y2, int size, int thickness, std::string sens);
     void handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
     GridGraphic &getGrid() { return grid; };
+    void drawSquare(int x, int y, int h, int thickness, Player player);
+    void drawTriangle(int x, int y, int h, int thickness, Player player);
 };
 
 #endif // GRAPHIC

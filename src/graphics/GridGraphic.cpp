@@ -11,6 +11,14 @@ GridGraphic::~GridGraphic()
 {
 }
 
+GridGraphic::GridGraphic(Player player1, Player player2)
+{
+    std::vector<Player> players;
+    players.push_back(player1);
+    players.push_back(player2);
+    this->game = Game(players);
+}
+
 void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
 {
     std::vector<std::vector<Case *>> grid = this->game.getGrid(0).getCases();

@@ -69,6 +69,42 @@ Graphic::Graphic()
     this->cardClicked = nullptr;
 }
 
+Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Player player2)
+{
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        exit(1);
+    }
+    this->window = window;
+    this->renderer = renderer;
+    color = {0, 0, 0, 255};
+    this->font = TTF_OpenFont("../font/dogica.ttf", 10);
+    if (font == nullptr)
+    {
+        std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
+        exit(1);
+    }
+
+    fontColor = {0, 0, 0, 255};
+    fontSize = 10;
+    fontStyle = TTF_STYLE_NORMAL;
+    this->grid = GridGraphic(player1, player2);
+    this->grid.setInitialGridSize(3, 3);
+
+    deckPart.x = 200;
+    deckPart.y = 850;
+    deckPart.w = 1500;
+    deckPart.h = 300;
+
+    pioche.x = 10;
+    pioche.y = 500;
+    pioche.w = 100;
+    pioche.h = 150;
+
+    this->cardClicked = nullptr;
+}
+
 Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -104,7 +140,6 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer)
 
     this->cardClicked = nullptr;
 }
-
 Graphic::~Graphic()
 {
 }
@@ -220,6 +255,45 @@ void Graphic::setFontStyle(int style)
     TTF_SetFontStyle(font, style);
 }
 
+void Graphic::drawTriangle(int x, int y, int h, int thickness, Player player)
+{
+    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
+    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
+
+    int x1 = x - h / 2;
+    int y1 = y + h / 2;
+    int x2 = x + h / 2;
+    int y2 = y + h / 2;
+    int x3 = x;
+    int y3 = y - h / 2;
+
+    // Dessin des côtés du triangle
+    SDL_RenderDrawLine(renderer, x1, y1, x2, y2); // Bas
+    SDL_RenderDrawLine(renderer, x2, y2, x3, y3); // Droite
+    SDL_RenderDrawLine(renderer, x3, y3, x1, y1); // Gauche
+}
+
+void Graphic::drawSquare(int x, int y, int sideLength, int thickness, Player player)
+{
+    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
+    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
+
+    int halfSideLength = sideLength / 2;
+    int startX = x - halfSideLength;
+    int startY = y - halfSideLength;
+
+    for (int i = 0; i < sideLength; ++i)
+    {
+        for (int j = 0; j < sideLength; ++j)
+        {
+            if (i == 0 || i == sideLength - 1 || j == 0 || j == sideLength - 1)
+            {
+                SDL_RenderDrawPoint(renderer, startX + j, startY + i);
+            }
+        }
+    }
+}
+
 void Graphic::drawPlayer(int x, int y, int radius, int thickness, Player player)
 {
     std::tuple<int, int, int> colorPlayer = player.stringToRgb();
@@ -228,9 +302,17 @@ void Graphic::drawPlayer(int x, int y, int radius, int thickness, Player player)
     {
         drawCross(x, y, radius, thickness, player);
     }
-    else
+    else if (player.getSymbol() == "O")
     {
         drawCircle(x, y, radius, thickness, player);
+    }
+    else if (player.getSymbol() == "T")
+    {
+        drawTriangle(x, y, radius, thickness, player);
+    }
+    else if (player.getSymbol() == "C")
+    {
+        drawSquare(x, y, 50, thickness, player);
     }
 }
 

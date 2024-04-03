@@ -14,6 +14,13 @@ Game::Game()
     this->currentPlayer = this->players[0];
 }
 
+Game::Game(std::vector<Player> players)
+{
+    this->players = players;
+    this->grids.push_back(Grid());
+    this->currentPlayer = this->players[0];
+}
+
 Game::~Game()
 {
 }
@@ -40,7 +47,7 @@ void Game::setGrid(int index, const Grid &grid)
 
 void Game::switchPlayer()
 {
-    if (this->currentPlayer.getSymbol() == "X")
+    if (this->currentPlayer.getSymbol() == this->players[0].getSymbol())
     {
         this->currentPlayer = this->players[1];
     }

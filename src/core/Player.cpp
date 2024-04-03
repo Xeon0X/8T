@@ -38,15 +38,15 @@ std::string Player::getColor()
 
 std::tuple<int, int, int> Player::stringToRgb()
 {
-    if (this->color == "red")
+    if (this->color == "Rouge")
     {
         return std::make_tuple(255, 0, 0);
     }
-    else if (this->color == "green")
+    else if (this->color == "Vert")
     {
         return std::make_tuple(0, 255, 0);
     }
-    else if (this->color == "blue")
+    else if (this->color == "Bleu")
     {
         return std::make_tuple(0, 0, 255);
     }

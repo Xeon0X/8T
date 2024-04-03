@@ -31,7 +31,7 @@ public:
      * @param grids
      * @param players
      */
-    Game(std::vector<Grid> grids, std::vector<Player> players);
+    Game(std::vector<Player> players);
 
     /**
      * @brief Destroy the Game object
