@@ -75,7 +75,7 @@ public:
         rules.canPlacePiece = true;
         if (grid.isGridFull()) {
             grid.nextGlobalRule(); // Do not wait for player input
-            std::cout << "NEXT!";
+            rules.canPlacePiece = false;
         }
         
         grid.setRules(rules);
@@ -96,7 +96,10 @@ public:
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canPlayCard = true;
-        // grid.nextGlobalRule(); // Wait for player input
+        if(game.getCurrentPlayer().getDeck(CurrentGrid).getCards().empty()) {
+            grid.nextGlobalRule(); // Do not wait for player input
+            rules.canPlayCard = false;
+        }
         grid.setRules(rules);
         game.setGrid(CurrentGrid, grid);
     }
