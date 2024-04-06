@@ -377,7 +377,7 @@ bool Graphic::MouseClickInterface(int x, int y)
 
 void Graphic::gameloop()
 {
-    if (time > 250)
+    if (time > 50)
     { // Wait to see the operation
         time = 0;
         int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
