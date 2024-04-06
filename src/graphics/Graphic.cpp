@@ -361,7 +361,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
                     rules.canPlacePiece = false;
                     grid.setRules(rules);
                     grid.nextGlobalRule();
-                    std::cout << "next\n";
+
                     game.setGrid(CurrentGrid, grid);
                     game.createAndSetPiece(cellX, cellY, CurrentGrid);
 

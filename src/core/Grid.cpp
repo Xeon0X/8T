@@ -34,12 +34,12 @@ void Grid::setCases(std::vector<std::vector<Case *>> cases)
     this->cases = cases;
 }
 
-int Grid::getGridWidth()
+int Grid::getGridWidth() const
 {
     return this->cases[0].size();
 }
 
-int Grid::getGridHeight()
+int Grid::getGridHeight() const
 {
     return this->cases.size();
 }
@@ -49,7 +49,7 @@ void Grid::setCase(int x, int y, Case *c)
     this->cases[y][x] = c;
 }
 
-Case *Grid::getCase(int x, int y)
+Case *Grid::getCase(int x, int y) const
 {
     return this->cases[y][x];
 }
@@ -182,4 +182,15 @@ void Grid::resetCurrentGlobalRuleIteration()
 void Grid::nextGlobalRule()
 {
     this->currentGlobalRule = (this->currentGlobalRule + 1) % (this->globalRules.size());
+}
+
+bool Grid::isGridFull() const {
+    for (int x = 0; x<this->getGridWidth(); x++) {
+        for (int y = 0; y<this->getGridHeight(); y++) {
+            if (this->getCase(x, y)->isPiecesEmpty()) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

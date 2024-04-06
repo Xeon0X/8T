@@ -71,14 +71,14 @@ public:
      *
      * @return int
      */
-    int getGridWidth();
+    int getGridWidth() const;
 
     /**
      * @brief Get the height of the grid
      *
      * @return int
      */
-    int getGridHeight();
+    int getGridHeight() const;
 
     /**
      * @brief Set the number of pieces to align to win
@@ -121,7 +121,7 @@ public:
      * @param y
      * @return Case
      */
-    Case *getCase(int x, int y);
+    Case *getCase(int x, int y) const;
 
     /**
      * @brief Reset the grid
@@ -160,6 +160,8 @@ public:
     void addCurrentGlobalRuleIteration();
     void resetCurrentGlobalRuleIteration();
     void nextGlobalRule();
+
+    bool isGridFull() const;
 };
 
 #endif // GRID

@@ -33,7 +33,6 @@ public:
     ~CardDrawCard(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "Draw a card...\n";
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canDrawCard = true;
@@ -71,11 +70,14 @@ public:
     ~CardPlacePiece(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {   
-        std::cout << "Place a piece...\n";
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canPlacePiece = true;
-        // grid.nextGlobalRule(); // Wait for player input
+        if (grid.isGridFull()) {
+            grid.nextGlobalRule(); // Do not wait for player input
+            std::cout << "NEXT!";
+        }
+        
         grid.setRules(rules);
         game.setGrid(CurrentGrid, grid);
     }
@@ -91,7 +93,6 @@ public:
     ~CardPlayCard(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "Play a card...\n";
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canPlayCard = true;
