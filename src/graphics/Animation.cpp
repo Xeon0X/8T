@@ -17,6 +17,7 @@ void Graphic::animatePLayerGravity(int x1, int y1, int x2, int y2, int r, int th
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderFillRect(renderer, &whiteRect);
         this->grid.drawDeck(renderer, *this);
+
         drawPlayer(actualX, actualY, r, thickness, player);
         actualY += 1;
         this->present();

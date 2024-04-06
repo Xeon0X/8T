@@ -1,8 +1,6 @@
 #include "Graphic.h"
 #include "Case.h"
-
 #include <iostream>
-
 #include <SDL2/SDL_image.h>
 Graphic::Graphic()
 {
@@ -475,8 +473,11 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
             if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "DrawCard")
             {
                 std::cout << grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName();
+                std::cout << "Draw a card\n"
+                          << std::endl;
                 grid.nextGlobalRule();
                 GridRules rules = grid.getRules();
+
                 rules.canDrawCard = false;
                 grid.setRules(rules);
                 game.setGrid(0, grid);
@@ -663,8 +664,12 @@ void Graphic::handleCheckWin(int cellX, int cellY, Game game)
     Grid grid = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
     if (grid.checkWin(game.getCurrentPlayer(), cellX, cellY))
     {
-        std::cout << "Player " << game.getCurrentPlayer().getSymbol() << " wins" << std::endl;
+        Player player = game.getCurrentPlayer();
+        player.setScore(player.getScore() + 1);
+        game.setCurrentPlayer(player);
+        game.replacePlayer(player);
     }
+    this->grid.setGame(game);
 }
 
 void Graphic::eventHolder(GameState &gamestate)

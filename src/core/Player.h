@@ -27,6 +27,7 @@ private:
     int currentGrid;             /**< Current grid of the player */
     std::vector<Deck> decks;     /**< Decks of the player */
     PlayerEffects playerEffects; /**< Effects of the player */
+    int score;
 
 public:
     /**
@@ -102,6 +103,8 @@ public:
 
     void drawCard();
     void setDeck(int index, Deck deck);
+    int getScore();
+    void setScore(int score);
 };
 
 #endif // PLAYER

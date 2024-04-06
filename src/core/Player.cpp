@@ -80,3 +80,13 @@ void Player::setDeck(int index, Deck deck)
 {
     this->decks[index] = deck;
 }
+
+int Player::getScore()
+{
+    return this->score;
+}
+
+void Player::setScore(int score)
+{
+    this->score = score;
+}

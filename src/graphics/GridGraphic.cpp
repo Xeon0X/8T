@@ -289,6 +289,12 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
         graphic.drawText(currendCard.c_str(), 100, 200);
     }
 
+    std::string scorePlayer1 = "Score player 1: " + std::to_string(this->game.getPlayer()[0].getScore());
+    graphic.drawText(scorePlayer1.c_str(), 100, 250);
+
+    std::string scorePlayer2 = "Score player 2: " + std::to_string(this->game.getPlayer()[1].getScore());
+    graphic.drawText(scorePlayer2.c_str(), 100, 300);
+
     for (unsigned int i = 0; i < grid.size(); i++)
     {
         for (unsigned int j = 0; j < grid[i].size(); j++)
@@ -353,6 +359,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
 
         // SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderCopy(renderer, cardsTextures[deck.getCards()[i]->getId() - 1], NULL, &rect);
+
         // std::string text = deck.getCards()[i]->getName();
         // const char *cstr = text.c_str();
         // graphic.drawText(cstr, cardX + 10, cardY + 50);

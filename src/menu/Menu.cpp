@@ -54,7 +54,7 @@ void menu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event &even
         }
     }
     ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(window);
+    ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
     drawMenu(io, gamestate, graphic, renderer, window);
     ImGui::Render();
@@ -122,7 +122,7 @@ void chooseGameModeMenu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, S
         }
     }
     ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(window);
+    ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
     drawChooseGameModeMenu(io, gamestate, graphic, window, renderer);
     ImGui::Render();
@@ -190,7 +190,7 @@ void pauseMenu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event 
         }
     }
     ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(window);
+    ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
     drawPauseMenu(io, gamestate, graphic);
     ImGui::Render();
@@ -268,7 +268,7 @@ void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_W
 
     if (ImGui::Button("Start", ImVec2(200, 50)))
     {
-        if (player1Shape != player2Shape || player1Color != player2Color)
+        if (player1Shape != player2Shape && player1Color != player2Color)
         {
             gamestate = GameState::Game;
 
@@ -345,7 +345,7 @@ void gameCreation(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Eve
     glClear(GL_COLOR_BUFFER_BIT);
 
     ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(window);
+    ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
     drawGameCreation(io, gamestate, graphic, window, renderer);
     ImGui::Render();

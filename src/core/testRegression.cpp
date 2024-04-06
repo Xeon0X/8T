@@ -4,6 +4,7 @@
 
 void TestRegression()
 {
+
     Game game;
     Grid grid = game.getGrid(0);
     assert(grid.getGridHeight() == 3);
