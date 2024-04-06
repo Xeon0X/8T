@@ -3,6 +3,7 @@
 #include "Piece.h"
 #include "Case.h"
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_image.h>
 #include <string>
 
 GridGraphic::GridGraphic(/* args */)
@@ -13,12 +14,246 @@ GridGraphic::~GridGraphic()
 {
 }
 
-GridGraphic::GridGraphic(Player player1, Player player2)
+void addTexturePlayer(SDL_Renderer *renderer, std::vector<SDL_Texture *> &playerTextures, Player player1)
+{
+    if (player1.getSymbol() == "X")
+    {
+        if (player1.getColor() == "Rouge")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_cross_red.png");
+            if (surface == nullptr)
+            {
+                printf("Error: %s\n", IMG_GetError());
+            }
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            if (texture == nullptr)
+            {
+                printf("Error: %s\n", SDL_GetError());
+            }
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Bleu")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_cross_blue.png");
+            if (surface == nullptr)
+            {
+                printf("Error: %s\n", IMG_GetError());
+            }
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Vert")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_cross_green.png");
+            if (surface == nullptr)
+            {
+                printf("Error: %s\n", IMG_GetError());
+            }
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Jaune")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_cross_yellow.png");
+            if (surface == nullptr)
+            {
+                printf("Error: %s\n", IMG_GetError());
+            }
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+    }
+    else if (player1.getSymbol() == "O")
+    {
+        if (player1.getColor() == "Rouge")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_circle_red.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Bleu")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_circle_blue.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Vert")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_circle_green.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Jaune")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_circle_yellow.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+    }
+    else if (player1.getSymbol() == "T")
+    {
+        if (player1.getColor() == "Rouge")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_triangle_red.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Bleu")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_triangle_blue.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Vert")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_triangle_green.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Jaune")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_triangle_yellow.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+    }
+    else
+    {
+        if (player1.getColor() == "Rouge")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_cube_red.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Bleu")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_cube_blue.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Vert")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_cube_green.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+
+            playerTextures.push_back(texture);
+        }
+        else if (player1.getColor() == "Jaune")
+        {
+            SDL_Surface *surface = IMG_Load("../data/images/piece_cube_yellow.png");
+            SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+            SDL_FreeSurface(surface);
+            playerTextures.push_back(texture);
+        }
+    }
+
+    std::cout << playerTextures.size() << std::endl;
+}
+
+GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
 {
     std::vector<Player> players;
     players.push_back(player1);
     players.push_back(player2);
     this->game = Game(players);
+
+    addTexturePlayer(renderer, this->playerTextures, player1);
+    std::cout << playerTextures.size() << std::endl;
+
+    addTexturePlayer(renderer, this->playerTextures, player2);
+    std::cout << playerTextures.size() << std::endl;
+
+    SDL_Surface *surface = IMG_Load("../data/images/card_draw.png");
+    this->deckTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/case.png");
+    this->caseTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+}
+
+void GridGraphic::initCardTexture(SDL_Renderer *renderer)
+{
+    SDL_Surface *surface = IMG_Load("../data/images/card_gravity.png");
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_addline.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_addrow.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_turn.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_removeLine.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_removeRow.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_place.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_play.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_draw.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_switch.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
 }
 
 void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
@@ -39,7 +274,7 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
 
-    std::string currentRule= "Current rule: " + std::to_string(this->game.getGrid(0).getCurrentGlobalRule());
+    std::string currentRule = "Current rule: " + std::to_string(this->game.getGrid(0).getCurrentGlobalRule());
     graphic.drawText(currentRule.c_str(), 100, 50);
 
     std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
@@ -66,14 +301,15 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
                 SDL_Rect rect = {(int)(startX + j * 100 + this->gridX - t), (int)(startY + i * 100 + this->gridY - t), 100 + 2 * t, 100 + 2 * t};
-                SDL_RenderDrawRect(renderer, &rect);
+                SDL_RenderCopy(renderer, caseTexture, NULL, &rect);
                 if (pieces.size() > 0)
                 {
                     for (unsigned int k = 0; k < players.size(); k++)
                     {
                         if (players[k].getSymbol() == pieces[0].getSymbol())
                         {
-                            graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
+                            SDL_RenderCopy(renderer, playerTextures[k], NULL, &rect);
+                            // graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                         }
                     }
                 }
@@ -114,10 +350,12 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
             cardHeight += 20;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
-        SDL_RenderDrawRect(renderer, &rect);
-        std::string text = deck.getCards()[i]->getName();
-        const char *cstr = text.c_str();
-        graphic.drawText(cstr, cardX + 10, cardY + 50);
+
+        // SDL_RenderDrawRect(renderer, &rect);
+        SDL_RenderCopy(renderer, cardsTextures[deck.getCards()[i]->getId() - 1], NULL, &rect);
+        // std::string text = deck.getCards()[i]->getName();
+        // const char *cstr = text.c_str();
+        // graphic.drawText(cstr, cardX + 10, cardY + 50);
     }
 }
 
@@ -134,19 +372,23 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
         int cardWidth = 100;
         int cardHeight = 150;
 
-        if (grid.getCurrentGlobalRule() == i) {
+        if (grid.getCurrentGlobalRule() == i)
+        {
             cardY -= 10;
             cardX -= 5;
             cardWidth += 10;
             cardHeight += 20;
-        } 
+        }
+        SDL_Texture *texture = nullptr;
+        SDL_Surface *surface = nullptr;
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
-        SDL_RenderDrawRect(renderer, &rect);
-        std::string text = grid.getGlobalRules()[i]->getName();
-        const char *cstr = text.c_str();
-        graphic.drawText(cstr, cardX + 10, cardY + 50);
+        SDL_RenderCopy(renderer, cardsTextures[grid.getGlobalRules()[i]->getId() - 1], NULL, &rect);
+        // SDL_RenderDrawRect(renderer, &rect);
+        SDL_FreeSurface(surface);
+        // std::string text = grid.getGlobalRules()[i]->getName();
+        // const char *cstr = text.c_str();
+        // graphic.drawText(cstr, cardX + 10, cardY + 50);
     }
 }
 

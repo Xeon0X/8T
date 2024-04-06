@@ -1,7 +1,9 @@
 #include "Graphic.h"
 #include "Case.h"
+
 #include <iostream>
 
+#include <SDL2/SDL_image.h>
 Graphic::Graphic()
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -55,6 +57,7 @@ Graphic::Graphic()
     fontStyle = TTF_STYLE_NORMAL;
     this->grid = GridGraphic();
     this->grid.setInitialGridSize(3, 3);
+    this->grid.initCardTexture(renderer);
 
     deckPart.x = 200;
     deckPart.y = 850;
@@ -63,8 +66,8 @@ Graphic::Graphic()
 
     pioche.x = 10;
     pioche.y = 500;
-    pioche.w = 100;
-    pioche.h = 150;
+    pioche.w = 150;
+    pioche.h = 200;
 
     globalRuleButton.x = 100;
     globalRuleButton.y = 300;
@@ -94,7 +97,9 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     fontColor = {0, 0, 0, 255};
     fontSize = 10;
     fontStyle = TTF_STYLE_NORMAL;
-    this->grid = GridGraphic(player1, player2);
+    this->grid = GridGraphic(renderer, player1, player2);
+    this->grid.initCardTexture(renderer);
+
     this->grid.setInitialGridSize(3, 3);
 
     deckPart.x = 200;
@@ -104,49 +109,13 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
 
     pioche.x = 10;
     pioche.y = 500;
-    pioche.w = 100;
-    pioche.h = 150;
+    pioche.w = 150;
+    pioche.h = 200;
 
     globalRuleButton.x = 100;
     globalRuleButton.y = 300;
     globalRuleButton.w = 200;
     globalRuleButton.h = 50;
-
-    this->cardClicked = nullptr;
-}
-
-Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Player player2)
-{
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    {
-        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-        exit(1);
-    }
-    this->window = window;
-    this->renderer = renderer;
-    color = {0, 0, 0, 255};
-    this->font = TTF_OpenFont("../font/dogica.ttf", 10);
-    if (font == nullptr)
-    {
-        std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
-        exit(1);
-    }
-
-    fontColor = {0, 0, 0, 255};
-    fontSize = 10;
-    fontStyle = TTF_STYLE_NORMAL;
-    this->grid = GridGraphic(player1, player2);
-    this->grid.setInitialGridSize(3, 3);
-
-    deckPart.x = 200;
-    deckPart.y = 850;
-    deckPart.w = 1500;
-    deckPart.h = 300;
-
-    pioche.x = 10;
-    pioche.y = 500;
-    pioche.w = 100;
-    pioche.h = 150;
 
     this->cardClicked = nullptr;
 }
@@ -173,6 +142,7 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer)
     fontStyle = TTF_STYLE_NORMAL;
     this->grid = GridGraphic();
     this->grid.setInitialGridSize(3, 3);
+    this->grid.initCardTexture(renderer);
 
     deckPart.x = 200;
     deckPart.y = 850;
@@ -181,8 +151,13 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer)
 
     pioche.x = 10;
     pioche.y = 500;
-    pioche.w = 100;
-    pioche.h = 150;
+    pioche.w = 150;
+    pioche.h = 200;
+
+    globalRuleButton.x = 100;
+    globalRuleButton.y = 300;
+    globalRuleButton.w = 200;
+    globalRuleButton.h = 50;
 
     this->cardClicked = nullptr;
 }
@@ -366,6 +341,7 @@ void Graphic::play(GameState &gamestate)
 {
     while (GameState::Game == gamestate)
     {
+
         time += 1;
         eventHolder(gamestate);
         clear();
@@ -401,7 +377,8 @@ bool Graphic::MouseClickInterface(int x, int y)
 
 void Graphic::gameloop()
 {
-    if (time > 500) { // Wait to see the operation
+    if (time > 250)
+    { // Wait to see the operation
         time = 0;
         int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
         Player player = this->grid.getGame().getCurrentPlayer();
@@ -451,7 +428,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     handleGlobalRuleButtonClick(mouseX, mouseY, screenWidth, screenHeight);
 
     // Play a card
-    if (grid.getRules().canPlayCard) 
+    if (grid.getRules().canPlayCard)
     {
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
@@ -471,7 +448,8 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
                 }
                 else
                 {
-                    std::cout << "Card clicked\n" << std::endl;
+                    std::cout << "Card clicked\n"
+                              << std::endl;
                     this->isCardClicked = true;
                     this->setCard(deck.getCards()[i]);
                     this->grid.setGame(game); // Update the grid with next global rule
@@ -494,7 +472,8 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     {
         if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
         {
-            if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "DrawCard") {
+            if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "DrawCard")
+            {
                 std::cout << grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName();
                 grid.nextGlobalRule();
                 GridRules rules = grid.getRules();
@@ -511,17 +490,21 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     }
 
     // Place a piece
-    if (grid.getRules().canPlacePiece) {
+    if (grid.getRules().canPlacePiece)
+    {
         if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
         {
-            if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "PlacePiece") {
+            if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "PlacePiece")
+            {
                 if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
                 {
                     if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
                     {
                         // TODO : working with multiple pieces on one case
                     }
-                } else { // Place a piece on a new piece
+                }
+                else
+                { // Place a piece on a new piece
                     GridRules rules = grid.getRules();
                     rules.canPlacePiece = false;
                     grid.setRules(rules);
@@ -638,7 +621,6 @@ void Graphic::handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidt
     Player player = this->grid.getGame().getCurrentPlayer();
     int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
     Grid grid = this->grid.getGame().getGrid(CurrentGrid);
-
 
     if (CoIncid(mouseX, mouseY, globalRuleButton.x, globalRuleButton.y, globalRuleButton.x + globalRuleButton.w, globalRuleButton.y + globalRuleButton.h))
     {

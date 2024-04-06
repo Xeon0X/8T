@@ -21,14 +21,17 @@ private:
     int initialGridX;
     int initialGridY;
 
+    std::vector<SDL_Texture *> playerTextures, cardsTextures;
+    SDL_Texture *deckTexture;
+    SDL_Texture *caseTexture;
+
 public:
     /**
      * @brief Constructor for the GridGraphic class.
      */
     GridGraphic(/* args */);
 
-    GridGraphic(Player player1, Player player2);
-
+    GridGraphic(SDL_Renderer *renderer, Player player1, Player player2);
     /**
      * @brief Destructor for the GridGraphic class.
      */
@@ -105,6 +108,7 @@ public:
     void drawPioche(SDL_Renderer *renderer, Graphic &graphic);
     void drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic);
     void drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic);
+    void initCardTexture(SDL_Renderer *renderer);
 };
 
 #endif // GRAPHIC_GRID

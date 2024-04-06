@@ -13,13 +13,18 @@ class Player;
 
 enum
 {
+    Id,
     GravityId,
     AddLineId,
     AddColumnId,
     TurnGridId,
     RemoveLineId,
     RemoveColumnId,
-    TestId
+    PlacePieceId,
+    PlayCardId,
+    DrawCardId,
+    SwitchPlayerId
+
 };
 class Card
 {

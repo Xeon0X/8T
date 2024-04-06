@@ -3,7 +3,6 @@
 #include "./rules/GlobalRules.hpp"
 #include "./rules/RulesRare.hpp"
 
-
 Grid::Grid()
 {
     for (int i = 0; i < 3; i++)
@@ -119,22 +118,22 @@ void Grid::createGlobalRules()
     // this->addGlobalRule(card);
     // CardPlacePiece *card3 = new CardPlacePiece("PlacePiece", "Pose une pièce", 1);
     // this->addGlobalRule(card3);
-    CardPlacePiece *card8 = new CardPlacePiece("PlacePiece", "Pose une pièce", 1);
+    CardPlacePiece *card8 = new CardPlacePiece("PlacePiece", "Pose une pièce", 7);
     this->addGlobalRule(card8);
-    CardPlayCard *card4 = new CardPlayCard("PlayCard", "Joue une carte", 1);
+    CardPlayCard *card4 = new CardPlayCard("PlayCard", "Joue une carte", 8);
     this->addGlobalRule(card4);
-    CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 1);
+    CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 9);
     this->addGlobalRule(card1);
     CardGravity *card5 = new CardGravity("Gravity", "Applique la gravité", 1);
     this->addGlobalRule(card5);
-    CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 1);
+    CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
     this->addGlobalRule(card2);
-
 }
 
-std::vector<Card *> Grid::getGlobalRules(){
-        return this->globalRules;
-    }
+std::vector<Card *> Grid::getGlobalRules()
+{
+    return this->globalRules;
+}
 
 void Grid::showGridTerminal()
 {
@@ -185,10 +184,14 @@ void Grid::nextGlobalRule()
     this->currentGlobalRule = (this->currentGlobalRule + 1) % (this->globalRules.size());
 }
 
-bool Grid::isGridFull() const {
-    for (int x = 0; x<this->getGridWidth(); x++) {
-        for (int y = 0; y<this->getGridHeight(); y++) {
-            if (this->getCase(x, y)->isPiecesEmpty()) {
+bool Grid::isGridFull() const
+{
+    for (int x = 0; x < this->getGridWidth(); x++)
+    {
+        for (int y = 0; y < this->getGridHeight(); y++)
+        {
+            if (this->getCase(x, y)->isPiecesEmpty())
+            {
                 return false;
             }
         }
