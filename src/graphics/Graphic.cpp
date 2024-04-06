@@ -527,92 +527,94 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
 void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
 {
-    std::vector<std::vector<Case *>> grid = this->grid.getGame().getGrid(0).getCases();
-    int GridWidth = grid[0].size() * 100;
-    int GridHeight = grid.size() * 100;
-    int startX = (screenWidth - GridWidth) / 2;
-    int startY = (screenHeight - GridHeight) / 2;
-
-    int endX = startX + GridWidth;
-    int endY = startY + GridHeight;
-
-    int arrowUpX = startX + GridWidth / 2 - 5 + this->grid.getGridX();
-    int arrowUpY = startY - 50 + this->grid.getGridY();
-    int arrowUpWidth = 10;
-    int arrowUpHeight = 50;
-
-    int arrowDownX = startX + GridWidth / 2 - 5 + this->grid.getGridX();
-    int arrowDownY = endY + this->grid.getGridY();
-    int arrowDownWidth = 10;
-    int arrowDownHeight = 50;
-
-    int arrowLeftX = startX - 50 + this->grid.getGridX();
-    int arrowLeftY = startY + GridHeight / 2 - 5 + this->grid.getGridY();
-    int arrowLeftWidth = 50;
-    int arrowLeftHeight = 10;
-
-    int arrowRightX = endX + this->grid.getGridX();
-    int arrowRightY = startY + GridHeight / 2 - 5 + this->grid.getGridY();
-    int arrowRightWidth = 50;
-    int arrowRightHeight = 10;
-
     Player player = this->grid.getGame().getCurrentPlayer();
-
-    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
-
-    if (CoIncid(mouseX, mouseY, arrowUpX, arrowUpY, arrowUpX + arrowUpWidth, arrowUpY + arrowUpHeight))
+    int CurrentGrid = player.getCurrentGrid();
+    Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
+    GridRules rules = gridForRules.getRules();
+    
+    if (rules.canPlayCard) 
     {
-        this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "up");
-        this->deleteCard();
-        this->isCardClicked = false;
+        std::vector<std::vector<Case *>> grid = this->grid.getGame().getGrid(0).getCases();
+        int GridWidth = grid[0].size() * 100;
+        int GridHeight = grid.size() * 100;
+        int startX = (screenWidth - GridWidth) / 2;
+        int startY = (screenHeight - GridHeight) / 2;
 
-        Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
-        gridForRules.nextGlobalRule();
-        GridRules rules = gridForRules.getRules();
-        rules.canPlayCard = false;
-        gridForRules.setRules(rules);
-        this->grid.getGame().setGrid(CurrentGrid, gridForRules);
-    }
-    else if (CoIncid(mouseX, mouseY, arrowDownX, arrowDownY, arrowDownX + arrowDownWidth, arrowDownY + arrowDownHeight))
-    {
-        this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
-        this->deleteCard();
-        this->isCardClicked = false;
+        int endX = startX + GridWidth;
+        int endY = startY + GridHeight;
 
-        Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
-        gridForRules.nextGlobalRule();
-        GridRules rules = gridForRules.getRules();
-        rules.canPlayCard = false;
-        gridForRules.setRules(rules);
-        this->grid.getGame().setGrid(CurrentGrid, gridForRules);
-    }
-    else if (CoIncid(mouseX, mouseY, arrowLeftX, arrowLeftY, arrowLeftX + arrowLeftWidth, arrowLeftY + arrowLeftHeight))
-    {
+        int arrowUpX = startX + GridWidth / 2 - 5 + this->grid.getGridX();
+        int arrowUpY = startY - 50 + this->grid.getGridY();
+        int arrowUpWidth = 10;
+        int arrowUpHeight = 50;
 
-        this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "left");
-        this->deleteCard();
-        this->isCardClicked = false;
+        int arrowDownX = startX + GridWidth / 2 - 5 + this->grid.getGridX();
+        int arrowDownY = endY + this->grid.getGridY();
+        int arrowDownWidth = 10;
+        int arrowDownHeight = 50;
 
-        Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
-        gridForRules.nextGlobalRule();
-        GridRules rules = gridForRules.getRules();
-        rules.canPlayCard = false;
-        gridForRules.setRules(rules);
-        this->grid.getGame().setGrid(CurrentGrid, gridForRules);
-    }
-    else if (CoIncid(mouseX, mouseY, arrowRightX, arrowRightY, arrowRightX + arrowRightWidth, arrowRightY + arrowRightHeight))
-    {
+        int arrowLeftX = startX - 50 + this->grid.getGridX();
+        int arrowLeftY = startY + GridHeight / 2 - 5 + this->grid.getGridY();
+        int arrowLeftWidth = 50;
+        int arrowLeftHeight = 10;
 
-        this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "right");
-        this->deleteCard();
-        this->isCardClicked = false;
+        int arrowRightX = endX + this->grid.getGridX();
+        int arrowRightY = startY + GridHeight / 2 - 5 + this->grid.getGridY();
+        int arrowRightWidth = 50;
+        int arrowRightHeight = 10;
 
-        Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
-        gridForRules.nextGlobalRule();
-        GridRules rules = gridForRules.getRules();
-        rules.canPlayCard = false;
-        gridForRules.setRules(rules);
-        this->grid.getGame().setGrid(CurrentGrid, gridForRules);
+        int x, y, h, w;
+
+        if (this->isCardClicked) 
+        {
+            std::vector<std::string> directions = this->cardClicked->getArrowDirection();
+            for (int i = 0; i < directions.size(); i++)
+            {
+                if (directions[i] == "up")
+                {
+                    x = arrowUpX;
+                    y = arrowUpY;
+                    h = arrowUpHeight;
+                    w = arrowUpWidth;
+                } else if (directions[i] == "down") 
+                {
+                    x = arrowDownX;
+                    y = arrowDownY;
+                    h = arrowDownHeight;
+                    w = arrowDownWidth;
+                } else if (directions[i] == "left") 
+                {
+                    x = arrowLeftX;
+                    y = arrowLeftY;
+                    h = arrowLeftHeight;
+                    w = arrowLeftWidth;
+                } else if (directions[i] == "right") 
+                {
+                    x = arrowRightX;
+                    y = arrowRightY;
+                    h = arrowRightHeight;
+                    w = arrowRightWidth;
+                }
+
+
+                if (CoIncid(mouseX, mouseY, x, y, x + w, y + h))
+                {
+                    std::cout << "doign" << std::endl;
+                    // this->cardClicked->setGlobalRuleState(false);
+                    this->cardClicked->applyCard(0, 0, CurrentGrid, player, this->grid.getGame(), directions[i]);
+                    this->deleteCard();
+                    this->isCardClicked = false;
+
+                    Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
+                    gridForRules.nextGlobalRule();
+                    GridRules rules = gridForRules.getRules();
+                    rules.canPlayCard = false;
+                    gridForRules.setRules(rules);
+                    this->grid.getGame().setGrid(CurrentGrid, gridForRules);
+                }
+
+            }
+        }
     }
 }
 
@@ -624,6 +626,7 @@ void Graphic::handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidt
 
     if (CoIncid(mouseX, mouseY, globalRuleButton.x, globalRuleButton.y, globalRuleButton.x + globalRuleButton.w, globalRuleButton.y + globalRuleButton.h))
     {
+        this->cardClicked->setGlobalRuleState(true);
         grid.addGlobalRule(this->cardClicked);
         this->deleteCard();
         this->isCardClicked = false;
