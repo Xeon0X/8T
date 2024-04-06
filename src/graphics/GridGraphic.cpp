@@ -2,6 +2,8 @@
 #include "Graphic.h"
 #include "Piece.h"
 #include "Case.h"
+#include <SDL2/SDL_render.h>
+#include <string>
 
 GridGraphic::GridGraphic(/* args */)
 {
@@ -36,6 +38,9 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
 
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
+
+    std::string currentRule= "Current rule: " + std::to_string(this->game.getGrid(0).getCurrentGlobalRule());
+    graphic.drawText(currentRule.c_str(), 100, 50);
 
     std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
     graphic.drawText(mouseCoordinates.c_str(), 100, 100);
@@ -98,18 +103,48 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         int cardX = (i + 1) * 110 + 500;
-        int cardY = 875;
+        int cardY = 775;
         int cardWidth = 100;
         int cardHeight = 150;
         if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == deck.getCards()[i]->getUniqueId())
         {
-            cardY -= 20;
+            cardY -= 10;
+            cardX -= 5;
             cardWidth += 10;
             cardHeight += 20;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderDrawRect(renderer, &rect);
         std::string text = deck.getCards()[i]->getName();
+        const char *cstr = text.c_str();
+        graphic.drawText(cstr, cardX + 10, cardY + 50);
+    }
+}
+
+void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
+{
+    Player player = this->game.getCurrentPlayer();
+    Grid grid = this->game.getGrid(player.getCurrentGrid());
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    for (unsigned int i = 0; i < grid.getGlobalRules().size(); i++)
+    {
+        int cardX = (i + 1) * 110 + 500;
+        int cardY = 75;
+        int cardWidth = 100;
+        int cardHeight = 150;
+
+        if (grid.getCurrentGlobalRule() == i) {
+            cardY -= 10;
+            cardX -= 5;
+            cardWidth += 10;
+            cardHeight += 20;
+        } 
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
+        SDL_RenderDrawRect(renderer, &rect);
+        std::string text = grid.getGlobalRules()[i]->getName();
         const char *cstr = text.c_str();
         graphic.drawText(cstr, cardX + 10, cardY + 50);
     }
@@ -194,5 +229,21 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 }
             }
         }
+    }
+}
+
+void GridGraphic::drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic)
+{
+    std::vector<std::vector<Case *>> grid = this->game.getGrid(0).getCases();
+    int windowWidth, windowHeight;
+    SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
+
+    if (graphic.getCard() != nullptr)
+    {
+
+        Card *card = graphic.getCard();
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderDrawRect(renderer, &graphic.globalRuleButton);
+        graphic.drawText("Add to globalRules", 110, 310);
     }
 }

@@ -10,7 +10,10 @@
 class Case;
 struct GridRules
 {
+    bool canPlayCard = false;
+    bool canPlacePiece = false;
     bool gravity = false;
+    bool canDrawCard = false;
 };
 
 /**
@@ -21,7 +24,9 @@ class Grid
 {
 private:
     std::vector<std::vector<Case *>> cases; /**< Cases of the grid */
-    std::vector<Card> globalRules;          /**< Global rules of the grid */
+    std::vector<Card *> globalRules;        /**< Rules that are applied to the grid and the player, in ordre. */
+    int currentGlobalRule = 0;
+    int currentGlobalRuleIteration = 0;            /**< Use to execute only once the current global rule */
     GridRules rules;                        /**< Rules of the grid */
 
     int nbAlignToWin = 3; /**< Number of pieces to align to win */
@@ -45,7 +50,7 @@ public:
      *
      * @param card
      */
-    void addGlobalRule(Card card);
+    void addGlobalRule(Card *card);
 
     /**
      * @brief Get the global rules of the grid
@@ -66,14 +71,14 @@ public:
      *
      * @return int
      */
-    int getGridWidth();
+    int getGridWidth() const;
 
     /**
      * @brief Get the height of the grid
      *
      * @return int
      */
-    int getGridHeight();
+    int getGridHeight() const;
 
     /**
      * @brief Set the number of pieces to align to win
@@ -116,7 +121,7 @@ public:
      * @param y
      * @return Case
      */
-    Case *getCase(int x, int y);
+    Case *getCase(int x, int y) const;
 
     /**
      * @brief Reset the grid
@@ -129,7 +134,7 @@ public:
      *
      */
     void createGlobalRules();
-
+    std::vector<Card *> getGlobalRules();
     /**
      * @brief Show the grid terminal
      *
@@ -149,6 +154,14 @@ public:
      * @param rules
      */
     void setRules(GridRules rules);
+
+    int getCurrentGlobalRule() const;
+    int getCurrentGlobalRuleIteration() const;
+    void addCurrentGlobalRuleIteration();
+    void resetCurrentGlobalRuleIteration();
+    void nextGlobalRule();
+
+    bool isGridFull() const;
 };
 
 #endif // GRID

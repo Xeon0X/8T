@@ -99,10 +99,12 @@ public:
      * @param graphic The graphic of the game.
      */
     void drawDeck(SDL_Renderer *renderer, Graphic &graphic);
+    void drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic);
     void setInitialGridSize(int width, int height);
     void drawPartInterface(SDL_Renderer *renderer, Graphic &graphic);
     void drawPioche(SDL_Renderer *renderer, Graphic &graphic);
     void drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic);
+    void drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic);
 };
 
 #endif // GRAPHIC_GRID

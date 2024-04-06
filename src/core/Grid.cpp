@@ -1,5 +1,8 @@
 #include "Grid.h"
 #include "Case.h"
+#include "./rules/GlobalRules.hpp"
+#include "./rules/RulesRare.hpp"
+
 
 Grid::Grid()
 {
@@ -31,12 +34,12 @@ void Grid::setCases(std::vector<std::vector<Case *>> cases)
     this->cases = cases;
 }
 
-int Grid::getGridWidth()
+int Grid::getGridWidth() const
 {
     return this->cases[0].size();
 }
 
-int Grid::getGridHeight()
+int Grid::getGridHeight() const
 {
     return this->cases.size();
 }
@@ -46,7 +49,7 @@ void Grid::setCase(int x, int y, Case *c)
     this->cases[y][x] = c;
 }
 
-Case *Grid::getCase(int x, int y)
+Case *Grid::getCase(int x, int y) const
 {
     return this->cases[y][x];
 }
@@ -104,16 +107,34 @@ void Grid::resetGrid()
     }
 }
 
-void Grid::addGlobalRule(Card card)
+void Grid::addGlobalRule(Card *card)
 {
+    card->setGlobalRuleState(true);
     this->globalRules.push_back(card);
 }
 
 void Grid::createGlobalRules()
 {
-    Card card = Card("AlignToWin", "Le nombre d'alignement pour gagner", 1);
-    this->addGlobalRule(card);
+    // CardAlignToWin *card = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 1);
+    // this->addGlobalRule(card);
+    // CardPlacePiece *card3 = new CardPlacePiece("PlacePiece", "Pose une pièce", 1);
+    // this->addGlobalRule(card3);
+    CardPlacePiece *card8 = new CardPlacePiece("PlacePiece", "Pose une pièce", 1);
+    this->addGlobalRule(card8);
+    CardPlayCard *card4 = new CardPlayCard("PlayCard", "Joue une carte", 1);
+    this->addGlobalRule(card4);
+    CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 1);
+    this->addGlobalRule(card1);
+    CardGravity *card5 = new CardGravity("Gravity", "Applique la gravité", 1);
+    this->addGlobalRule(card5);
+    CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 1);
+    this->addGlobalRule(card2);
+
 }
+
+std::vector<Card *> Grid::getGlobalRules(){
+        return this->globalRules;
+    }
 
 void Grid::showGridTerminal()
 {
@@ -137,4 +158,40 @@ GridRules Grid::getRules()
 void Grid::setRules(GridRules rules)
 {
     this->rules = rules;
+}
+
+int Grid::getCurrentGlobalRule() const
+{
+    return this->currentGlobalRule;
+}
+
+int Grid::getCurrentGlobalRuleIteration() const
+{
+    return this->currentGlobalRuleIteration;
+}
+
+void Grid::addCurrentGlobalRuleIteration()
+{
+    this->currentGlobalRuleIteration += 1;
+}
+
+void Grid::resetCurrentGlobalRuleIteration()
+{
+    this->currentGlobalRule = 0;
+}
+
+void Grid::nextGlobalRule()
+{
+    this->currentGlobalRule = (this->currentGlobalRule + 1) % (this->globalRules.size());
+}
+
+bool Grid::isGridFull() const {
+    for (int x = 0; x<this->getGridWidth(); x++) {
+        for (int y = 0; y<this->getGridHeight(); y++) {
+            if (this->getCase(x, y)->isPiecesEmpty()) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

@@ -44,6 +44,8 @@ private:
 public:
     SDL_Rect deckPart;
     SDL_Rect pioche;
+    SDL_Rect globalRuleButton;
+    int time;
     /**
      * @brief Constructor for the Graphic class.
      *
@@ -226,6 +228,11 @@ public:
     void play(GameState &gamestate);
 
     /**
+     * @brief Apply global rules one by one.
+     */
+    void gameloop();
+
+    /**
      * @brief Handle the check win event of the game.
      *
      * @param cellX The x coordinate of the cell to be checked.
@@ -238,9 +245,10 @@ public:
     bool isCardEmpty();
     void deleteCard();
     void setCard(Card *card);
-    Card *getCard();
+    Card *getCard(); // Get the card that is clicked
     void drawArrow(int x1, int y1, int x2, int y2, int size, int thickness, std::string sens);
     void handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
+    void handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
     GridGraphic &getGrid() { return grid; };
     void drawSquare(int x, int y, int h, int thickness, Player player);
     void drawTriangle(int x, int y, int h, int thickness, Player player);

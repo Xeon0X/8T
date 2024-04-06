@@ -67,3 +67,20 @@ std::vector<std::string> Card::getArrowDirection()
 {
     return arrowDirection;
 }
+
+bool Card::isAGlobalRule() const {
+    return this->isGlobalRule;
+}
+
+void Card::setGlobalRuleState(bool state) {
+    this->isGlobalRule = state;
+}
+
+void Card::applyWhenGlobalRule(Game &game, int CurrentGrid) {
+    if (isGlobalRule) {
+            Grid currentGrid = game.getGrid(CurrentGrid);
+            GridRules rules = currentGrid.getRules();
+            currentGrid.nextGlobalRule();
+            game.setGrid(CurrentGrid, currentGrid);
+        }
+}

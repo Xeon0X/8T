@@ -66,6 +66,52 @@ Graphic::Graphic()
     pioche.w = 100;
     pioche.h = 150;
 
+    globalRuleButton.x = 100;
+    globalRuleButton.y = 300;
+    globalRuleButton.w = 200;
+    globalRuleButton.h = 50;
+
+    this->cardClicked = nullptr;
+}
+
+Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Player player2)
+{
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        exit(1);
+    }
+    this->window = window;
+    this->renderer = renderer;
+    color = {0, 0, 0, 255};
+    this->font = TTF_OpenFont("../font/dogica.ttf", 10);
+    if (font == nullptr)
+    {
+        std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
+        exit(1);
+    }
+
+    fontColor = {0, 0, 0, 255};
+    fontSize = 10;
+    fontStyle = TTF_STYLE_NORMAL;
+    this->grid = GridGraphic(player1, player2);
+    this->grid.setInitialGridSize(3, 3);
+
+    deckPart.x = 200;
+    deckPart.y = 850;
+    deckPart.w = 1500;
+    deckPart.h = 300;
+
+    pioche.x = 10;
+    pioche.y = 500;
+    pioche.w = 100;
+    pioche.h = 150;
+
+    globalRuleButton.x = 100;
+    globalRuleButton.y = 300;
+    globalRuleButton.w = 200;
+    globalRuleButton.h = 50;
+
     this->cardClicked = nullptr;
 }
 
@@ -320,6 +366,7 @@ void Graphic::play(GameState &gamestate)
 {
     while (GameState::Game == gamestate)
     {
+        time += 1;
         eventHolder(gamestate);
         clear();
 
@@ -327,9 +374,13 @@ void Graphic::play(GameState &gamestate)
 
         this->grid.drawPartInterface(renderer, *this);
         this->grid.drawDeck(renderer, *this);
+        this->grid.drawGlobalRuleButton(renderer, *this);
+        this->grid.drawGlobalrules(renderer, *this);
         this->grid.drawPioche(renderer, *this);
         this->grid.drawArrowDirection(renderer, *this);
+
         present();
+        gameloop();
     }
 }
 
@@ -346,6 +397,21 @@ bool CoIncid(int x, int y, int x1, int y1, int x2, int y2)
 bool Graphic::MouseClickInterface(int x, int y)
 {
     return CoIncid(x, y, this->deckPart.x, this->deckPart.y, this->deckPart.x + this->deckPart.w, this->deckPart.y + this->deckPart.h);
+}
+
+void Graphic::gameloop()
+{
+    if (time > 500) { // Wait to see the operation
+        time = 0;
+        int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+        Player player = this->grid.getGame().getCurrentPlayer();
+        Deck deck = player.getDeck(player.getCurrentGrid());
+        Game game = this->grid.getGame();
+        Grid grid = game.getGrid(CurrentGrid);
+
+        grid.getGlobalRules()[grid.getCurrentGlobalRule()]->applyCard(0, 0, CurrentGrid, player, game, "default");
+        this->grid.setGame(game);
+    }
 }
 
 void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
@@ -378,75 +444,100 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     Deck deck = player.getDeck(player.getCurrentGrid());
     SDL_GetMouseState(&mouseX, &mouseY);
 
+    Game game = this->grid.getGame();
+    Grid grid = game.getGrid(CurrentGrid);
+
     handleArrowClick(mouseX, mouseY, screenWidth, screenHeight);
+    handleGlobalRuleButtonClick(mouseX, mouseY, screenWidth, screenHeight);
 
-    for (unsigned int i = 0; i < deck.getCards().size(); i++)
+    // Play a card
+    if (grid.getRules().canPlayCard) 
     {
-        int cardX = (i + 1) * 110 + 500;
-        int cardY = 875;
-        int cardWidth = 100;
-        int cardHeight = 150;
-
-        if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
+        for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
-            if (this->cardClicked == deck.getCards()[i])
-            {
-                this->cardClicked = nullptr;
-                this->isCardClicked = false;
+            int cardX = (i + 1) * 110 + 500;
+            int cardY = 775;
+            int cardWidth = 100;
+            int cardHeight = 150;
 
-                break;
-            }
-            else
+            if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
             {
-                std::cout << "Card clicked" << std::endl;
-                this->isCardClicked = true;
-                this->setCard(deck.getCards()[i]);
-                break;
+                if (this->cardClicked == deck.getCards()[i])
+                {
+                    this->cardClicked = nullptr;
+                    this->isCardClicked = false;
+                    game.setGrid(CurrentGrid, grid);
+                    break;
+                }
+                else
+                {
+                    std::cout << "Card clicked\n" << std::endl;
+                    this->isCardClicked = true;
+                    this->setCard(deck.getCards()[i]);
+                    this->grid.setGame(game); // Update the grid with next global rule
+                    break;
+                }
             }
         }
     }
 
-    if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
-    {
-        std::cout << "Pioche clicked" << std::endl;
-        player.drawCard();
-        this->grid.getGame().replacePlayer(player);
-        this->grid.getGame().setCurrentPlayer(player);
-    }
+    // // Checkwin
+    // if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "AlignToWin") {
+    //     handleCheckWin(cellX, cellY, game);
+    //     grid.nextGlobalRule();
+    //     game.setGrid(CurrentGrid, grid);
+    //     this->grid.setGame(game); // Update the grid with next global rule
+    // }
 
-    if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
+    // Draw a card
+    if (grid.getRules().canDrawCard)
     {
-        std::cout << "Cell clicked" << std::endl;
-        std::cout << "CellX: " << cellX << " CellY: " << cellY << std::endl;
-        Game game = this->grid.getGame();
-        Grid grid = game.getGrid(CurrentGrid);
-
-        if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
+        if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
         {
-            if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
-            {
-                game.createAndSetPiece(cellX, cellY, CurrentGrid);
+            if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "DrawCard") {
+                std::cout << grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName();
+                grid.nextGlobalRule();
+                GridRules rules = grid.getRules();
+                rules.canDrawCard = false;
+                grid.setRules(rules);
+                game.setGrid(0, grid);
+                this->grid.setGame(game); // Update the grid with next global rule
+
+                player.drawCard();
+                this->grid.getGame().replacePlayer(player);
+                this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
             }
         }
-        else
+    }
+
+    // Place a piece
+    if (grid.getRules().canPlacePiece) {
+        if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
         {
-            game.createAndSetPiece(cellX, cellY, CurrentGrid);
-            player.getPlayerEffects().posePiece = false;
+            if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "PlacePiece") {
+                if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
+                {
+                    if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
+                    {
+                        // TODO : working with multiple pieces on one case
+                    }
+                } else { // Place a piece on a new piece
+                    GridRules rules = grid.getRules();
+                    rules.canPlacePiece = false;
+                    grid.setRules(rules);
+                    grid.nextGlobalRule();
 
-            game.replacePlayer(player);
-            game.setCurrentPlayer(player);
+                    game.setGrid(CurrentGrid, grid);
+                    game.createAndSetPiece(cellX, cellY, CurrentGrid);
 
-            handleCheckWin(cellX, cellY, game);
-            this->grid.setGame(game);
+                    // TODO : manage player effect
+                    // player.getPlayerEffects().posePiece = false;
+                    // game.replacePlayer(player);
+                    // game.setCurrentPlayer(player);
 
-            game = this->grid.getGame();
-            game.switchPlayer();
-            this->grid.setGame(game);
-        }
-        if (grid.getRules().gravity)
-        {
-            applyGravityAnimation();
-            drawText("Gravity is on", 100, 100);
+                    this->grid.setGame(game);
+                }
+            }
         }
     }
 }
@@ -484,17 +575,33 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
 
     Player player = this->grid.getGame().getCurrentPlayer();
 
+    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+
     if (CoIncid(mouseX, mouseY, arrowUpX, arrowUpY, arrowUpX + arrowUpWidth, arrowUpY + arrowUpHeight))
     {
         this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "up");
         this->deleteCard();
         this->isCardClicked = false;
+
+        Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
+        gridForRules.nextGlobalRule();
+        GridRules rules = gridForRules.getRules();
+        rules.canPlayCard = false;
+        gridForRules.setRules(rules);
+        this->grid.getGame().setGrid(CurrentGrid, gridForRules);
     }
     else if (CoIncid(mouseX, mouseY, arrowDownX, arrowDownY, arrowDownX + arrowDownWidth, arrowDownY + arrowDownHeight))
     {
         this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "down");
         this->deleteCard();
         this->isCardClicked = false;
+
+        Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
+        gridForRules.nextGlobalRule();
+        GridRules rules = gridForRules.getRules();
+        rules.canPlayCard = false;
+        gridForRules.setRules(rules);
+        this->grid.getGame().setGrid(CurrentGrid, gridForRules);
     }
     else if (CoIncid(mouseX, mouseY, arrowLeftX, arrowLeftY, arrowLeftX + arrowLeftWidth, arrowLeftY + arrowLeftHeight))
     {
@@ -502,6 +609,13 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "left");
         this->deleteCard();
         this->isCardClicked = false;
+
+        Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
+        gridForRules.nextGlobalRule();
+        GridRules rules = gridForRules.getRules();
+        rules.canPlayCard = false;
+        gridForRules.setRules(rules);
+        this->grid.getGame().setGrid(CurrentGrid, gridForRules);
     }
     else if (CoIncid(mouseX, mouseY, arrowRightX, arrowRightY, arrowRightX + arrowRightWidth, arrowRightY + arrowRightHeight))
     {
@@ -509,6 +623,34 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         this->cardClicked->applyCard(0, 0, player.getCurrentGrid(), player, this->grid.getGame(), "right");
         this->deleteCard();
         this->isCardClicked = false;
+
+        Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
+        gridForRules.nextGlobalRule();
+        GridRules rules = gridForRules.getRules();
+        rules.canPlayCard = false;
+        gridForRules.setRules(rules);
+        this->grid.getGame().setGrid(CurrentGrid, gridForRules);
+    }
+}
+
+void Graphic::handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
+{
+    Player player = this->grid.getGame().getCurrentPlayer();
+    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+    Grid grid = this->grid.getGame().getGrid(CurrentGrid);
+
+
+    if (CoIncid(mouseX, mouseY, globalRuleButton.x, globalRuleButton.y, globalRuleButton.x + globalRuleButton.w, globalRuleButton.y + globalRuleButton.h))
+    {
+        grid.addGlobalRule(this->cardClicked);
+        this->deleteCard();
+        this->isCardClicked = false;
+
+        grid.nextGlobalRule();
+        GridRules rules = grid.getRules();
+        rules.canPlayCard = false;
+        grid.setRules(rules);
+        this->grid.getGame().setGrid(CurrentGrid, grid);
     }
 }
 

@@ -1,8 +1,8 @@
 #include "../Card.h"
-#include "Game.h"
-#include "Player.h"
-#include "Case.h"
-#include "Grid.h"
+#include "../Game.h"
+#include "../Player.h"
+#include "../Case.h"
+#include "../Grid.h"
 #include <iostream>
 #include <vector>
 class CardGravity : public Card
@@ -16,12 +16,12 @@ public:
     ~CardGravity(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-
         Grid currentGrid = game.getGrid(CurrentGrid);
         GridRules rules = currentGrid.getRules();
-        rules.gravity = true;
-        currentGrid.setRules(rules);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
+
+        applyWhenGlobalRule(game, CurrentGrid);
+        
         for (int i = 0; i < cases[0].size(); i++)
         {
             for (int x = cases.size() - 1; x >= 0; x--)
