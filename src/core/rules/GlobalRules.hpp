@@ -6,7 +6,7 @@
 #include <iostream>
 #include <vector>
 
-class CardAlignToWin : public Card
+class CardAlignToWin : public Card // TODO
 {
 public:
     CardAlignToWin(std::string name, std::string description, int id) : Card(name, description, id)

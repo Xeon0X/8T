@@ -2,6 +2,7 @@
 #include "Graphic.h"
 #include "Piece.h"
 #include "Case.h"
+#include <SDL2/SDL_render.h>
 #include <string>
 
 GridGraphic::GridGraphic(/* args */)
@@ -213,5 +214,21 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 }
             }
         }
+    }
+}
+
+void GridGraphic::drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic)
+{
+    std::vector<std::vector<Case *>> grid = this->game.getGrid(0).getCases();
+    int windowWidth, windowHeight;
+    SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
+
+    if (graphic.getCard() != nullptr)
+    {
+
+        Card *card = graphic.getCard();
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderDrawRect(renderer, &graphic.globalRuleButton);
+        graphic.drawText("Add to globalRules", 110, 310);
     }
 }

@@ -109,6 +109,7 @@ void Grid::resetGrid()
 
 void Grid::addGlobalRule(Card *card)
 {
+    card->setGlobalRuleState(true);
     this->globalRules.push_back(card);
 }
 

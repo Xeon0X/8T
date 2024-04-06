@@ -66,6 +66,11 @@ Graphic::Graphic()
     pioche.w = 100;
     pioche.h = 150;
 
+    globalRuleButton.x = 100;
+    globalRuleButton.y = 300;
+    globalRuleButton.w = 200;
+    globalRuleButton.h = 50;
+
     this->cardClicked = nullptr;
 }
 
@@ -214,6 +219,7 @@ void Graphic::play()
 
         this->grid.drawPartInterface(renderer, *this);
         this->grid.drawDeck(renderer, *this);
+        this->grid.drawGlobalRuleButton(renderer, *this);
         this->grid.drawGamerules(renderer, *this);
         this->grid.drawPioche(renderer, *this);
         this->grid.drawArrowDirection(renderer, *this);
@@ -246,7 +252,7 @@ void Graphic::gameloop()
     Game game = this->grid.getGame();
     Grid grid = game.getGrid(CurrentGrid);
 
-    grid.getGlobalRules()[grid.getCurrentGlobalRule()]->applyCard(0, 0, CurrentGrid, player, game, "down");
+    grid.getGlobalRules()[grid.getCurrentGlobalRule()]->applyCard(0, 0, CurrentGrid, player, game, "default");
     this->grid.setGame(game);
 }
 
@@ -284,6 +290,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     Grid grid = game.getGrid(CurrentGrid);
 
     handleArrowClick(mouseX, mouseY, screenWidth, screenHeight);
+    handleGlobalRuleButtonClick(mouseX, mouseY, screenWidth, screenHeight);
 
     // Play a card
     if (grid.getRules().canPlayCard) 
@@ -467,6 +474,27 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         rules.canPlayCard = false;
         gridForRules.setRules(rules);
         this->grid.getGame().setGrid(CurrentGrid, gridForRules);
+    }
+}
+
+void Graphic::handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
+{
+    Player player = this->grid.getGame().getCurrentPlayer();
+    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+    Grid grid = this->grid.getGame().getGrid(CurrentGrid);
+
+
+    if (CoIncid(mouseX, mouseY, globalRuleButton.x, globalRuleButton.y, globalRuleButton.x + globalRuleButton.w, globalRuleButton.y + globalRuleButton.h))
+    {
+        grid.addGlobalRule(this->cardClicked);
+        this->deleteCard();
+        this->isCardClicked = false;
+
+        grid.nextGlobalRule();
+        GridRules rules = grid.getRules();
+        rules.canPlayCard = false;
+        grid.setRules(rules);
+        this->grid.getGame().setGrid(CurrentGrid, grid);
     }
 }
 

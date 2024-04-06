@@ -1,8 +1,8 @@
 #include "../Case.h"
-#include "Game.h"
-#include "Player.h"
+#include "../Game.h"
+#include "../Player.h"
 
-#include "Grid.h"
+#include "../Grid.h"
 #include <iostream>
 #include <vector>
 
@@ -18,7 +18,8 @@ public:
     ~CardAddLine(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        if (sens == "up")
+        applyWhenGlobalRule(game, CurrentGrid);
+        if (sens == "up" || sens == "default")
         {
             addUp(CurrentGrid, game);
         }
@@ -69,7 +70,8 @@ public:
     ~CardAddColumn(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        if (sens == "left")
+        applyWhenGlobalRule(game, CurrentGrid);
+        if (sens == "left" || sens == "default")
         {
             addLeft(CurrentGrid, game);
         }
@@ -116,7 +118,8 @@ public:
     ~CardRemoveLine(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        if (sens == "up")
+        applyWhenGlobalRule(game, CurrentGrid);
+        if (sens == "up" || sens == "default")
         {
             removeUp(CurrentGrid, game);
         }
@@ -163,7 +166,8 @@ public:
     ~CardRemoveColumn(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        if (sens == "left")
+        applyWhenGlobalRule(game, CurrentGrid);
+        if (sens == "left" || sens == "default")
         {
             removeLeft(CurrentGrid, game);
         }
@@ -216,7 +220,8 @@ public:
     ~CardTurnGrid(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        if (sens == "left")
+        applyWhenGlobalRule(game, CurrentGrid);
+        if (sens == "left" || sens == "default")
         {
             turnLeft(CurrentGrid, game);
         }
@@ -275,6 +280,7 @@ public:
     ~CardInvertColumnLine(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        applyWhenGlobalRule(game, CurrentGrid);
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         std::vector<std::vector<Case *>> newCases;

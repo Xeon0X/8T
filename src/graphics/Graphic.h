@@ -31,6 +31,7 @@ private:
 public:
     SDL_Rect deckPart;
     SDL_Rect pioche;
+    SDL_Rect globalRuleButton;
     /**
      * @brief Constructor for the Graphic class.
      *
@@ -226,9 +227,10 @@ public:
     bool isCardEmpty();
     void deleteCard();
     void setCard(Card *card);
-    Card *getCard();
+    Card *getCard(); // Get the card that is clicked
     void drawArrow(int x1, int y1, int x2, int y2, int size, int thickness, std::string sens);
     void handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
+    void handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
 };
 
 #endif // GRAPHIC

@@ -17,12 +17,11 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
-        currentGrid.nextGlobalRule();
-        game.setGrid(CurrentGrid, currentGrid);
         GridRules rules = currentGrid.getRules();
-        rules.gravity = true;
-        currentGrid.setRules(rules);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
+
+        applyWhenGlobalRule(game, CurrentGrid);
+        
         for (int i = 0; i < cases[0].size(); i++)
         {
             for (int x = cases.size() - 1; x >= 0; x--)
