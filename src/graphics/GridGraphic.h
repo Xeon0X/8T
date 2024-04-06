@@ -97,7 +97,7 @@ public:
      * @param graphic The graphic of the game.
      */
     void drawDeck(SDL_Renderer *renderer, Graphic &graphic);
-    void drawGamerules(SDL_Renderer *renderer, Graphic &graphic);
+    void drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic);
     void setInitialGridSize(int width, int height);
     void drawPartInterface(SDL_Renderer *renderer, Graphic &graphic);
     void drawPioche(SDL_Renderer *renderer, Graphic &graphic);

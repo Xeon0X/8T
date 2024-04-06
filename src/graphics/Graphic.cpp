@@ -221,7 +221,7 @@ void Graphic::play()
         this->grid.drawPartInterface(renderer, *this);
         this->grid.drawDeck(renderer, *this);
         this->grid.drawGlobalRuleButton(renderer, *this);
-        this->grid.drawGamerules(renderer, *this);
+        this->grid.drawGlobalrules(renderer, *this);
         this->grid.drawPioche(renderer, *this);
         this->grid.drawArrowDirection(renderer, *this);
 
@@ -386,8 +386,6 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
             }
         }
     }
-
-    // TODO : add a card to globalRules
 }
 
 void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
