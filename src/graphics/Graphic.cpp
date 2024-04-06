@@ -212,6 +212,7 @@ void Graphic::play()
 {
     while (running)
     {
+        time += 1;
         eventHolder();
         clear();
 
@@ -246,14 +247,17 @@ bool Graphic::MouseClickInterface(int x, int y)
 
 void Graphic::gameloop()
 {
-    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
-    Player player = this->grid.getGame().getCurrentPlayer();
-    Deck deck = player.getDeck(player.getCurrentGrid());
-    Game game = this->grid.getGame();
-    Grid grid = game.getGrid(CurrentGrid);
+    if (time > 500) { // Wait to see the operation
+        time = 0;
+        int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+        Player player = this->grid.getGame().getCurrentPlayer();
+        Deck deck = player.getDeck(player.getCurrentGrid());
+        Game game = this->grid.getGame();
+        Grid grid = game.getGrid(CurrentGrid);
 
-    grid.getGlobalRules()[grid.getCurrentGlobalRule()]->applyCard(0, 0, CurrentGrid, player, game, "default");
-    this->grid.setGame(game);
+        grid.getGlobalRules()[grid.getCurrentGlobalRule()]->applyCard(0, 0, CurrentGrid, player, game, "default");
+        this->grid.setGame(game);
+    }
 }
 
 void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
