@@ -399,7 +399,7 @@ int start()
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
-    ImGui::StyleColorsDark();
+    ImGui::StyleColorsDark(); // TODO add light mode
     ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
     ImGui_ImplOpenGL3_Init("#version 330");
 
