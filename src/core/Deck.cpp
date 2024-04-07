@@ -1,6 +1,7 @@
 #include "Deck.h"
 #include "./rules/RulesRare.hpp"
 #include "./rules/RulesCommun.hpp"
+#include "./rules/GlobalRules.hpp"
 
 Deck::Deck()
 {
@@ -96,6 +97,60 @@ void Deck::drawCard()
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
+    }
+    case 7:
+    {
+        CardPlacePiece *card = new CardPlacePiece("PlacePiece", "Pose une pièce sur le plateau", 7);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case 8:
+    {
+        CardPlayCard *card = new CardPlayCard("PlayCard", "Joue une carte", 8);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case 9:
+    {
+        CardDrawCard *card = new CardDrawCard("DrawCard", "Pioche une carte", 9);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case 10:
+    {
+        CardSwitchPlayer *card = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case 11:
+    {
+        CardAlignToWin *card = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 11);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case 12:
+    {
+        CardAlignToWinPlusOne *card = new CardAlignToWinPlusOne("AlignToWinPlusOne", "Le nombre d'alignement pour gagner +1", 12);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+    }
+    case 13:
+    {
+        CardAlignToWinMinusOne *card = new CardAlignToWinMinusOne("AlignToWinMinusOne", "Le nombre d'alignement pour gagner -1", 13);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
     }
 
     default:

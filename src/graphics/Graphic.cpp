@@ -64,8 +64,8 @@ Graphic::Graphic()
 
     pioche.x = 10;
     pioche.y = 500;
-    pioche.w = 150;
-    pioche.h = 200;
+    pioche.w = 100;
+    pioche.h = 150;
 
     globalRuleButton.x = 100;
     globalRuleButton.y = 300;
@@ -100,20 +100,33 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
 
     this->grid.setInitialGridSize(3, 3);
 
+    int screenWidth, screenHeight;
+    SDL_DisplayMode displayMode;
+    if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0)
+    {
+        screenWidth = displayMode.w;
+        screenHeight = displayMode.h;
+    }
+
     deckPart.x = 200;
     deckPart.y = 850;
     deckPart.w = 1500;
     deckPart.h = 300;
 
-    pioche.x = 10;
-    pioche.y = 500;
-    pioche.w = 150;
-    pioche.h = 200;
+    pioche.x = 50;
+    pioche.y = (screenHeight / 2) - 50;
+    pioche.w = 100;
+    pioche.h = 150;
 
     globalRuleButton.x = 100;
     globalRuleButton.y = 300;
     globalRuleButton.w = 200;
     globalRuleButton.h = 50;
+
+    background.x = 200;
+    background.y = 850;
+    background.w = screenWidth - 200;
+    background.h = 300;
 
     this->cardClicked = nullptr;
 }
@@ -149,8 +162,8 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer)
 
     pioche.x = 10;
     pioche.y = 500;
-    pioche.w = 150;
-    pioche.h = 200;
+    pioche.w = 100;
+    pioche.h = 150;
 
     globalRuleButton.x = 100;
     globalRuleButton.y = 300;
@@ -431,7 +444,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
             int cardX = (i + 1) * 110 + 500;
-            int cardY = 775;
+            int cardY = background.y + 25;
             int cardWidth = 100;
             int cardHeight = 150;
 
@@ -544,25 +557,25 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         int endX = startX + GridWidth;
         int endY = startY + GridHeight;
 
-        int arrowUpX = startX + GridWidth / 2 - 5 + this->grid.getGridX();
+        int arrowUpX = startX + GridWidth / 2 + this->grid.getGridX() - 25;
         int arrowUpY = startY - 50 + this->grid.getGridY();
-        int arrowUpWidth = 10;
+        int arrowUpWidth = 50;
         int arrowUpHeight = 50;
 
-        int arrowDownX = startX + GridWidth / 2 - 5 + this->grid.getGridX();
+        int arrowDownX = startX + GridWidth / 2 + this->grid.getGridX() - 25;
         int arrowDownY = endY + this->grid.getGridY();
-        int arrowDownWidth = 10;
+        int arrowDownWidth = 50;
         int arrowDownHeight = 50;
 
         int arrowLeftX = startX - 50 + this->grid.getGridX();
-        int arrowLeftY = startY + GridHeight / 2 - 5 + this->grid.getGridY();
+        int arrowLeftY = startY + GridHeight / 2 + this->grid.getGridY() - 25;
         int arrowLeftWidth = 50;
-        int arrowLeftHeight = 10;
+        int arrowLeftHeight = 50;
 
         int arrowRightX = endX + this->grid.getGridX();
-        int arrowRightY = startY + GridHeight / 2 - 5 + this->grid.getGridY();
+        int arrowRightY = startY + GridHeight / 2 + this->grid.getGridY() - 25;
         int arrowRightWidth = 50;
-        int arrowRightHeight = 10;
+        int arrowRightHeight = 50;
 
         int x, y, h, w;
 

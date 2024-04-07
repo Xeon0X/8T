@@ -188,6 +188,10 @@ void pauseMenu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event 
         {
             gamestate = GameState::Quit;
         }
+        else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+        {
+            gamestate = GameState::Game;
+        }
     }
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();

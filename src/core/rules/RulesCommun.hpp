@@ -299,3 +299,31 @@ public:
         game.setGrid(CurrentGrid, currentGrid);
     }
 };
+
+class CardAlignToWinPlusOne : public Card
+{
+public:
+    CardAlignToWinPlusOne(std::string name, std::string description, int id) : Card(name, description, id){};
+    ~CardAlignToWinPlusOne(){};
+    void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
+    {
+        applyWhenGlobalRule(game, CurrentGrid);
+        Grid grid = game.getGrid(CurrentGrid);
+        grid.setNbAlignToWin(grid.getNbAlignToWin() + 1);
+        game.setGrid(CurrentGrid, grid);
+    }
+};
+
+class CardAlignToWinMinusOne : public Card
+{
+public:
+    CardAlignToWinMinusOne(std::string name, std::string description, int id) : Card(name, description, id){};
+    ~CardAlignToWinMinusOne(){};
+    void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
+    {
+        applyWhenGlobalRule(game, CurrentGrid);
+        Grid grid = game.getGrid(CurrentGrid);
+        grid.setNbAlignToWin(grid.getNbAlignToWin() - 1);
+        game.setGrid(CurrentGrid, grid);
+    }
+};

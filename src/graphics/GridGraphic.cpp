@@ -201,6 +201,41 @@ GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
     this->caseTexture = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/deck.png");
+    this->backgroundTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/arrow_up.png");
+    this->arrowUpTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/arrow_down.png");
+    this->arrowDownTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/arrow_left.png");
+    this->arrowLeftTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/arrow_right.png");
+    this->arrowRightTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/arrow_turn_left.png");
+    this->arrowTurnLeftTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/arrow_turn_right.png");
+    this->arrowTurnRightTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
 }
 
 void GridGraphic::initCardTexture(SDL_Renderer *renderer)
@@ -251,6 +286,11 @@ void GridGraphic::initCardTexture(SDL_Renderer *renderer)
     SDL_FreeSurface(surface);
 
     surface = IMG_Load("../data/images/card_switch.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_align.png");
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     this->cardsTextures.push_back(texture);
     SDL_FreeSurface(surface);
@@ -345,7 +385,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         int cardX = (i + 1) * 110 + 500;
-        int cardY = 775;
+        int cardY = graphic.background.y + 25;
         int cardWidth = 100;
         int cardHeight = 150;
         if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == deck.getCards()[i]->getUniqueId())
@@ -407,12 +447,7 @@ void GridGraphic::setInitialGridSize(int width, int height)
 
 void GridGraphic::drawPartInterface(SDL_Renderer *renderer, Graphic &graphic)
 {
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &graphic.deckPart);
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderDrawRect(renderer, &graphic.deckPart);
+    SDL_RenderCopy(renderer, backgroundTexture, NULL, &graphic.deckPart);
 }
 
 void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
@@ -439,43 +474,28 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
         {
             if (directions[i] == "up")
             {
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                for (int i = 0; i < 5; i++)
-                {
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, startY - 20 - i + this->gridY, startX + GridWidth / 2 + this->gridX, startY - 50 - i + this->gridY);
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, startY - 50 - i + this->gridY, startX + GridWidth / 2 - 5 + this->gridX, startY - 45 - i + this->gridY);
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, startY - 50 - i + this->gridY, startX + GridWidth / 2 + 5 + this->gridX, startY - 45 - i + this->gridY);
-                }
+                SDL_Rect rect = {startX + GridWidth / 2 + this->gridX - 25, startY - 50 + this->gridY, 50, 50};
+
+                SDL_RenderCopy(renderer, arrowUpTexture, NULL, &rect);
             }
             if (directions[i] == "down")
             {
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                for (int i = 0; i < 5; i++)
-                {
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, endY + 20 + i + this->gridY, startX + GridWidth / 2 + this->gridX, endY + 50 + i + this->gridY);
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, endY + 50 + i + this->gridY, startX + GridWidth / 2 - 5 + this->gridX, endY + 45 + i + this->gridY);
-                    SDL_RenderDrawLine(renderer, startX + GridWidth / 2 + this->gridX, endY + 50 + i + this->gridY, startX + GridWidth / 2 + 5 + this->gridX, endY + 45 + i + this->gridY);
-                }
+                SDL_Rect rect = {startX + GridWidth / 2 + this->gridX - 25, endY + this->gridY, 50, 50};
+
+                SDL_RenderCopy(renderer, arrowDownTexture, NULL, &rect);
             }
             if (directions[i] == "left")
             {
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                for (int i = 0; i < 5; i++)
-                {
-                    SDL_RenderDrawLine(renderer, startX - 20 - i + this->gridX, startY + GridHeight / 2 + this->gridY, startX - 50 - i + this->gridX, startY + GridHeight / 2 + this->gridY);
-                    SDL_RenderDrawLine(renderer, startX - 50 - i + this->gridX, startY + GridHeight / 2 + this->gridY, startX - 45 - i + this->gridX, startY + GridHeight / 2 - 5 + this->gridY);
-                    SDL_RenderDrawLine(renderer, startX - 50 - i + this->gridX, startY + GridHeight / 2 + this->gridY, startX - 45 - i + this->gridX, startY + GridHeight / 2 + 5 + this->gridY);
-                }
+                SDL_Rect rect = {startX - 50 + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
+
+                SDL_RenderCopy(renderer, arrowLeftTexture, NULL, &rect);
             }
             if (directions[i] == "right")
             {
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                for (int i = 0; i < 5; i++)
-                {
-                    SDL_RenderDrawLine(renderer, endX + 20 + i + this->gridX, startY + GridHeight / 2 + this->gridY, endX + 50 + i + this->gridX, startY + GridHeight / 2 + this->gridY);
-                    SDL_RenderDrawLine(renderer, endX + 50 + i + this->gridX, startY + GridHeight / 2 + this->gridY, endX + 45 + i + this->gridX, startY + GridHeight / 2 - 5 + this->gridY);
-                    SDL_RenderDrawLine(renderer, endX + 50 + i + this->gridX, startY + GridHeight / 2 + this->gridY, endX + 45 + i + this->gridX, startY + GridHeight / 2 + 5 + this->gridY);
-                }
+
+                SDL_Rect rect = {endX + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
+
+                SDL_RenderCopy(renderer, arrowRightTexture, NULL, &rect);
             }
         }
     }

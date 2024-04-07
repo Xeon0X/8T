@@ -24,6 +24,14 @@ private:
     std::vector<SDL_Texture *> playerTextures, cardsTextures;
     SDL_Texture *deckTexture;
     SDL_Texture *caseTexture;
+    SDL_Texture *backgroundTexture;
+
+    SDL_Texture *arrowUpTexture;
+    SDL_Texture *arrowDownTexture;
+    SDL_Texture *arrowLeftTexture;
+    SDL_Texture *arrowRightTexture;
+    SDL_Texture *arrowTurnLeftTexture;
+    SDL_Texture *arrowTurnRightTexture;
 
 public:
     /**

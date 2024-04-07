@@ -41,6 +41,7 @@ public:
     SDL_Rect deckPart;
     SDL_Rect pioche;
     SDL_Rect globalRuleButton;
+    SDL_Rect background;
     int time;
     /**
      * @brief Constructor for the Graphic class.
