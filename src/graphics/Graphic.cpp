@@ -118,10 +118,10 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     pioche.w = 100;
     pioche.h = 150;
 
-    globalRuleButton.x = 100;
-    globalRuleButton.y = 300;
-    globalRuleButton.w = 200;
-    globalRuleButton.h = 50;
+    globalRuleButton.x = screenWidth - 200;
+    globalRuleButton.y = (screenHeight / 2) - 50;
+    globalRuleButton.w = 100;
+    globalRuleButton.h = 150;
 
     background.x = 200;
     background.y = 850;

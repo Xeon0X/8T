@@ -33,6 +33,8 @@ private:
     SDL_Texture *arrowTurnLeftTexture;
     SDL_Texture *arrowTurnRightTexture;
 
+    SDL_Texture *addToRulesTexture;
+
 public:
     /**
      * @brief Constructor for the GridGraphic class.

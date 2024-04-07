@@ -236,6 +236,11 @@ GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
     this->arrowTurnRightTexture = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_addRule.png");
+    this->addToRulesTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
 }
 
 void GridGraphic::initCardTexture(SDL_Renderer *renderer)
@@ -509,10 +514,6 @@ void GridGraphic::drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic)
 
     if (graphic.getCard() != nullptr)
     {
-
-        Card *card = graphic.getCard();
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderDrawRect(renderer, &graphic.globalRuleButton);
-        graphic.drawText("Add to globalRules", 110, 310);
+        SDL_RenderCopy(renderer, addToRulesTexture, NULL, &graphic.globalRuleButton);
     }
 }
