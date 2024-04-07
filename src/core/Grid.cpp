@@ -82,11 +82,13 @@ bool Grid::checkWin(Player player, int cellX, int cellY)
                 nbAlign++;
                 if (nbAlign == this->getNbAlignToWin())
                 {
+                    std::cout << "Player " << symbol << " wins!\n";
                     return true;
                 }
             }
             else
             {
+
                 nbAlign = 0;
             }
         }
@@ -128,6 +130,8 @@ void Grid::createGlobalRules()
     this->addGlobalRule(card5);
     CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
     this->addGlobalRule(card2);
+    CardAlignToWin *card6 = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 11);
+    this->addGlobalRule(card6);
 }
 
 std::vector<Card *> Grid::getGlobalRules()

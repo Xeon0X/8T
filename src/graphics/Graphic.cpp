@@ -532,8 +532,8 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
     int CurrentGrid = player.getCurrentGrid();
     Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
     GridRules rules = gridForRules.getRules();
-    
-    if (rules.canPlayCard) 
+
+    if (rules.canPlayCard)
     {
         std::vector<std::vector<Case *>> grid = this->grid.getGame().getGrid(0).getCases();
         int GridWidth = grid[0].size() * 100;
@@ -566,7 +566,7 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
 
         int x, y, h, w;
 
-        if (this->isCardClicked) 
+        if (this->isCardClicked)
         {
             std::vector<std::string> directions = this->cardClicked->getArrowDirection();
             for (int i = 0; i < directions.size(); i++)
@@ -577,19 +577,22 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                     y = arrowUpY;
                     h = arrowUpHeight;
                     w = arrowUpWidth;
-                } else if (directions[i] == "down") 
+                }
+                else if (directions[i] == "down")
                 {
                     x = arrowDownX;
                     y = arrowDownY;
                     h = arrowDownHeight;
                     w = arrowDownWidth;
-                } else if (directions[i] == "left") 
+                }
+                else if (directions[i] == "left")
                 {
                     x = arrowLeftX;
                     y = arrowLeftY;
                     h = arrowLeftHeight;
                     w = arrowLeftWidth;
-                } else if (directions[i] == "right") 
+                }
+                else if (directions[i] == "right")
                 {
                     x = arrowRightX;
                     y = arrowRightY;
@@ -597,11 +600,10 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                     w = arrowRightWidth;
                 }
 
-
                 if (CoIncid(mouseX, mouseY, x, y, x + w, y + h))
                 {
                     std::cout << "doign" << std::endl;
-                    // this->cardClicked->setGlobalRuleState(false);
+                    this->cardClicked->setGlobalRuleState(false);
                     this->cardClicked->applyCard(0, 0, CurrentGrid, player, this->grid.getGame(), directions[i]);
                     this->deleteCard();
                     this->isCardClicked = false;
@@ -613,7 +615,6 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                     gridForRules.setRules(rules);
                     this->grid.getGame().setGrid(CurrentGrid, gridForRules);
                 }
-
             }
         }
     }
