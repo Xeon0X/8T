@@ -47,7 +47,7 @@ std::vector<Card *> Deck::getCards()
 
 void Deck::drawCard()
 {
-    int randomIndex = rand() % 7 + 1;
+    int randomIndex = rand() % 13 + 1;
     switch (randomIndex)
     {
     case 1:
