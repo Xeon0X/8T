@@ -29,7 +29,7 @@ target("graphic")
     add_packages("libsdl", "libsdl_ttf", "libsdl_image", "imgui","opengl", "glfw")
     set_rundir("$(projectdir)/bin")
     add_deps("core")
-    set_default(true)
+    set_default(false)
     set_targetdir("bin")
 
 
