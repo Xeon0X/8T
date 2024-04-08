@@ -1,14 +1,9 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-#include <imgui.h>
-#include <imgui_impl_sdl2.h>
-#include <imgui_impl_opengl3.h>
-#include "../graphics/Graphic.h"
+#include "Menu.h"
 
-void drawMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_Renderer *renderer, SDL_Window *window)
+void Menu::drawMenu()
 {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(io.DisplaySize);
+    ImGui::SetNextWindowSize(this->io->DisplaySize);
     ImGui::Begin("Game Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
     ImGui::SetWindowFontScale(1.7f);
@@ -28,7 +23,7 @@ void drawMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_Renderer 
 
     if (ImGui::Button("Play", ImVec2(200, 50)))
     {
-        gamestate = GameState::ChooseGameMode;
+        this->gamestate = GameState::ChooseGameMode;
     }
 
     ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
@@ -36,40 +31,40 @@ void drawMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_Renderer 
 
     if (ImGui::Button("Options", ImVec2(200, 50)))
     {
-        gamestate = GameState::Options;
+        this->gamestate = GameState::Options;
     }
     ImGui::PopStyleColor();
 
     ImGui::End();
 }
 
-void menu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event &event, Graphic &graphic, SDL_Renderer *renderer)
+void Menu::menu()
 {
-    while (SDL_PollEvent(&event))
+    while (SDL_PollEvent(&this->event))
     {
-        ImGui_ImplSDL2_ProcessEvent(&event);
-        if (event.type == SDL_QUIT)
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
         {
-            gamestate = GameState::Quit;
+            this->gamestate = GameState::Quit;
         }
     }
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
-    drawMenu(io, gamestate, graphic, renderer, window);
+    drawMenu();
     ImGui::Render();
-    glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(this->window);
 }
 
-void drawChooseGameModeMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_Window *window, SDL_Renderer *renderer)
+void Menu::drawChooseGameModeMenu()
 {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(io.DisplaySize);
+    ImGui::SetNextWindowSize(this->io->DisplaySize);
     ImGui::Begin("Game Mode Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
     ImGui::SetWindowFontScale(1.7f);
@@ -89,7 +84,7 @@ void drawChooseGameModeMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic,
 
     if (ImGui::Button("Local", ImVec2(200, 50)))
     {
-        gamestate = GameState::GameCreation;
+        this->gamestate = GameState::GameCreation;
     }
 
     ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
@@ -97,47 +92,47 @@ void drawChooseGameModeMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic,
 
     if (ImGui::Button("Multiplayer", ImVec2(200, 50)))
     {
-        gamestate = GameState::Game;
+        this->gamestate = GameState::Game;
     }
     ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
     ImGui::SetCursorPosX(50);
 
     if (ImGui::Button("Back", ImVec2(200, 50)))
     {
-        gamestate = GameState::Menu;
+        this->gamestate = GameState::Menu;
     }
     ImGui::PopStyleColor(); // Restore default text color
 
     ImGui::End();
 }
 
-void chooseGameModeMenu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event &event, Graphic &graphic, SDL_Renderer *renderer)
+void Menu::chooseGameModeMenu()
 {
-    while (SDL_PollEvent(&event))
+    while (SDL_PollEvent(&this->event))
     {
-        ImGui_ImplSDL2_ProcessEvent(&event);
-        if (event.type == SDL_QUIT)
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
         {
-            gamestate = GameState::Quit;
+            this->gamestate = GameState::Quit;
         }
     }
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
-    drawChooseGameModeMenu(io, gamestate, graphic, window, renderer);
+    drawChooseGameModeMenu();
     ImGui::Render();
-    glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(this->window);
 }
 
-void drawPauseMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic)
+void Menu::drawPauseMenu()
 {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(io.DisplaySize);
+    ImGui::SetNextWindowSize(this->io->DisplaySize);
     ImGui::Begin("Pause Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
     ImGui::SetWindowFontScale(1.7f);
@@ -157,7 +152,7 @@ void drawPauseMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic)
 
     if (ImGui::Button("Resume", ImVec2(200, 50)))
     {
-        gamestate = GameState::Game;
+        this->gamestate = GameState::Game;
     }
 
     ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
@@ -165,51 +160,47 @@ void drawPauseMenu(ImGuiIO &io, GameState &gamestate, Graphic &graphic)
 
     if (ImGui::Button("Options", ImVec2(200, 50)))
     {
-        gamestate = GameState::Options;
+        this->gamestate = GameState::Options;
     }
     ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 250) * 0.5f);
     ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
 
     if (ImGui::Button("Exit", ImVec2(200, 50)))
     {
-        gamestate = GameState::Menu;
+        this->gamestate = GameState::Menu;
     }
     ImGui::PopStyleColor();
 
     ImGui::End();
 }
 
-void pauseMenu(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event &event, Graphic &graphic)
+void Menu::pauseMenu()
 {
-    while (SDL_PollEvent(&event))
+    while (SDL_PollEvent(&this->event))
     {
-        ImGui_ImplSDL2_ProcessEvent(&event);
-        if (event.type == SDL_QUIT)
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
         {
-            gamestate = GameState::Quit;
-        }
-        else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
-        {
-            gamestate = GameState::Game;
+            this->gamestate = GameState::Quit;
         }
     }
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
-    drawPauseMenu(io, gamestate, graphic);
+    drawPauseMenu();
     ImGui::Render();
-    glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(this->window);
 }
 
-void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_Window *window, SDL_Renderer *renderer)
+void Menu::drawGameCreation(Graphic &graphic)
 {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(io.DisplaySize);
+    ImGui::SetNextWindowSize(this->io->DisplaySize);
     ImGui::Begin("Game Creation", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
     ImGui::SetWindowFontScale(1.7f);
@@ -274,7 +265,7 @@ void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_W
     {
         if (player1Shape != player2Shape && player1Color != player2Color)
         {
-            gamestate = GameState::Game;
+            this->gamestate = GameState::Game;
 
             char shape1;
             char shape2;
@@ -316,7 +307,7 @@ void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_W
             {
                 Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
                 Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
-                graphic = *(new Graphic(window, renderer, player1, player2));
+                graphic = *(new Graphic(this->window, this->renderer, player1, player2));
             }
         }
     }
@@ -326,44 +317,88 @@ void drawGameCreation(ImGuiIO &io, GameState &gamestate, Graphic &graphic, SDL_W
 
     if (ImGui::Button("Back", ImVec2(200, 50)))
     {
-        gamestate = GameState::ChooseGameMode;
+        this->gamestate = GameState::ChooseGameMode;
     }
     ImGui::PopStyleColor();
 
     ImGui::End();
 }
-void gameCreation(SDL_Window *window, ImGuiIO &io, GameState &gamestate, SDL_Event &event, Graphic &graphic, SDL_Renderer *renderer)
+void Menu::gameCreation(Graphic &graphic)
 {
-    while (SDL_PollEvent(&event))
+    while (SDL_PollEvent(&this->event))
     {
-        ImGui_ImplSDL2_ProcessEvent(&event);
-        if (event.type == SDL_QUIT)
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
         {
-            gamestate = GameState::Quit;
+            this->gamestate = GameState::Quit;
         }
     }
-
-    glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
-    drawGameCreation(io, gamestate, graphic, window, renderer);
+    drawGameCreation(graphic);
     ImGui::Render();
-
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(this->window);
 }
 
-int start()
+int main()
 {
+    Menu menu;
+    menu.start();
+    return 0;
+}
+
+void Menu::start()
+{
+    Graphic graphic = Graphic(this->window, this->renderer);
+    while (this->gamestate != GameState::Quit && SDL_GetWindowFlags(this->window) & SDL_WINDOW_SHOWN)
+    {
+
+        switch (this->gamestate)
+        {
+        case GameState::Menu:
+            this->menu();
+            break;
+        case GameState::Game:
+            graphic.play(this->gamestate);
+
+            ImGui_ImplOpenGL3_Shutdown();
+            ImGui_ImplSDL2_Shutdown();
+            ImGui::DestroyContext();
+            ImGui::CreateContext();
+            ImGui_ImplSDL2_InitForOpenGL(this->window, this->gl_context);
+            ImGui_ImplOpenGL3_Init("#version 330");
+
+            break;
+        case GameState::Pause:
+            this->pauseMenu();
+            break;
+        case GameState::ChooseGameMode:
+            this->chooseGameModeMenu();
+            break;
+        case GameState::Options:
+            break;
+        case GameState::GameCreation:
+            this->gameCreation(graphic);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+Menu::Menu()
+{
+    std::cout << "Menu constructor" << std::endl;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
-        return 1;
+        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        exit(1);
     }
 
     if (TTF_Init() != 0)
@@ -383,82 +418,38 @@ int start()
 
     srand(time(NULL));
 
-    SDL_Window *window = SDL_CreateWindow("8T", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (window == nullptr)
+    this->window = SDL_CreateWindow("8T", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    if (this->window == nullptr)
     {
         std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         exit(1);
     }
-    if (renderer == nullptr)
+    this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    if (this->renderer == nullptr)
     {
         std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
         exit(1);
     }
-    SDL_GLContext gl_context = SDL_GL_CreateContext(window);
+    this->gl_context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, gl_context);
     SDL_GL_SetSwapInterval(1); // Enable vsync
-
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
+    this->io = &ImGui::GetIO();
     (void)io;
     ImGui::StyleColorsDark(); // TODO add light mode
     ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
     ImGui_ImplOpenGL3_Init("#version 330");
+}
 
-    GameState gamestate = GameState::Menu;
-    Graphic graphic(window, renderer);
-
-    SDL_Event event;
-
-    while (gamestate != GameState::Quit && SDL_GetWindowFlags(window) & SDL_WINDOW_SHOWN)
-    {
-
-        switch (gamestate)
-        {
-        case GameState::Menu:
-            menu(window, io, gamestate, event, graphic, renderer);
-            break;
-        case GameState::Game:
-            graphic.play(gamestate);
-
-            ImGui_ImplOpenGL3_Shutdown();
-            ImGui_ImplSDL2_Shutdown();
-            ImGui::DestroyContext();
-            ImGui::CreateContext();
-            ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
-            ImGui_ImplOpenGL3_Init("#version 330");
-
-            break;
-        case GameState::Pause:
-            pauseMenu(window, io, gamestate, event, graphic);
-            break;
-        case GameState::ChooseGameMode:
-            chooseGameModeMenu(window, io, gamestate, event, graphic, renderer);
-            break;
-        case GameState::Options:
-            break;
-        case GameState::GameCreation:
-            gameCreation(window, io, gamestate, event, graphic, renderer);
-            break;
-        default:
-            break;
-        }
-    }
-
+Menu::~Menu()
+{
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
 
-    SDL_GL_DeleteContext(gl_context);
-    SDL_DestroyWindow(window);
+    SDL_GL_DeleteContext(this->gl_context);
+    SDL_DestroyWindow(this->window);
     SDL_Quit();
-
-    return 0;
-}
-
-int main()
-{
-    return start();
 }
