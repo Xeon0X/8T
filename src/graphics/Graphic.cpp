@@ -1,5 +1,5 @@
 #include "Graphic.h"
-#include "Case.h"
+#include "../core/Case.h"
 #include <iostream>
 #include <SDL2/SDL_image.h>
 Graphic::Graphic()
@@ -372,6 +372,10 @@ void Graphic::play(GameState &gamestate)
 {
     while (GameState::Game == gamestate)
     {
+        if(this->grid.getGame().getGrid(this->grid.getGame().getCurrentPlayer().getCurrentGrid()).getRules().endGame)
+        {
+            gamestate = GameState::End;
+        }
 
         time += 1;
         eventHolder(gamestate);

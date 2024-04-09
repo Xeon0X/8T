@@ -1,7 +1,7 @@
 #include "GridGraphic.h"
 #include "Graphic.h"
-#include "Piece.h"
-#include "Case.h"
+#include "../core/Piece.h"
+#include "../core/Case.h"
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <string>

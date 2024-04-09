@@ -184,6 +184,10 @@ void Menu::pauseMenu()
         {
             this->gamestate = GameState::Quit;
         }
+        else if(this->event.type == SDL_KEYDOWN && this->event.key.keysym.sym == SDLK_ESCAPE)
+        {
+            this->gamestate = GameState::Game;
+        }
     }
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -345,6 +349,66 @@ void Menu::gameCreation(Graphic &graphic)
     SDL_GL_SwapWindow(this->window);
 }
 
+void Menu::endMenu(){
+    while (SDL_PollEvent(&this->event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
+        {
+            this->gamestate = GameState::Quit;
+        }
+    }
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    drawEndMenu();
+    ImGui::Render();
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(this->window);
+}
+
+void Menu::drawEndMenu(){
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(this->io->DisplaySize);
+    ImGui::Begin("End Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+    ImGui::SetWindowFontScale(1.7f);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("End Menu").x) * 0.5f);
+    ImGui::SetCursorPosY(100);
+
+    ImGui::Text("End Menu");
+    ImGui::Separator();
+
+    ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+    if (ImGui::Button("Menu", ImVec2(200, 50)))
+    {
+        this->gamestate = GameState::Menu;
+    }
+
+    ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
+    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+    if (ImGui::Button("Quit", ImVec2(200, 50)))
+    {
+        this->gamestate = GameState::Quit;
+    }
+    ImGui::PopStyleColor();
+
+    ImGui::End();
+
+}
+
 int main()
 {
     Menu menu;
@@ -384,6 +448,9 @@ void Menu::start()
             break;
         case GameState::GameCreation:
             this->gameCreation(graphic);
+            break;
+        case GameState::End:
+            this->endMenu();
             break;
         default:
             break;

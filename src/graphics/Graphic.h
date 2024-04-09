@@ -13,7 +13,8 @@ enum class GameState
     GameCreation,
     Options,
     Pause,
-    Quit
+    Quit,
+    End
 };
 
 /**

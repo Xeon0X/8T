@@ -3,7 +3,6 @@
 #include "../Player.h"
 
 #include "../Grid.h"
-#include <iostream>
 #include <vector>
 
 class CardAddLine : public Card
