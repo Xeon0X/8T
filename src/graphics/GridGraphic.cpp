@@ -241,6 +241,16 @@ GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
     this->addToRulesTexture = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/logo_big.png");
+    this->logo = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/score.png");
+    this->score = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
 }
 
 void GridGraphic::initCardTexture(SDL_Renderer *renderer)
@@ -318,27 +328,6 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
 
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
-
-    std::string currentRule = "Current rule: " + std::to_string(this->game.getGrid(0).getCurrentGlobalRule());
-    graphic.drawText(currentRule.c_str(), 100, 50);
-
-    std::string mouseCoordinates = "MouseX: " + std::to_string(mouseX) + " MouseY: " + std::to_string(mouseY);
-    graphic.drawText(mouseCoordinates.c_str(), 100, 100);
-
-    std::string currentPlayer = "Current player: " + this->game.getCurrentPlayer().getSymbol();
-    graphic.drawText(currentPlayer.c_str(), 100, 150);
-
-    if (graphic.getCard() != nullptr)
-    {
-        std::string currendCard = "Current card: " + graphic.getCard()->getName();
-        graphic.drawText(currendCard.c_str(), 100, 200);
-    }
-
-    std::string scorePlayer1 = "Score player 1: " + std::to_string(this->game.getPlayer()[0].getScore());
-    graphic.drawText(scorePlayer1.c_str(), 100, 250);
-
-    std::string scorePlayer2 = "Score player 2: " + std::to_string(this->game.getPlayer()[1].getScore());
-    graphic.drawText(scorePlayer2.c_str(), 100, 300);
 
     for (unsigned int i = 0; i < grid.size(); i++)
     {
@@ -420,7 +409,7 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
     for (unsigned int i = 0; i < grid.getGlobalRules().size(); i++)
     {
         int cardX = (i + 1) * 110 + 500;
-        int cardY = 75;
+        int cardY = 25;
         int cardWidth = 100;
         int cardHeight = 150;
 
@@ -515,5 +504,29 @@ void GridGraphic::drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic)
     if (graphic.getCard() != nullptr)
     {
         SDL_RenderCopy(renderer, addToRulesTexture, NULL, &graphic.globalRuleButton);
+    }
+}
+
+void GridGraphic::drawInfoPart(SDL_Renderer *renderer, Graphic &graphic)
+{
+    SDL_RenderCopy(renderer, this->logo, NULL, &graphic.logo);
+    SDL_RenderCopy(renderer, this->caseTexture, NULL, &graphic.currentPlayerRect);
+    std::vector<Player> players = this->game.getPlayer();
+    Player current = this->game.getCurrentPlayer();
+
+    for (unsigned int k = 0; k < players.size(); k++)
+    {
+        if (players[k].getSymbol() == current.getSymbol())
+        {
+            SDL_RenderCopy(renderer, playerTextures[k], NULL, &graphic.currentPlayerRect);
+        }
+    }
+
+    SDL_RenderCopy(renderer, this->score, NULL, &graphic.scoreRect);
+    for (unsigned int k = 0; k < players.size(); k++)
+    {
+        graphic.playerMiniRect.y = graphic.scoreRect.y + 30 + k * 50;
+        SDL_RenderCopy(renderer, playerTextures[k], NULL, &graphic.playerMiniRect);
+        graphic.drawText(std::to_string(players[k].getScore()).c_str(), graphic.playerMiniRect.x + 35, graphic.playerMiniRect.y + 10);
     }
 }

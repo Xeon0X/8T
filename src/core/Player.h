@@ -27,7 +27,7 @@ private:
     int currentGrid;             /**< Current grid of the player */
     std::vector<Deck> decks;     /**< Decks of the player */
     PlayerEffects playerEffects; /**< Effects of the player */
-    int score = 0;
+    int score = 123;
 
 public:
     /**

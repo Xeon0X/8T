@@ -42,6 +42,10 @@ public:
     SDL_Rect pioche;
     SDL_Rect globalRuleButton;
     SDL_Rect background;
+    SDL_Rect logo;
+    SDL_Rect currentPlayerRect;
+    SDL_Rect scoreRect;
+    SDL_Rect playerMiniRect;
     int time;
     /**
      * @brief Constructor for the Graphic class.

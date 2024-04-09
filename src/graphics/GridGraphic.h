@@ -34,6 +34,8 @@ private:
     SDL_Texture *arrowTurnRightTexture;
 
     SDL_Texture *addToRulesTexture;
+    SDL_Texture *logo;
+    SDL_Texture *score;
 
 public:
     /**
@@ -119,6 +121,7 @@ public:
     void drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic);
     void drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic);
     void initCardTexture(SDL_Renderer *renderer);
+    void drawInfoPart(SDL_Renderer *renderer, Graphic &graphic);
 };
 
 #endif // GRAPHIC_GRID
