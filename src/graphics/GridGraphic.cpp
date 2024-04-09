@@ -418,7 +418,7 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
         int cardWidth = 100;
         int cardHeight = 150;
 
-        if (grid.getCurrentGlobalRule() == i)
+        if (grid.getCurrentGlobalRule() == static_cast<int>(i))
         {
             cardY -= 10;
             cardX -= 5;
@@ -432,13 +432,10 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
 
             SDL_RenderCopy(renderer, shadowCard, NULL, &graphic.shadowRect);
         }
-        SDL_Texture *texture = nullptr;
-        SDL_Surface *surface = nullptr;
 
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderCopy(renderer, cardsTextures[grid.getGlobalRules()[i]->getId() - 1], NULL, &rect);
         // SDL_RenderDrawRect(renderer, &rect);
-        SDL_FreeSurface(surface);
         // std::string text = grid.getGlobalRules()[i]->getName();
         // const char *cstr = text.c_str();
         // graphic.drawText(cstr, cardX + 10, cardY + 50);
@@ -476,7 +473,7 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
 
         Card *card = graphic.getCard();
         std::vector<std::string> directions = card->getArrowDirection();
-        for (int i = 0; i < directions.size(); i++)
+        for (unsigned int i = 0; i < directions.size(); i++)
         {
             if (directions[i] == "up")
             {

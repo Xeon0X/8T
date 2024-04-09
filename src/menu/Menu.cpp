@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include <cstring>
 
 void Menu::drawMenu()
 {
@@ -269,15 +270,15 @@ void Menu::drawGameCreation(Graphic &graphic)
 
             char shape1;
             char shape2;
-            if (shapes[player1Shape] == "Croix")
+            if (strcmp(shapes[player1Shape], "Croix") == 0)
             {
                 shape1 = 'X';
             }
-            else if (shapes[player1Shape] == "Rond")
+            else if (strcmp(shapes[player1Shape], "Rond") == 0)
             {
                 shape1 = 'O';
             }
-            else if (shapes[player1Shape] == "Triangle")
+            else if (strcmp(shapes[player1Shape], "Triangle") == 0)
             {
                 shape1 = 'T';
             }
@@ -286,16 +287,16 @@ void Menu::drawGameCreation(Graphic &graphic)
                 shape1 = 'C';
             }
 
-            if (shapes[player2Shape] == "Croix")
+            if (strcmp(shapes[player2Shape], "Croix") == 0)
             {
                 shape2 = 'X';
             }
-            else if (shapes[player2Shape] == "Rond")
+            else if (strcmp(shapes[player2Shape], "Rond") == 0)
             {
 
                 shape2 = 'O';
             }
-            else if (shapes[player2Shape] == "Triangle")
+            else if (strcmp(shapes[player2Shape], "Triangle") == 0)
             {
                 shape2 = 'T';
             }

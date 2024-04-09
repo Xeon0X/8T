@@ -603,7 +603,7 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         if (this->isCardClicked)
         {
             std::vector<std::string> directions = this->cardClicked->getArrowDirection();
-            for (int i = 0; i < directions.size(); i++)
+            for (unsigned int i = 0; i < directions.size(); i++)
             {
                 if (directions[i] == "up")
                 {

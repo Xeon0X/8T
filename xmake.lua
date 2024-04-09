@@ -4,6 +4,7 @@ add_requires("libsdl", {configs = {sdlmain = false}})
 add_requires("opengl", "glfw")
 add_includedirs("src", "src/core", "src/core/rules")
 set_languages("c++17")
+set_warnings("all") 
 
 target("core")
     set_kind("static")
@@ -40,6 +41,7 @@ target("imgui")
     add_deps("graphic_files")
     set_rundir("$(projectdir)/bin")
     add_deps("core")
+       
     set_default(true)
     set_targetdir("bin")
 
