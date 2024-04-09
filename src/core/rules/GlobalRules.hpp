@@ -17,13 +17,25 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         Grid grid = game.getGrid(CurrentGrid);
-        Player player1 = game.getPlayer()[0];
-
         GridRules rules = grid.getRules();
-        rules.checkWin = true;
+
         grid.nextGlobalRule();
         grid.setRules(rules);
         game.setGrid(CurrentGrid, grid);
+
+        for (int i = 0; i<game.getPlayer().size(); i++) {
+            Player player = game.getPlayer()[i];
+            for (int x = 0; x < grid.getGridHeight()-grid.getNbAlignToWin(); x++) {
+                for (int y = 0; y < grid.getGridWidth()-grid.getNbAlignToWin(); y++) {
+                    for (int j = 0; j<grid.getNbAlignToWin(); j++) {
+                        if (grid.getCase(x+j, y)->getPieces()[0].getSymbol() == player.getSymbol()) {
+                            //TODO
+                        }
+                    }
+                }
+            }
+        }
+
 
         for (int i = 0; i < grid.getGridHeight(); i++)
         {
