@@ -110,7 +110,7 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
 
     deckPart.x = 200;
     deckPart.y = screenHeight - 250;
-    deckPart.w = screenWidth - 450;
+    deckPart.w = screenWidth - 500;
     deckPart.h = 300;
 
     pioche.x = screenWidth - 150;
@@ -125,7 +125,7 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
 
     background.x = 250;
     background.y = screenHeight - 250;
-    background.w = screenWidth - 450;
+    background.w = screenWidth - 500;
     background.h = 200;
 
     logo.x = 50;
