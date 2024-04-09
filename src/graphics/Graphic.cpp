@@ -85,7 +85,7 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     this->window = window;
     this->renderer = renderer;
     color = {0, 0, 0, 255};
-    this->font = TTF_OpenFont("../font/dogica.ttf", 10);
+    this->font = TTF_OpenFont("../font/dogica.ttf", 15);
     if (font == nullptr)
     {
         std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
@@ -93,7 +93,7 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     }
 
     fontColor = {0, 0, 0, 255};
-    fontSize = 10;
+    fontSize = 15;
     fontStyle = TTF_STYLE_NORMAL;
     this->grid = GridGraphic(renderer, player1, player2);
     this->grid.initCardTexture(renderer);
@@ -114,7 +114,7 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     deckPart.h = 300;
 
     pioche.x = 50;
-    pioche.y = (screenHeight / 2) - 50;
+    pioche.y = (screenHeight / 2);
     pioche.w = 100;
     pioche.h = 150;
 
@@ -127,6 +127,26 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     background.y = 850;
     background.w = screenWidth - 200;
     background.h = 300;
+
+    logo.x = 50;
+    logo.y = 50;
+    logo.w = 100;
+    logo.h = 100;
+
+    currentPlayerRect.x = 50;
+    currentPlayerRect.y = 300;
+    currentPlayerRect.w = 100;
+    currentPlayerRect.h = 100;
+
+    scoreRect.x = 50;
+    scoreRect.y = 400;
+    scoreRect.w = 100;
+    scoreRect.h = 150;
+
+    playerMiniRect.x = 60;
+    playerMiniRect.y = 425;
+    playerMiniRect.w = 40;
+    playerMiniRect.h = 40;
 
     this->cardClicked = nullptr;
 }
@@ -365,6 +385,7 @@ void Graphic::play(GameState &gamestate)
         this->grid.drawGlobalrules(renderer, *this);
         this->grid.drawPioche(renderer, *this);
         this->grid.drawArrowDirection(renderer, *this);
+        this->grid.drawInfoPart(renderer, *this);
 
         present();
         gameloop();
