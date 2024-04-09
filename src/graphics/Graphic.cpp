@@ -114,7 +114,7 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     deckPart.h = 300;
 
     pioche.x = 50;
-    pioche.y = (screenHeight / 2);
+    pioche.y = (screenHeight / 2) + 30;
     pioche.w = 100;
     pioche.h = 150;
 
@@ -139,12 +139,12 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     currentPlayerRect.h = 100;
 
     scoreRect.x = 50;
-    scoreRect.y = 400;
+    scoreRect.y = 410;
     scoreRect.w = 100;
     scoreRect.h = 150;
 
     playerMiniRect.x = 60;
-    playerMiniRect.y = 425;
+    playerMiniRect.y = 435;
     playerMiniRect.w = 40;
     playerMiniRect.h = 40;
 
