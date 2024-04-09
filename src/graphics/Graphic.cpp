@@ -113,13 +113,13 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     deckPart.w = 1500;
     deckPart.h = 300;
 
-    pioche.x = 50;
+    pioche.x = screenWidth - 150;
     pioche.y = (screenHeight / 2) + 30;
     pioche.w = 100;
     pioche.h = 150;
 
-    globalRuleButton.x = screenWidth - 200;
-    globalRuleButton.y = (screenHeight / 2) - 50;
+    globalRuleButton.x = screenWidth - 150;
+    globalRuleButton.y = (screenHeight / 2) - 200;
     globalRuleButton.w = 100;
     globalRuleButton.h = 150;
 
@@ -134,17 +134,17 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     logo.h = 100;
 
     currentPlayerRect.x = 50;
-    currentPlayerRect.y = 300;
+    currentPlayerRect.y = (screenHeight / 2) - 200;
     currentPlayerRect.w = 100;
     currentPlayerRect.h = 100;
 
     scoreRect.x = 50;
-    scoreRect.y = 410;
+    scoreRect.y = (screenHeight / 2) + 30;
     scoreRect.w = 100;
     scoreRect.h = 150;
 
     playerMiniRect.x = 60;
-    playerMiniRect.y = 435;
+    playerMiniRect.y = (screenHeight / 2) + 55;
     playerMiniRect.w = 40;
     playerMiniRect.h = 40;
 
