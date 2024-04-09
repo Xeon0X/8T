@@ -84,7 +84,6 @@ void Game::setCurrentPlayer(Player player)
 
 void Game::replacePlayer(Player player)
 {
-    this->currentPlayer = player;
     for (int i = 0; i < this->players.size(); i++)
     {
         if (this->players[i].getSymbol() == player.getSymbol())

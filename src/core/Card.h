@@ -35,6 +35,7 @@ protected:
     int uniqueId;
     std::vector<std::string> arrowDirection;
     bool isGlobalRule;
+    bool canBeGlobalRules = false;
 
 public:
     /**
@@ -72,6 +73,8 @@ public:
     bool isAGlobalRule() const;
     void setGlobalRuleState(bool state);
     void applyWhenGlobalRule(Game &game, int CurrentGrid);
+
+    bool getCanBeGlobal() { return canBeGlobalRules; }
 };
 
 #endif // CARD

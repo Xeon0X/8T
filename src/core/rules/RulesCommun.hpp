@@ -214,6 +214,7 @@ class CardTurnGrid : public Card
 public:
     CardTurnGrid(std::string name, std::string description, int id) : Card(name, description, id)
     {
+        this->canBeGlobalRules = true;
         arrowDirection.push_back("left");
         arrowDirection.push_back("right");
     };
