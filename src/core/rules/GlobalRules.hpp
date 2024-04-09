@@ -32,7 +32,7 @@ public:
                 {
                     // Victoire !
                     player1.setScore(player1.getScore() + 1);
-                    game.replacePlayer(player1);
+                    game.setPlayer(player1);
                 }
             }
         }
@@ -46,7 +46,7 @@ public:
                     // Victoire !
                     player2.setScore(player2.getScore() + 1);
 
-                    game.replacePlayer(player2);
+                    game.setPlayer(player2);
                 }
             }
         }

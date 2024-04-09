@@ -65,7 +65,7 @@ public:
      *
      * @param player
      */
-    void replacePlayer(Player player);
+    void setPlayer(Player player);
 
     /**
      * @brief Switch the current player

@@ -1,5 +1,5 @@
 #include "Graphic.h"
-#include "Case.h"
+#include "../core/Case.h"
 #include <iostream>
 #include <SDL2/SDL_image.h>
 Graphic::Graphic()
@@ -518,7 +518,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
                 this->grid.setGame(game); // Update the grid with next global rule
 
                 player.drawCard();
-                this->grid.getGame().replacePlayer(player);
+                this->grid.getGame().setPlayer(player);
                 this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
             }
         }
@@ -550,7 +550,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
                     // TODO : manage player effect
                     // player.getPlayerEffects().posePiece = false;
-                    // game.replacePlayer(player);
+                    // game.setPlayer(player);
                     // game.setCurrentPlayer(player);
 
                     this->grid.setGame(game);
@@ -705,7 +705,7 @@ void Graphic::handleCheckWin(int cellX, int cellY, Game game)
         Player player = game.getCurrentPlayer();
         player.setScore(player.getScore() + 1);
         game.setCurrentPlayer(player);
-        game.replacePlayer(player);
+        game.setPlayer(player);
     }
     this->grid.setGame(game);
 }
@@ -742,7 +742,7 @@ void Graphic::deleteCard()
     Deck deck = player.getDeck(player.getCurrentGrid());
     deck.removeCard(this->cardClicked);
     player.setDeck(player.getCurrentGrid(), deck);
-    this->grid.getGame().replacePlayer(player);
+    this->grid.getGame().setPlayer(player);
     this->grid.getGame().setCurrentPlayer(player);
     this->cardClicked = nullptr;
 }
