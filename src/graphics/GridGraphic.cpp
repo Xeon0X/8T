@@ -251,6 +251,11 @@ GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
     this->score = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_shadow.png");
+    this->shadowCard = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
 }
 
 void GridGraphic::initCardTexture(SDL_Renderer *renderer)
@@ -419,6 +424,13 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
             cardX -= 5;
             cardWidth += 10;
             cardHeight += 20;
+
+            graphic.shadowRect.x = cardX - 50;
+            graphic.shadowRect.y = cardY + 45;
+            graphic.shadowRect.w = cardWidth + 100;
+            graphic.shadowRect.h = cardHeight;
+
+            SDL_RenderCopy(renderer, shadowCard, NULL, &graphic.shadowRect);
         }
         SDL_Texture *texture = nullptr;
         SDL_Surface *surface = nullptr;
@@ -441,7 +453,7 @@ void GridGraphic::setInitialGridSize(int width, int height)
 
 void GridGraphic::drawPartInterface(SDL_Renderer *renderer, Graphic &graphic)
 {
-    SDL_RenderCopy(renderer, backgroundTexture, NULL, &graphic.deckPart);
+    SDL_RenderCopy(renderer, backgroundTexture, NULL, &graphic.background);
 }
 
 void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
@@ -501,7 +513,7 @@ void GridGraphic::drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic)
     int windowWidth, windowHeight;
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
 
-    if (graphic.getCard() != nullptr)
+    if (graphic.getCard() != nullptr && graphic.getCard()->getCanBeGlobal())
     {
         SDL_RenderCopy(renderer, addToRulesTexture, NULL, &graphic.globalRuleButton);
     }

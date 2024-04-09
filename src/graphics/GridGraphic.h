@@ -36,6 +36,7 @@ private:
     SDL_Texture *addToRulesTexture;
     SDL_Texture *logo;
     SDL_Texture *score;
+    SDL_Texture *shadowCard;
 
 public:
     /**

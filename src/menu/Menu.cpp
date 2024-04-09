@@ -220,8 +220,8 @@ void Menu::drawGameCreation(Graphic &graphic)
 
     static int player1Shape = 0;
     static int player1Color = 0;
-    static int player2Shape = 0;
-    static int player2Color = 0;
+    static int player2Shape = 1;
+    static int player2Color = 1;
 
     const char *shapes[] = {"Croix", "Rond", "Triangle", "Carrée"};
     const char *colors[] = {"Rouge", "Bleu", "Vert", "Jaune"};
@@ -303,12 +303,10 @@ void Menu::drawGameCreation(Graphic &graphic)
             {
                 shape2 = 'C';
             }
-            if (shape1 != shape2 && colors[player1Color] != colors[player2Color])
-            {
-                Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
-                Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
-                graphic = *(new Graphic(this->window, this->renderer, player1, player2));
-            }
+
+            Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
+            Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
+            graphic = *(new Graphic(this->window, this->renderer, player1, player2));
         }
     }
 

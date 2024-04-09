@@ -46,6 +46,7 @@ public:
     SDL_Rect currentPlayerRect;
     SDL_Rect scoreRect;
     SDL_Rect playerMiniRect;
+    SDL_Rect shadowRect;
     int time;
     /**
      * @brief Constructor for the Graphic class.
