@@ -108,7 +108,6 @@ Player Game::findPlayerBySymbol(std::string symbol)
 
 bool Game::isCaseOfPlayer(int cellX, int cellY, int CurrentGrid, Player player) 
     {
-        std::cout <<  "Check x:" << cellX << " y: " << cellY << std::endl;
         if (!this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces().empty()) {
             if (this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces()[0].getSymbol() == player.getSymbol() && this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces()[0].getColor() == player.getColor()) 
             {
@@ -120,6 +119,7 @@ bool Game::isCaseOfPlayer(int cellX, int cellY, int CurrentGrid, Player player)
 
 void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGrid, int direction) 
 {
+    std::cout << "\nSCORE 3: " << this->getPlayer()[0].getScore() << std::endl;
     Grid grid = this->getGrid(CurrentGrid);    
     int nbAlignToWin = grid.getNbAlignToWin();
     std::vector<Player> players = this->getPlayer();
@@ -148,11 +148,9 @@ void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGr
         }
 
         int aligned = 0;
-        std::cout << directionX << " " << directionY << " " << aligned << " " << offsetY << " " << nbAlignToWin << std::endl;
         while (((aligned < nbAlignToWin) && (this->isCaseOfPlayer(cellX + (directionX * aligned), cellY + (directionY * aligned), CurrentGrid, player)))) 
         {
             aligned += 1;
-            std::cout << (aligned < nbAlignToWin) << aligned << "<" << nbAlignToWin << std::endl;
         }
         
         if (aligned == nbAlignToWin)
@@ -161,4 +159,5 @@ void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGr
             this->setPlayer(player); // Update the player score
         }
     }
+    std::cout << "\nSCORE 4: " << this->getPlayer()[0].getScore() << std::endl;
 }

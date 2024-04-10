@@ -16,6 +16,7 @@ public:
     ~CardAlignToWin(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        std::cout << "\nSCORE -1: " << game.getPlayer()[0].getScore() << std::endl;
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
 
@@ -48,6 +49,7 @@ public:
                 }
             }
         }
+        std::cout << "\nSCORE 0: " << game.getPlayer()[0].getScore() << std::endl;
     }
 };
 
@@ -119,6 +121,7 @@ public:
     ~CardPlayCard(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        std::cout << "\nSCORE 1: " << game.getPlayer()[0].getScore() << std::endl;
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canPlayCard = true;
@@ -129,5 +132,6 @@ public:
         }
         grid.setRules(rules);
         game.setGrid(CurrentGrid, grid);
+        std::cout << "\nSCORE 2: " << game.getPlayer()[0].getScore() << std::endl;
     }
 };

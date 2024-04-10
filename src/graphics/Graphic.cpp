@@ -636,18 +636,26 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
 
                 if (CoIncid(mouseX, mouseY, x, y, x + w, y + h))
                 {
-                    std::cout << "doign" << std::endl;
+                    std::cout << "\nSCORE 4: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
                     this->cardClicked->setGlobalRuleState(false);
+                    std::cout << "\nSCORE 4.3: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
                     this->cardClicked->applyCard(0, 0, CurrentGrid, player, this->grid.getGame(), directions[i]);
+                    std::cout << "\nSCORE 4.4: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
                     this->deleteCard();
                     this->isCardClicked = false;
+                    std::cout << "\nSCORE 4.5: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
 
                     Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
+                    std::cout << "\nSCORE 4.6: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
                     gridForRules.nextGlobalRule();
+                    std::cout << "\nSCORE 4.7: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
                     GridRules rules = gridForRules.getRules();
+                    std::cout << "\nSCORE 4.8: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
                     rules.canPlayCard = false;
                     gridForRules.setRules(rules);
+                    std::cout << "\nSCORE 4.9: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
                     this->grid.getGame().setGrid(CurrentGrid, gridForRules);
+                    std::cout << "\nSCORE 5: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;                
                 }
             }
         }

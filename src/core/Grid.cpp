@@ -123,20 +123,18 @@ void Grid::createGlobalRules()
     // this->addGlobalRule(card3);
     CardPlacePiece *card8 = new CardPlacePiece("PlacePiece", "Pose une pièce", 7);
     this->addGlobalRule(card8);
-    // CardPlayCard *card4 = new CardPlayCard("PlayCard", "Joue une carte", 8);
-    // this->addGlobalRule(card4);
-    // CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 9);
-    // this->addGlobalRule(card1);
+    CardPlayCard *card4 = new CardPlayCard("PlayCard", "Joue une carte", 8);
+    this->addGlobalRule(card4);
+    CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 9);
+    this->addGlobalRule(card1);
     // CardGravity *card5 = new CardGravity("Gravity", "Applique la gravité", 1);
     // this->addGlobalRule(card5);
     CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
     this->addGlobalRule(card2);
     CardAlignToWin *card6 = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 11);
     this->addGlobalRule(card6);
-    CardTurnGrid *card11 = new CardTurnGrid("DrawCard", "Pioche une carte", 9);
-    this->addGlobalRule(card11);
-    CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 9);
-    this->addGlobalRule(card1);
+    // CardTurnGrid *card11 = new CardTurnGrid("DrawCard", "Pioche une carte", 9);
+    // this->addGlobalRule(card11);
 }
 
 std::vector<Card *> Grid::getGlobalRules()
