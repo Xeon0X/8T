@@ -13,7 +13,8 @@ enum class GameState
     GameCreation,
     Options,
     Pause,
-    Quit
+    Quit,
+    End
 };
 
 /**
@@ -254,6 +255,8 @@ public:
     GridGraphic &getGrid() { return grid; };
     void drawSquare(int x, int y, int h, int thickness, Player player);
     void drawTriangle(int x, int y, int h, int thickness, Player player);
+    int getWinnerId();
+    SDL_Texture *getWinnerTexture();
 };
 
 #endif // GRAPHIC

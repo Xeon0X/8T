@@ -51,7 +51,7 @@ public:
      * @brief Destroy the Card object
      *
      */
-    ~Card();
+    virtual ~Card(){};
 
     /**
      * @brief Get the Name object

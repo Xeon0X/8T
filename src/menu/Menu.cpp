@@ -1,4 +1,7 @@
 #include "Menu.h"
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_surface.h>
+#include <cstring>
 
 void Menu::drawMenu()
 {
@@ -183,6 +186,10 @@ void Menu::pauseMenu()
         {
             this->gamestate = GameState::Quit;
         }
+        else if(this->event.type == SDL_KEYDOWN && this->event.key.keysym.sym == SDLK_ESCAPE)
+        {
+            this->gamestate = GameState::Game;
+        }
     }
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -269,15 +276,15 @@ void Menu::drawGameCreation(Graphic &graphic)
 
             char shape1;
             char shape2;
-            if (shapes[player1Shape] == "Croix")
+            if (strcmp(shapes[player1Shape], "Croix") == 0)
             {
                 shape1 = 'X';
             }
-            else if (shapes[player1Shape] == "Rond")
+            else if (strcmp(shapes[player1Shape], "Rond") == 0)
             {
                 shape1 = 'O';
             }
-            else if (shapes[player1Shape] == "Triangle")
+            else if (strcmp(shapes[player1Shape], "Triangle") == 0)
             {
                 shape1 = 'T';
             }
@@ -286,16 +293,16 @@ void Menu::drawGameCreation(Graphic &graphic)
                 shape1 = 'C';
             }
 
-            if (shapes[player2Shape] == "Croix")
+            if (strcmp(shapes[player2Shape], "Croix") == 0)
             {
                 shape2 = 'X';
             }
-            else if (shapes[player2Shape] == "Rond")
+            else if (strcmp(shapes[player2Shape], "Rond") == 0)
             {
 
                 shape2 = 'O';
             }
-            else if (shapes[player2Shape] == "Triangle")
+            else if (strcmp(shapes[player2Shape], "Triangle") == 0)
             {
                 shape2 = 'T';
             }
@@ -344,6 +351,126 @@ void Menu::gameCreation(Graphic &graphic)
     SDL_GL_SwapWindow(this->window);
 }
 
+void Menu::endMenu(Graphic &graphic){
+    while (SDL_PollEvent(&this->event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
+        {
+            this->gamestate = GameState::Quit;
+        }
+    }
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    drawEndMenu(graphic);
+    ImGui::Render();
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(this->window);
+}
+
+void Menu::drawEndMenu(Graphic &graphic){
+
+    //SDL_Texture* winnerTexture = graphic.getWinnerTexture();
+    SDL_Surface *winnerSurface = IMG_Load("../data/images/logo_big.png");
+    SDL_Texture *winnerTexture = SDL_CreateTextureFromSurface(this->renderer, winnerSurface);
+    SDL_FreeSurface(winnerSurface);
+    if(winnerTexture != nullptr){
+        // Get the OpenGL handle from the SDL_Texture
+        GLuint oglTextureID;
+        SDL_GL_BindTexture(winnerTexture, NULL, NULL);
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint*)&oglTextureID);
+        SDL_GL_UnbindTexture(winnerTexture);
+
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("End Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("End Menu").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
+
+        ImGui::Text("End Menu");
+        ImGui::Separator();
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 500) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        
+        ImGui::Text("The winner is: ");
+
+        // Display the winner texture
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 25);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Image((void*)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 200) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Menu", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Menu;
+        }
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 350) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Quit", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Quit;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::End();
+    }
+    else{
+        ImGui::SetNextWindowPos
+        (ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("End Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("End Menu").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
+
+        ImGui::Text("End Menu");
+        ImGui::Separator();
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        if (ImGui::Button("Menu", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Menu;
+        }
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Quit", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Quit;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::End();
+    }
+
+}
+
 int main()
 {
     Menu menu;
@@ -383,6 +510,9 @@ void Menu::start()
             break;
         case GameState::GameCreation:
             this->gameCreation(graphic);
+            break;
+        case GameState::End:
+            this->endMenu(graphic);
             break;
         default:
             break;

@@ -7,9 +7,6 @@ Card::Card(std::string name, std::string description, int id) : name(name), desc
 {
 }
 
-Card::~Card()
-{
-}
 
 std::string Card::getName()
 {
@@ -68,19 +65,22 @@ std::vector<std::string> Card::getArrowDirection()
     return arrowDirection;
 }
 
-bool Card::isAGlobalRule() const {
+bool Card::isAGlobalRule() const
+{
     return this->isGlobalRule;
 }
 
-void Card::setGlobalRuleState(bool state) {
+void Card::setGlobalRuleState(bool state)
+{
     this->isGlobalRule = state;
 }
 
-void Card::applyWhenGlobalRule(Game &game, int CurrentGrid) {
-    if (isGlobalRule) {
-            Grid currentGrid = game.getGrid(CurrentGrid);
-            GridRules rules = currentGrid.getRules();
-            currentGrid.nextGlobalRule();
-            game.setGrid(CurrentGrid, currentGrid);
-        }
+void Card::applyWhenGlobalRule(Game &game, int CurrentGrid)
+{
+    if (isGlobalRule)
+    {
+        Grid currentGrid = game.getGrid(CurrentGrid);
+        currentGrid.nextGlobalRule();
+        game.setGrid(CurrentGrid, currentGrid);
+    }
 }

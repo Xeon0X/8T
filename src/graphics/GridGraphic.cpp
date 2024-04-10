@@ -314,6 +314,22 @@ void GridGraphic::initCardTexture(SDL_Renderer *renderer)
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     this->cardsTextures.push_back(texture);
     SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_align+1.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_align-1.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_end.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
 }
 
 void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
@@ -418,7 +434,7 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
         int cardWidth = 100;
         int cardHeight = 150;
 
-        if (grid.getCurrentGlobalRule() == i)
+        if (grid.getCurrentGlobalRule() == static_cast<int>(i))
         {
             cardY -= 10;
             cardX -= 5;
@@ -432,13 +448,10 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
 
             SDL_RenderCopy(renderer, shadowCard, NULL, &graphic.shadowRect);
         }
-        SDL_Texture *texture = nullptr;
-        SDL_Surface *surface = nullptr;
 
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderCopy(renderer, cardsTextures[grid.getGlobalRules()[i]->getId() - 1], NULL, &rect);
         // SDL_RenderDrawRect(renderer, &rect);
-        SDL_FreeSurface(surface);
         // std::string text = grid.getGlobalRules()[i]->getName();
         // const char *cstr = text.c_str();
         // graphic.drawText(cstr, cardX + 10, cardY + 50);
@@ -476,7 +489,7 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
 
         Card *card = graphic.getCard();
         std::vector<std::string> directions = card->getArrowDirection();
-        for (int i = 0; i < directions.size(); i++)
+        for (unsigned int i = 0; i < directions.size(); i++)
         {
             if (directions[i] == "up")
             {
@@ -502,6 +515,11 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 SDL_Rect rect = {endX + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
 
                 SDL_RenderCopy(renderer, arrowRightTexture, NULL, &rect);
+            }
+            if(directions[i]=="static"){
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                SDL_Rect rect = {windowWidth-100, windowHeight-100, 50, 50};
+                SDL_RenderFillRect(renderer, &rect);
             }
         }
     }
@@ -541,4 +559,9 @@ void GridGraphic::drawInfoPart(SDL_Renderer *renderer, Graphic &graphic)
         SDL_RenderCopy(renderer, playerTextures[k], NULL, &graphic.playerMiniRect);
         graphic.drawText(std::to_string(players[k].getScore()).c_str(), graphic.playerMiniRect.x + 35, graphic.playerMiniRect.y + 10);
     }
+}
+
+SDL_Texture* GridGraphic::getPlayerTexture(int indice)
+{
+    return this->playerTextures[indice];
 }

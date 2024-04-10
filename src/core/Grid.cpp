@@ -133,8 +133,8 @@ void Grid::createGlobalRules()
     this->addGlobalRule(card2);
     CardAlignToWin *card6 = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 11);
     this->addGlobalRule(card6);
-    // CardTurnGrid *card11 = new CardTurnGrid("DrawCard", "Pioche une carte", 9);
-    // this->addGlobalRule(card11);
+    //CardEnd *card7 = new CardEnd("End", "Termine le tour", 14);
+    //this->addGlobalRule(card7);
 }
 
 std::vector<Card *> Grid::getGlobalRules()

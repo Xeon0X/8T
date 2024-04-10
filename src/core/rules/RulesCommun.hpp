@@ -3,7 +3,6 @@
 #include "../Player.h"
 
 #include "../Grid.h"
-#include <iostream>
 #include <vector>
 
 class CardAddLine : public Card
@@ -34,7 +33,7 @@ public:
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         std::vector<Case *> row;
-        for (int i = 0; i < cases[0].size(); i++)
+        for (unsigned int i = 0; i < cases[0].size(); i++)
         {
             row.push_back(new Case());
         }
@@ -48,7 +47,7 @@ public:
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         std::vector<Case *> row;
-        for (int i = 0; i < cases[0].size(); i++)
+        for (unsigned int i = 0; i < cases[0].size(); i++)
         {
             row.push_back(new Case());
         }
@@ -85,7 +84,7 @@ public:
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
-        for (int i = 0; i < cases.size(); i++)
+        for (unsigned int i = 0; i < cases.size(); i++)
         {
             cases[i].insert(cases[i].begin(), new Case());
         }
@@ -97,7 +96,7 @@ public:
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
-        for (int i = 0; i < cases.size(); i++)
+        for (unsigned int i = 0; i < cases.size(); i++)
         {
             cases[i].push_back(new Case());
         }
@@ -181,7 +180,7 @@ public:
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
-        for (int i = 0; i < cases.size(); i++)
+        for (unsigned int i = 0; i < cases.size(); i++)
         {
             if (cases[i].size() > 1)
             {
@@ -196,7 +195,7 @@ public:
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
-        for (int i = 0; i < cases.size(); i++)
+        for (unsigned int i = 0; i < cases.size(); i++)
         {
             if (cases[i].size() > 1)
             {
@@ -241,7 +240,7 @@ public:
         for (int i = cases[0].size() - 1; i >= 0; i--)
         {
             std::vector<Case *> newRow;
-            for (int j = 0; j < cases.size(); j++)
+            for (unsigned int j = 0; j < cases.size(); j++)
             {
                 newRow.push_back(cases[j][i]);
             }
@@ -258,7 +257,7 @@ public:
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         std::vector<std::vector<Case *>> newCases;
 
-        for (int i = 0; i < cases[0].size(); i++)
+        for (unsigned int i = 0; i < cases[0].size(); i++)
         {
             std::vector<Case *> newRow;
             for (int j = cases.size() - 1; j >= 0; j--)
@@ -304,7 +303,9 @@ public:
 class CardAlignToWinPlusOne : public Card
 {
 public:
-    CardAlignToWinPlusOne(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardAlignToWinPlusOne(std::string name, std::string description, int id) : Card(name, description, id){
+        arrowDirection.push_back("static");
+    };
     ~CardAlignToWinPlusOne(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -318,7 +319,10 @@ public:
 class CardAlignToWinMinusOne : public Card
 {
 public:
-    CardAlignToWinMinusOne(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardAlignToWinMinusOne(std::string name, std::string description, int id) : Card(name, description, id){
+                arrowDirection.push_back("static");
+
+    };
     ~CardAlignToWinMinusOne(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {

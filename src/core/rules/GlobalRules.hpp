@@ -1,7 +1,6 @@
 #include "../Card.h"
 #include "../Game.h"
 #include "../Player.h"
-#include "../Case.h"
 #include "../Grid.h"
 #include <iostream>
 #include <vector>
@@ -134,4 +133,35 @@ public:
         game.setGrid(CurrentGrid, grid);
         std::cout << "\nSCORE 2: " << game.getPlayer()[0].getScore() << std::endl;
     }
+};
+
+class CardEnd : public Card
+{
+    private :
+        int nbRoundLeft = 6;
+
+    public:
+        CardEnd(std::string name, std::string description, int id) : Card(name, description, id){
+                    this->canBeGlobalRules = true;
+
+        };
+        ~CardEnd(){};
+        void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
+        {   
+            
+            applyWhenGlobalRule(game, CurrentGrid);
+
+            if (nbRoundLeft == 0)
+            {
+                Grid grid = game.getGrid(CurrentGrid);
+                GridRules rules = grid.getRules();
+                rules.endGame = true;
+                grid.setRules(rules);
+                game.setGrid(CurrentGrid, grid);
+            }
+            else
+            {
+                nbRoundLeft--;
+            }
+        }
 };
