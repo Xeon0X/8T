@@ -325,6 +325,11 @@ void GridGraphic::initCardTexture(SDL_Renderer *renderer)
     this->cardsTextures.push_back(texture);
     SDL_FreeSurface(surface);
 
+    surface = IMG_Load("../data/images/card_end.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
 }
 
 void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
@@ -404,7 +409,6 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
             cardX -= 5;
             cardWidth += 10;
             cardHeight += 20;
-            std::cout << "Card selected :" << graphic.getCard()->getName() << std::endl;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
 
@@ -555,4 +559,9 @@ void GridGraphic::drawInfoPart(SDL_Renderer *renderer, Graphic &graphic)
         SDL_RenderCopy(renderer, playerTextures[k], NULL, &graphic.playerMiniRect);
         graphic.drawText(std::to_string(players[k].getScore()).c_str(), graphic.playerMiniRect.x + 35, graphic.playerMiniRect.y + 10);
     }
+}
+
+SDL_Texture* GridGraphic::getPlayerTexture(int indice)
+{
+    return this->playerTextures[indice];
 }

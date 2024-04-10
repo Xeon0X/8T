@@ -1,5 +1,6 @@
 #include "Graphic.h"
 #include "../core/Case.h"
+#include <SDL2/SDL_render.h>
 #include <iostream>
 #include <SDL2/SDL_image.h>
 Graphic::Graphic()
@@ -771,4 +772,39 @@ void Graphic::setCard(Card *card)
 Card *Graphic::getCard()
 {
     return this->cardClicked;
+}
+
+
+int Graphic::getWinnerId()
+{
+    int scorePlayer1 = this->grid.getGame().getPlayer()[0].getScore();
+    int scorePlayer2 = this->grid.getGame().getPlayer()[1].getScore();
+    if(scorePlayer1 > scorePlayer2)
+    {
+        return 0;
+    }
+    else if(scorePlayer1 < scorePlayer2)
+    {
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+SDL_Texture *Graphic::getWinnerTexture(){
+    int winnerId = this->getWinnerId();
+    if(winnerId == 0)
+    {
+        return this->grid.getPlayerTexture(0);
+    }
+    else if(winnerId == 1)
+    {
+        return this->grid.getPlayerTexture(1);
+    }
+    else
+    {
+        return IMG_LoadTexture(renderer, "../img/draw.png");
+    }
 }

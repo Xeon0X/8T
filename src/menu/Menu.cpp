@@ -1,4 +1,6 @@
 #include "Menu.h"
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_surface.h>
 #include <cstring>
 
 void Menu::drawMenu()
@@ -372,40 +374,100 @@ void Menu::endMenu(Graphic &graphic){
 }
 
 void Menu::drawEndMenu(Graphic &graphic){
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(this->io->DisplaySize);
-    ImGui::Begin("End Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
-    ImGui::SetWindowFontScale(1.7f);
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("End Menu").x) * 0.5f);
-    ImGui::SetCursorPosY(100);
+    //SDL_Texture* winnerTexture = graphic.getWinnerTexture();
+    SDL_Surface *winnerSurface = IMG_Load("../data/images/logo_big.png");
+    SDL_Texture *winnerTexture = SDL_CreateTextureFromSurface(this->renderer, winnerSurface);
+    SDL_FreeSurface(winnerSurface);
+    if(winnerTexture != nullptr){
+        // Get the OpenGL handle from the SDL_Texture
+        GLuint oglTextureID;
+        SDL_GL_BindTexture(winnerTexture, NULL, NULL);
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint*)&oglTextureID);
+        SDL_GL_UnbindTexture(winnerTexture);
 
-    ImGui::Text("End Menu");
-    ImGui::Separator();
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("End Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
-    ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("End Menu").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
 
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+        ImGui::Text("End Menu");
+        ImGui::Separator();
 
-    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 500) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        
+        ImGui::Text("The winner is: ");
 
-    if (ImGui::Button("Menu", ImVec2(200, 50)))
-    {
-        this->gamestate = GameState::Menu;
+        // Display the winner texture
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 25);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Image((void*)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 200) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Menu", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Menu;
+        }
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 350) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Quit", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Quit;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::End();
     }
+    else{
+        ImGui::SetNextWindowPos
+        (ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("End Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
-    ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
-    ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("End Menu").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
 
-    if (ImGui::Button("Quit", ImVec2(200, 50)))
-    {
-        this->gamestate = GameState::Quit;
+        ImGui::Text("End Menu");
+        ImGui::Separator();
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        if (ImGui::Button("Menu", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Menu;
+        }
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Quit", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Quit;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::End();
     }
-    ImGui::PopStyleColor();
-
-    ImGui::End();
 
 }
 

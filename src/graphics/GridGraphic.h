@@ -123,6 +123,7 @@ public:
     void drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic);
     void initCardTexture(SDL_Renderer *renderer);
     void drawInfoPart(SDL_Renderer *renderer, Graphic &graphic);
+    SDL_Texture* getPlayerTexture(int indice);
 };
 
 #endif // GRAPHIC_GRID

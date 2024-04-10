@@ -132,7 +132,7 @@ void Grid::createGlobalRules()
     this->addGlobalRule(card2);
     CardAlignToWin *card6 = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 11);
     this->addGlobalRule(card6);
-   // CardEnd *card7 = new CardEnd("End", "Termine le tour", 12);
+    //CardEnd *card7 = new CardEnd("End", "Termine le tour", 14);
     //this->addGlobalRule(card7);
 }
 
