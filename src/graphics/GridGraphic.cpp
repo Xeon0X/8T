@@ -314,6 +314,17 @@ void GridGraphic::initCardTexture(SDL_Renderer *renderer)
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     this->cardsTextures.push_back(texture);
     SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_align+1.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_align-1.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
 }
 
 void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
@@ -393,6 +404,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
             cardX -= 5;
             cardWidth += 10;
             cardHeight += 20;
+            std::cout << "Card selected :" << graphic.getCard()->getName() << std::endl;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
 
@@ -499,6 +511,11 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 SDL_Rect rect = {endX + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
 
                 SDL_RenderCopy(renderer, arrowRightTexture, NULL, &rect);
+            }
+            if(directions[i]=="static"){
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+                SDL_Rect rect = {windowWidth-100, windowHeight-100, 50, 50};
+                SDL_RenderFillRect(renderer, &rect);
             }
         }
     }

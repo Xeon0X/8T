@@ -349,7 +349,7 @@ void Menu::gameCreation(Graphic &graphic)
     SDL_GL_SwapWindow(this->window);
 }
 
-void Menu::endMenu(){
+void Menu::endMenu(Graphic &graphic){
     while (SDL_PollEvent(&this->event))
     {
         ImGui_ImplSDL2_ProcessEvent(&this->event);
@@ -361,7 +361,7 @@ void Menu::endMenu(){
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
-    drawEndMenu();
+    drawEndMenu(graphic);
     ImGui::Render();
     glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -371,7 +371,7 @@ void Menu::endMenu(){
     SDL_GL_SwapWindow(this->window);
 }
 
-void Menu::drawEndMenu(){
+void Menu::drawEndMenu(Graphic &graphic){
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(this->io->DisplaySize);
     ImGui::Begin("End Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
@@ -450,7 +450,7 @@ void Menu::start()
             this->gameCreation(graphic);
             break;
         case GameState::End:
-            this->endMenu();
+            this->endMenu(graphic);
             break;
         default:
             break;

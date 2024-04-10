@@ -303,7 +303,9 @@ public:
 class CardAlignToWinPlusOne : public Card
 {
 public:
-    CardAlignToWinPlusOne(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardAlignToWinPlusOne(std::string name, std::string description, int id) : Card(name, description, id){
+        arrowDirection.push_back("static");
+    };
     ~CardAlignToWinPlusOne(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -317,7 +319,10 @@ public:
 class CardAlignToWinMinusOne : public Card
 {
 public:
-    CardAlignToWinMinusOne(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardAlignToWinMinusOne(std::string name, std::string description, int id) : Card(name, description, id){
+                arrowDirection.push_back("static");
+
+    };
     ~CardAlignToWinMinusOne(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {

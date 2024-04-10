@@ -602,6 +602,12 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         int arrowRightWidth = 50;
         int arrowRightHeight = 50;
 
+
+        int staticRightX = screenWidth - 100;
+        int staticRightY = screenHeight - 100;
+        int staticRightWidth = 50;
+        int staticRightHeight = 50;
+
         int x, y, h, w;
 
         if (this->isCardClicked)
@@ -636,6 +642,13 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                     y = arrowRightY;
                     h = arrowRightHeight;
                     w = arrowRightWidth;
+                }
+                else if (directions[i]=="static") {
+                    
+                    x = staticRightX;
+                    y = staticRightY;
+                    h = staticRightHeight;
+                    w = staticRightWidth;
                 }
 
                 if (CoIncid(mouseX, mouseY, x, y, x + w, y + h))
