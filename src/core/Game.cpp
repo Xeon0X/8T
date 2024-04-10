@@ -157,6 +157,7 @@ void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGr
         {
             player.setScore(player.getScore() + 1);
             this->setPlayer(player); // Update the player score
+            // this->setCurrentPlayer(player);
         }
     }
     std::cout << "\nSCORE 4: " << this->getPlayer()[0].getScore() << std::endl;
