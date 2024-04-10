@@ -332,4 +332,14 @@ public:
             nbRoundLeft--;
         }
     }
+
+    /**
+     * @brief Get the Nb Round Left object
+     *
+     * @return int
+     */
+    int getNbRoundLeft()
+    {
+        return nbRoundLeft;
+    }
 };

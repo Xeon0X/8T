@@ -23,6 +23,8 @@ private:
     SDL_Event event;                       /**< The event of the game. */
     SDL_GLContext gl_context;              /**< The gl context of the game. */
 
+    SDL_Texture *logoTexture; /**< The texture of the logo. */
+
 public:
     /**
      * @brief Constructor for the Menu class.

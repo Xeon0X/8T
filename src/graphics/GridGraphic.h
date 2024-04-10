@@ -187,6 +187,15 @@ public:
     void drawInfoPart(SDL_Renderer *renderer, Graphic &graphic);
 
     /**
+     * @brief Draw the details on the card
+     *
+     * @param renderer The renderer of the game.
+     * @param graphic The graphic of the game.
+     */
+
+    void drawCardDetails(Card *card, Graphic &graphic, int cardX, int cardY);
+
+    /**
      * @brief Get the texture of the player.
      *
      * @return The texture of the player.

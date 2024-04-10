@@ -5,6 +5,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include "../rules/GlobalRules.hpp"
 
 GridGraphic::GridGraphic(/* args */)
 {
@@ -410,9 +411,23 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
             cardHeight += 20;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
-
-        // SDL_RenderDrawRect(renderer, &rect);
         SDL_RenderCopy(renderer, cardsTextures[deck.getCards()[i]->getId() - 1], NULL, &rect);
+
+        if (deck.getCards()[i] != nullptr)
+        {
+            switch (deck.getCards()[i]->getId())
+            {
+            case 11:
+            {
+                std::string nbAlignToWin = std::to_string(graphic.getGrid().getGame().getGrid(graphic.getGrid().getGame().getCurrentPlayer().getCurrentGrid()).getNbAlignToWin());
+                graphic.drawText(nbAlignToWin.c_str(), cardX + 10, cardY + 50);
+            }
+            break;
+
+            default:
+                break;
+            }
+        }
 
         // std::string text = deck.getCards()[i]->getName();
         // const char *cstr = text.c_str();
@@ -450,10 +465,38 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
 
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderCopy(renderer, cardsTextures[grid.getGlobalRules()[i]->getId() - 1], NULL, &rect);
-        // SDL_RenderDrawRect(renderer, &rect);
-        // std::string text = grid.getGlobalRules()[i]->getName();
-        // const char *cstr = text.c_str();
-        // graphic.drawText(cstr, cardX + 10, cardY + 50);
+
+        drawCardDetails(grid.getGlobalRules()[i], graphic, cardX, cardY);
+    }
+}
+
+void GridGraphic::drawCardDetails(Card *card, Graphic &graphic, int cardX, int cardY)
+{
+    if (card != nullptr)
+    {
+        switch (card->getId())
+        {
+        case 11:
+        {
+            std::string nbAlignToWin = std::to_string(graphic.getGrid().getGame().getGrid(graphic.getGrid().getGame().getCurrentPlayer().getCurrentGrid()).getNbAlignToWin());
+            graphic.drawText(nbAlignToWin.c_str(), cardX + 20, cardY + 110);
+            break;
+        }
+        case 14:
+        {
+            auto endCard = dynamic_cast<CardEnd *>(card);
+            if (endCard != nullptr)
+            {
+                std::string roundLeft = std::to_string(endCard->getNbRoundLeft());
+                graphic.drawText(roundLeft.c_str(), cardX + 20, cardY + 110);
+            }
+            break;
+        }
+        break;
+
+        default:
+            break;
+        }
     }
 }
 
