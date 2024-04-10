@@ -24,24 +24,14 @@ target("console")
     set_targetdir("bin")
 
 
+
 target("graphic")
-    set_kind("binary")
-    add_files("src/graphics/**.cpp")
-    add_packages("libsdl", "libsdl_ttf", "libsdl_image", "imgui","opengl", "glfw")
-    set_rundir("$(projectdir)/bin")
-    add_deps("core")
-    set_default(false)
-    set_targetdir("bin")
-
-
-target("imgui")
     set_kind("binary")
     add_files("src/menu/**.cpp")
     add_packages("libsdl", "libsdl_ttf", "libsdl_image", "imgui","opengl", "glfw")
     add_deps("graphic_files")
     set_rundir("$(projectdir)/bin")
     add_deps("core")
-       
     set_default(true)
     set_targetdir("bin")
 

@@ -5,6 +5,11 @@
 #include <SDL2/SDL_ttf.h>
 #include "GridGraphic.h"
 
+/**
+ *@enum GameState
+ * @brief Enumeration of the game states.
+ */
+
 enum class GameState
 {
     Menu,
@@ -38,17 +43,18 @@ private:
 
     Card *cardClicked;          /**< The card of the game. */
     bool isCardClicked = false; /**< The state of the card. */
+
 public:
-    SDL_Rect deckPart;
-    SDL_Rect pioche;
-    SDL_Rect globalRuleButton;
-    SDL_Rect background;
-    SDL_Rect logo;
-    SDL_Rect currentPlayerRect;
-    SDL_Rect scoreRect;
-    SDL_Rect playerMiniRect;
-    SDL_Rect shadowRect;
-    int time;
+    SDL_Rect deckPart;          // The part of the screen where the deck is
+    SDL_Rect pioche;            // The part of the screen where the draw is
+    SDL_Rect globalRuleButton;  // The part of the screen where the global rule button is
+    SDL_Rect background;        // The part of the screen where the background is
+    SDL_Rect logo;              // The part of the screen where the logo is
+    SDL_Rect currentPlayerRect; // The part of the screen where the current player is
+    SDL_Rect scoreRect;         // The part of the screen where the score is
+    SDL_Rect playerMiniRect;    // The part of the screen where the mini player is
+    SDL_Rect shadowRect;        // The part of the screen where the card shadow is
+    int time;                   // The time of the game
     /**
      * @brief Constructor for the Graphic class.
      *
@@ -56,9 +62,28 @@ public:
      */
     Graphic();
 
-    Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Player player2);
+    /**
+     * @brief Constructor for the Graphic class.
+     *
+     * Initializes the window, renderer, color, font, fontColor, fontSize, and fontStyle.
+     *
+     * @param window The window of the game.
+     * @param renderer The renderer of the game.
+     */
 
     Graphic(SDL_Window *window, SDL_Renderer *renderer);
+
+    /**
+     * @brief Constructor for the Graphic class.
+     *
+     * Initializes the window, renderer, color, font, fontColor, fontSize, and fontStyle.
+     *
+     * @param window The window of the game.
+     * @param renderer The renderer of the game.
+     * @param player1 The first player of the game.
+     * @param player2 The second player of the game.
+     */
+    Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Player player2);
 
     /**
      * @brief Destructor for the Graphic class.
@@ -67,57 +92,7 @@ public:
      */
     ~Graphic();
 
-    /**
-     * @brief Draws a rectangle on the screen.
-     *
-     * @param x The x coordinate of the top-left corner of the rectangle.
-     * @param y The y coordinate of the top-left corner of the rectangle.
-     * @param w The width of the rectangle.
-     * @param h The height of the rectangle.
-     */
-    void drawRect(int x, int y, int w, int h);
-
-    /**
-     * @brief Draws a line on the screen.
-     *
-     * @param x1 The x coordinate of the start of the line.
-     * @param y1 The y coordinate of the start of the line.
-     * @param x2 The x coordinate of the end of the line.
-     * @param y2 The y coordinate of the end of the line.
-     */
-    void drawLine(int x1, int y1, int x2, int y2);
-
-    /**
-     * @brief Draws a circle on the screen.
-     *
-     * @param x The x coordinate of the center of the circle.
-     * @param y The y coordinate of the center of the circle.
-     * @param r The radius of the circle.
-     * @param thickness The thickness of the circle.
-     * @param player The player who owns the circle.
-     */
-    void drawCircle(int x, int y, int r, int thickness, Player player);
-
-    /**
-     * @brief Draws a cross on the screen.
-     *
-     * @param x The x coordinate of the center of the cross.
-     * @param y The y coordinate of the center of the cross.
-     * @param r The radius of the cross.
-     * @param thickness The thickness of the cross.
-     * @param player The player who owns the cross.
-     */
-    void drawCross(int x, int y, int r, int thickness, Player player);
-
-    /**
-     * @brief Draws a point on the screen.
-     *
-     * @param x The x coordinate of the point.
-     * @param y The y coordinate of the point.
-     */
-
     void animatePLayerGravity(int x1, int y1, int x2, int y2, int r, int thickness, Player player);
-    void drawPoint(int x, int y);
 
     /**
      * @brief Draws text on the screen.
@@ -137,69 +112,6 @@ public:
      * @brief Presents the screen.
      */
     void present();
-
-    /**
-     * @brief Sets the color of the renderer.
-     *
-     * @param r The red value of the color.
-     * @param g The green value of the color.
-     * @param b The blue value of the color.
-     * @param a The alpha value of the color.
-     */
-    void setColor(int r, int g, int b, int a);
-
-    /**
-     * @brief Sets the draw color of the renderer.
-     *
-     * @param r The red value of the color.
-     * @param g The green value of the color.
-     * @param b The blue value of the color.
-     * @param a The alpha value of the color.
-     */
-    void setDrawColor(int r, int g, int b, int a);
-
-    /**
-     * @brief Sets the font of the renderer.
-     *
-     * @param font The font to be set.
-     * @param size The size of the font.
-     */
-    void setFont(const char *font, int size);
-
-    /**
-     * @brief Sets the font size of the renderer.
-     *
-     * @param size The size of the font.
-     */
-    void setFontSize(int size);
-
-    /**
-     * @brief Sets the font color of the renderer.
-     *
-     * @param r The red value of the color.
-     * @param g The green value of the color.
-     * @param b The blue value of the color.
-     * @param a The alpha value of the color.
-     */
-    void setFontColor(int r, int g, int b, int a);
-
-    /**
-     * @brief Sets the font style of the renderer.
-     *
-     * @param style The style of the font.
-     */
-    void setFontStyle(int style);
-
-    /**
-     * @brief Draws a player on the screen.
-     *
-     * @param x The x coordinate of the player.
-     * @param y The y coordinate of the player.
-     * @param radius The radius of the player.
-     * @param thickness The thickness of the player.
-     * @param player The player to be drawn.
-     */
-    void drawPlayer(int x, int y, int radius, int thickness, Player player);
 
     /**
      * @brief Handle all the event of the game.
@@ -231,6 +143,10 @@ public:
     void play(GameState &gamestate);
 
     /**
+     * @brief Draw the game.
+     */
+    void draw();
+    /**
      * @brief Apply global rules one by one.
      */
     void gameloop();
@@ -243,19 +159,89 @@ public:
      * @param game The game to be checked.
      */
     void handleCheckWin(int cellX, int cellY, Game game);
-    void applyGravityAnimation();
+
+    /**
+     * @brief Check if the mouse is clicked on the interface of the game.
+     *
+     * @param x  The x coordinate of the mouse.
+     * @param y  The y coordinate of the mouse.
+     *
+     * @return true if the mouse is clicked on the interface of the game, false otherwise
+     */
     bool MouseClickInterface(int x, int y);
+
+    /**
+     * @brief Check if the card is empty
+     *
+     * @return true if the card is empty, false otherwise
+     *
+     */
     bool isCardEmpty();
+
+    /**
+     * @brief Delete the card
+     *
+     */
     void deleteCard();
+
+    /**
+     * @brief Set the card
+     *
+     * @param card The card to be set
+     */
     void setCard(Card *card);
-    Card *getCard(); // Get the card that is clicked
-    void drawArrow(int x1, int y1, int x2, int y2, int size, int thickness, std::string sens);
+
+    /**
+     * @brief Get the card that is clicked
+     *
+     * @return The card
+     */
+    Card *getCard();
+
+    /**
+     * @brief Handle the arrow click event of the game.
+     *
+     * @param mouseX The x coordinate of the mouse.
+     * @param mouseY The y coordinate of the mouse.
+     * @param screenWidth The width of the screen.
+     * @param screenHeight The height of the screen.
+     *
+     */
     void handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
+
+    /**
+     * @brief Handle the global rule button click event of the game.
+     *
+     * @param mouseX The x coordinate of the mouse.
+     * @param mouseY The y coordinate of the mouse.
+     * @param screenWidth The width of the screen.
+     * @param screenHeight The height of the screen.
+     *
+     */
     void handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidth, int screenHeight);
+
+    /**
+     * @brief Get the GridGraphic of the game.
+     *
+     * @return The GridGraphic of the game.
+     *
+     */
     GridGraphic &getGrid() { return grid; };
-    void drawSquare(int x, int y, int h, int thickness, Player player);
-    void drawTriangle(int x, int y, int h, int thickness, Player player);
+
+    /**
+     * @brief Get the winner id of the game.
+     *
+     * @return The winner id of the game.
+     *
+     */
     int getWinnerId();
+
+    /**
+     * @brief Get the winner texture of the game.
+     *
+     * @return The winner texture of the game.
+     *
+     */
     SDL_Texture *getWinnerTexture();
 };
 

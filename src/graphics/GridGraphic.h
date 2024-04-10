@@ -13,30 +13,30 @@ class Graphic;
 class GridGraphic
 {
 private:
-    Game game;     /**< The game of the grid. */
-    int gridX = 0; /**< The x and y coordinates of the grid. */
-    int gridY = 0; /**< The x and y coordinates of the grid. */
-    int initialGridWidth;
-    int initialGridHeight;
-    int initialGridX;
-    int initialGridY;
+    Game game;             /**< The game of the grid. */
+    int gridX = 0;         /**< The x and y coordinates of the grid. */
+    int gridY = 0;         /**< The x and y coordinates of the grid. */
+    int initialGridWidth;  /**< The initial width and height of the grid. */
+    int initialGridHeight; /**< The initial width and height of the grid. */
+    int initialGridX;      /**< The initial x and y coordinates of the grid. */
+    int initialGridY;      /**< The initial x and y coordinates of the grid. */
 
-    std::vector<SDL_Texture *> playerTextures, cardsTextures;
-    SDL_Texture *deckTexture;
-    SDL_Texture *caseTexture;
-    SDL_Texture *backgroundTexture;
+    std::vector<SDL_Texture *> playerTextures, cardsTextures; /**< The textures of the players and the cards. */
+    SDL_Texture *deckTexture;                                 /**< The texture of the deck. */
+    SDL_Texture *caseTexture;                                 /**< The texture of the case. */
+    SDL_Texture *backgroundTexture;                           /**< The texture of the background. */
 
-    SDL_Texture *arrowUpTexture;
-    SDL_Texture *arrowDownTexture;
-    SDL_Texture *arrowLeftTexture;
-    SDL_Texture *arrowRightTexture;
-    SDL_Texture *arrowTurnLeftTexture;
-    SDL_Texture *arrowTurnRightTexture;
+    SDL_Texture *arrowUpTexture;        /**< The texture of the arrow up. */
+    SDL_Texture *arrowDownTexture;      /**< The texture of the arrow down. */
+    SDL_Texture *arrowLeftTexture;      /**< The texture of the arrow left. */
+    SDL_Texture *arrowRightTexture;     /**< The texture of the arrow right. */
+    SDL_Texture *arrowTurnLeftTexture;  /**< The texture of the arrow left. */
+    SDL_Texture *arrowTurnRightTexture; /**< The texture of the arrow right. */
 
-    SDL_Texture *addToRulesTexture;
-    SDL_Texture *logo;
-    SDL_Texture *score;
-    SDL_Texture *shadowCard;
+    SDL_Texture *addToRulesTexture; /**< The texture of the add to rules button. */
+    SDL_Texture *logo;              /**< The texture of the logo. */
+    SDL_Texture *score;             /**< The texture of the score. */
+    SDL_Texture *shadowCard;        /**< The texture of the shadow card. */
 
 public:
     /**
@@ -44,6 +44,13 @@ public:
      */
     GridGraphic(/* args */);
 
+    /**
+     * @brief Constructor for the GridGraphic class.
+     *
+     * @param renderer The renderer of the game.
+     * @param player1 The first player of the game.
+     * @param player2 The second player of the game.
+     */
     GridGraphic(SDL_Renderer *renderer, Player player1, Player player2);
     /**
      * @brief Destructor for the GridGraphic class.
@@ -115,15 +122,85 @@ public:
      * @param graphic The graphic of the game.
      */
     void drawDeck(SDL_Renderer *renderer, Graphic &graphic);
+
+    /**
+     * @brief Draws the global rules on the screen.
+     *
+     * @param renderer The renderer of the game.
+     * @param graphic The graphic of the game.
+     */
     void drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic);
+
+    /**
+     * @brief set the initial grid size
+     *
+     * @param width The width of the grid.
+     * @param height The height of the grid.
+     */
     void setInitialGridSize(int width, int height);
+
+    /**
+     * @brief Draw all the part of the interface
+     *
+     * @param renderer The renderer of the game.
+     * @param graphic The graphic of the game.
+     */
     void drawPartInterface(SDL_Renderer *renderer, Graphic &graphic);
+
+    /**
+     * @brief Draw the pioche
+     *
+     * @param renderer The renderer of the game.
+     * @param graphic The graphic of the game.
+     */
     void drawPioche(SDL_Renderer *renderer, Graphic &graphic);
+
+    /**
+     * @brief Draw the arrows for the card direction
+     *
+     * @param renderer The renderer of the game.
+     * @param graphic The graphic of the game.
+     */
     void drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic);
+
+    /**
+     * @brief Draw the add to global rules button
+     *
+     * @param renderer The renderer of the game.
+     * @param graphic The graphic of the game.
+     */
     void drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic);
+
+    /**
+     * @brief Initialise all the card texture
+     *
+     * @param renderer The renderer of the game.
+     */
     void initCardTexture(SDL_Renderer *renderer);
+
+    /**
+     * @brief Draw all the part for the info of the game
+     *
+     * @param renderer The renderer of the game.
+     * @param graphic The graphic of the game.
+     */
     void drawInfoPart(SDL_Renderer *renderer, Graphic &graphic);
-    SDL_Texture* getPlayerTexture(int indice);
+
+    /**
+     * @brief Draw the details on the card
+     *
+     * @param renderer The renderer of the game.
+     * @param graphic The graphic of the game.
+     */
+
+    void drawCardDetails(Card *card, Graphic &graphic, int cardX, int cardY);
+
+    /**
+     * @brief Get the texture of the player.
+     *
+     * @return The texture of the player.
+     */
+    SDL_Texture *getPlayerTexture(int indice);
 };
 
 #endif // GRAPHIC_GRID

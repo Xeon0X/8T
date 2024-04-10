@@ -197,54 +197,6 @@ Graphic::~Graphic()
 {
 }
 
-void Graphic::drawRect(int x, int y, int w, int h)
-{
-    SDL_Rect rect = {x, y, w, h};
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderFillRect(renderer, &rect);
-}
-
-void Graphic::drawLine(int x1, int y1, int x2, int y2)
-{
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
-}
-
-void Graphic::drawCircle(int x, int y, int r, int thickness, Player player)
-{
-    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
-    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
-
-    for (int w = 0; w < thickness; ++w)
-    {
-        for (int i = 0; i < 360; ++i)
-        {
-            double angle = i * M_PI / 180.0;
-            int px = x + (int)((r + w * 0.5) * cos(angle));
-            int py = y + (int)((r + w * 0.5) * sin(angle));
-
-            SDL_RenderDrawPoint(renderer, px, py);
-        }
-    }
-}
-
-void Graphic::drawCross(int x, int y, int r, int thickness, Player player)
-{
-    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
-    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
-    for (int z = 0; z < thickness; z++)
-    {
-        SDL_RenderDrawLine(renderer, x - r, y - r + z, x + r, y + r + z);
-        SDL_RenderDrawLine(renderer, x - r, y + r + z, x + r, y - r + z);
-    }
-}
-
-void Graphic::drawPoint(int x, int y)
-{
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderDrawPoint(renderer, x, y);
-}
-
 void Graphic::drawText(const char *text, int x, int y)
 {
     SDL_Surface *surface = TTF_RenderText_Solid(font, text, fontColor);
@@ -275,126 +227,33 @@ void Graphic::present()
     SDL_RenderPresent(renderer);
 }
 
-void Graphic::setColor(int r, int g, int b, int a)
-{
-    color = {(unsigned char)r, (unsigned char)g, (unsigned char)b, (unsigned char)a};
-}
-
-void Graphic::setDrawColor(int r, int g, int b, int a)
-{
-    SDL_SetRenderDrawColor(renderer, (unsigned char)r, (unsigned char)g, (unsigned char)b, (unsigned char)a);
-}
-
-void Graphic::setFont(const char *font, int size)
-{
-    this->font = TTF_OpenFont(font, size);
-}
-
-void Graphic::setFontSize(int size)
-{
-    fontSize = size;
-    TTF_CloseFont(font);
-    font = TTF_OpenFont("res/arial.ttf", size);
-}
-
-void Graphic::setFontColor(int r, int g, int b, int a)
-{
-    fontColor = {(unsigned char)r, (unsigned char)g, (unsigned char)b, (unsigned char)a};
-}
-
-void Graphic::setFontStyle(int style)
-{
-    fontStyle = style;
-    TTF_SetFontStyle(font, style);
-}
-
-void Graphic::drawTriangle(int x, int y, int h, int thickness, Player player)
-{
-    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
-    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
-
-    int x1 = x - h / 2;
-    int y1 = y + h / 2;
-    int x2 = x + h / 2;
-    int y2 = y + h / 2;
-    int x3 = x;
-    int y3 = y - h / 2;
-
-    // Dessin des côtés du triangle
-    SDL_RenderDrawLine(renderer, x1, y1, x2, y2); // Bas
-    SDL_RenderDrawLine(renderer, x2, y2, x3, y3); // Droite
-    SDL_RenderDrawLine(renderer, x3, y3, x1, y1); // Gauche
-}
-
-void Graphic::drawSquare(int x, int y, int sideLength, int thickness, Player player)
-{
-    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
-    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
-
-    int halfSideLength = sideLength / 2;
-    int startX = x - halfSideLength;
-    int startY = y - halfSideLength;
-
-    for (int i = 0; i < sideLength; ++i)
-    {
-        for (int j = 0; j < sideLength; ++j)
-        {
-            if (i == 0 || i == sideLength - 1 || j == 0 || j == sideLength - 1)
-            {
-                SDL_RenderDrawPoint(renderer, startX + j, startY + i);
-            }
-        }
-    }
-}
-
-void Graphic::drawPlayer(int x, int y, int radius, int thickness, Player player)
-{
-    std::tuple<int, int, int> colorPlayer = player.stringToRgb();
-    SDL_SetRenderDrawColor(renderer, std::get<0>(colorPlayer), std::get<1>(colorPlayer), std::get<2>(colorPlayer), 255);
-    if (player.getSymbol() == "X")
-    {
-        drawCross(x, y, radius, thickness, player);
-    }
-    else if (player.getSymbol() == "O")
-    {
-        drawCircle(x, y, radius, thickness, player);
-    }
-    else if (player.getSymbol() == "T")
-    {
-        drawTriangle(x, y, radius, thickness, player);
-    }
-    else if (player.getSymbol() == "C")
-    {
-        drawSquare(x, y, 50, thickness, player);
-    }
-}
-
 void Graphic::play(GameState &gamestate)
 {
     while (GameState::Game == gamestate)
     {
-        if(this->grid.getGame().getGrid(this->grid.getGame().getCurrentPlayer().getCurrentGrid()).getRules().endGame)
+        if (this->grid.getGame().getGrid(this->grid.getGame().getCurrentPlayer().getCurrentGrid()).getRules().endGame)
         {
             gamestate = GameState::End;
         }
-
         time += 1;
         eventHolder(gamestate);
         clear();
-
-        grid.showGrid(renderer, *this);
-        this->grid.drawArrowDirection(renderer, *this);
-
-        this->grid.drawPartInterface(renderer, *this);
-        this->grid.drawDeck(renderer, *this);
-        this->grid.drawGlobalRuleButton(renderer, *this);
-        this->grid.drawGlobalrules(renderer, *this);
-        this->grid.drawPioche(renderer, *this);
-        this->grid.drawInfoPart(renderer, *this);
-
+        draw();
         present();
         gameloop();
     }
+}
+
+void Graphic::draw()
+{
+    this->grid.showGrid(renderer, *this);
+    this->grid.drawArrowDirection(renderer, *this);
+    this->grid.drawPartInterface(renderer, *this);
+    this->grid.drawDeck(renderer, *this);
+    this->grid.drawGlobalRuleButton(renderer, *this);
+    this->grid.drawGlobalrules(renderer, *this);
+    this->grid.drawPioche(renderer, *this);
+    this->grid.drawInfoPart(renderer, *this);
 }
 
 void Graphic::handleQuitEvent(GameState &gamestate)
@@ -415,14 +274,13 @@ bool Graphic::MouseClickInterface(int x, int y)
 void Graphic::gameloop()
 {
     if (time > 50)
-    { // Wait to see the operation
+    {
         time = 0;
         int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
         Player player = this->grid.getGame().getCurrentPlayer();
         Deck deck = player.getDeck(player.getCurrentGrid());
         Game game = this->grid.getGame();
         Grid grid = game.getGrid(CurrentGrid);
-
         grid.getGlobalRules()[grid.getCurrentGlobalRule()]->applyCard(0, 0, CurrentGrid, player, game, "default");
         this->grid.setGame(game);
     }
@@ -603,7 +461,6 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         int arrowRightWidth = 50;
         int arrowRightHeight = 50;
 
-
         int staticRightX = screenWidth - 100;
         int staticRightY = screenHeight - 100;
         int staticRightWidth = 50;
@@ -644,8 +501,9 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                     h = arrowRightHeight;
                     w = arrowRightWidth;
                 }
-                else if (directions[i]=="static") {
-                    
+                else if (directions[i] == "static")
+                {
+
                     x = staticRightX;
                     y = staticRightY;
                     h = staticRightHeight;
@@ -785,16 +643,15 @@ Card *Graphic::getCard()
     return this->cardClicked;
 }
 
-
 int Graphic::getWinnerId()
 {
     int scorePlayer1 = this->grid.getGame().getPlayer()[0].getScore();
     int scorePlayer2 = this->grid.getGame().getPlayer()[1].getScore();
-    if(scorePlayer1 > scorePlayer2)
+    if (scorePlayer1 > scorePlayer2)
     {
         return 0;
     }
-    else if(scorePlayer1 < scorePlayer2)
+    else if (scorePlayer1 < scorePlayer2)
     {
         return 1;
     }
@@ -804,13 +661,14 @@ int Graphic::getWinnerId()
     }
 }
 
-SDL_Texture *Graphic::getWinnerTexture(){
+SDL_Texture *Graphic::getWinnerTexture()
+{
     int winnerId = this->getWinnerId();
-    if(winnerId == 0)
+    if (winnerId == 0)
     {
         return this->grid.getPlayerTexture(0);
     }
-    else if(winnerId == 1)
+    else if (winnerId == 1)
     {
         return this->grid.getPlayerTexture(1);
     }
