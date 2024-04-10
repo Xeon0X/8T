@@ -442,9 +442,9 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
             cardWidth += 10;
             cardHeight += 20;
 
-            graphic.shadowRect.x = cardX - 50;
-            graphic.shadowRect.y = cardY + 45;
-            graphic.shadowRect.w = cardWidth + 100;
+            graphic.shadowRect.x = cardX;
+            graphic.shadowRect.y = cardY;
+            graphic.shadowRect.w = cardWidth;
             graphic.shadowRect.h = cardHeight;
 
             SDL_RenderCopy(renderer, shadowCard, NULL, &graphic.shadowRect);
