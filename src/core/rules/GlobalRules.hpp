@@ -5,14 +5,43 @@
 #include <iostream>
 #include <vector>
 
-class CardAlignToWin : public Card // TODO
+/**
+ * @class CardAlignToWin
+ *
+ * @brief This class is responsible for the card AlignToWin.
+ *
+ */
+class CardAlignToWin : public Card
 {
 public:
+    /**
+     * @brief Constructor for the CardAlignToWin class.
+     *
+     * @param name The name of the card.
+     * @param description The description of the card.
+     * @param id The id of the card.
+     */
     CardAlignToWin(std::string name, std::string description, int id) : Card(name, description, id)
     {
         this->canBeGlobalRules = true;
     };
+
+    /**
+     * @brief Destructor for the CardAlignToWin class.
+     *
+     */
     ~CardAlignToWin(){};
+
+    /**
+     * @brief Apply the card AlignToWin.
+     *
+     * @param x The x coordinate of the card.
+     * @param y The y coordinate of the card.
+     * @param CurrentGrid The current grid of the game.
+     * @param currentPlayer The current player of the game.
+     * @param game The game of the card.
+     * @param sens The direction of the card.
+     */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         Grid grid = game.getGrid(CurrentGrid);
@@ -52,14 +81,43 @@ public:
     }
 };
 
+/**
+ * @class CardDrawCard
+ *
+ * @brief This class is responsible for the card DrawCard.
+ *
+ */
 class CardDrawCard : public Card
 {
 public:
+    /**
+     * @brief Constructor for the CardDrawCard class.
+     *
+     * @param name The name of the card.
+     * @param description The description of the card.
+     * @param id The id of the card.
+     */
     CardDrawCard(std::string name, std::string description, int id) : Card(name, description, id)
     {
         this->canBeGlobalRules = true;
     };
+
+    /**
+     * @brief Destructor for the CardDrawCard class.
+     *
+     */
     ~CardDrawCard(){};
+
+    /**
+     * @brief Apply the card DrawCard.
+     *
+     * @param x The x coordinate of the card.
+     * @param y The y coordinate of the card.
+     * @param CurrentGrid The current grid of the game.
+     * @param currentPlayer The current player of the game.
+     * @param game The game of the card.
+     * @param sens The direction of the card.
+     */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         Grid grid = game.getGrid(CurrentGrid);
@@ -71,11 +129,39 @@ public:
     }
 };
 
+/**
+ * @class CardSwitchPlayer
+ *
+ * @brief This class is responsible for the card SwitchPlayer.
+ *
+ */
 class CardSwitchPlayer : public Card
 {
 public:
+    /**
+     * @brief Constructor for the CardSwitchPlayer class.
+     *
+     * @param name The name of the card.
+     * @param description The description of the card.
+     * @param id The id of the card.
+     */
     CardSwitchPlayer(std::string name, std::string description, int id) : Card(name, description, id){};
+    /**
+     * @brief Destructor for the CardSwitchPlayer class.
+     *
+     */
     ~CardSwitchPlayer(){};
+
+    /**
+     * @brief Apply the card SwitchPlayer.
+     *
+     * @param x The x coordinate of the card.
+     * @param y The y coordinate of the card.
+     * @param CurrentGrid The current grid of the game.
+     * @param currentPlayer The current player of the game.
+     * @param game The game of the card.
+     * @param sens The direction of the card.
+     */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         std::cout << "Switching...\n";
@@ -86,14 +172,42 @@ public:
     }
 };
 
+/**
+ * @class CardPlacePiece
+ *
+ * @brief This class is responsible for the card CardPlacePiece.
+ *
+ */
 class CardPlacePiece : public Card
 {
 public:
+    /**
+     * @brief Constructor for the CardPlacePiece class.
+     *
+     * @param name The name of the card.
+     * @param description The description of the card.
+     * @param id The id of the card.
+     */
     CardPlacePiece(std::string name, std::string description, int id) : Card(name, description, id)
     {
         this->canBeGlobalRules = true;
     };
+    /**
+     * @brief Destructor for the CardPlacePiece class.
+     *
+     */
     ~CardPlacePiece(){};
+
+    /**
+     * @brief Apply the card AddToRules.
+     *
+     * @param x The x coordinate of the card.
+     * @param y The y coordinate of the card.
+     * @param CurrentGrid The current grid of the game.
+     * @param currentPlayer The current player of the game.
+     * @param game The game of the card.
+     * @param sens The direction of the card.
+     */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         Grid grid = game.getGrid(CurrentGrid);
@@ -110,14 +224,42 @@ public:
     }
 };
 
+/**
+ * @class CardPlayCard
+ *
+ * @brief This class is responsible for the card CardPlayCard.
+ *
+ */
 class CardPlayCard : public Card
 {
 public:
+    /**
+     * @brief Constructor for the CardPlayCard class.
+     *
+     * @param name The name of the card.
+     * @param description The description of the card.
+     * @param id The id of the card.
+     */
     CardPlayCard(std::string name, std::string description, int id) : Card(name, description, id)
     {
         this->canBeGlobalRules = true;
     };
+    /**
+     * @brief Destructor for the CardPlayCard class.
+     *
+     */
     ~CardPlayCard(){};
+
+    /**
+     * @brief Apply the card PlayCard.
+     *
+     * @param x The x coordinate of the card.
+     * @param y The y coordinate of the card.
+     * @param CurrentGrid The current grid of the game.
+     * @param currentPlayer The current player of the game.
+     * @param game The game of the card.
+     * @param sens The direction of the card.
+     */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         Grid grid = game.getGrid(CurrentGrid);
@@ -133,33 +275,61 @@ public:
     }
 };
 
+/**
+ * @class CardEnd
+ *
+ * @brief This class is responsible for the card CardEnd.
+ *
+ */
 class CardEnd : public Card
 {
-    private :
-        int nbRoundLeft = 6;
+private:
+    int nbRoundLeft = 6; /**< The number of rounds left. */
 
-    public:
-        CardEnd(std::string name, std::string description, int id) : Card(name, description, id){
-                    this->canBeGlobalRules = true;
+public:
+    /**
+     * @brief Constructor for the CardEnd class.
+     *
+     * @param name The name of the card.
+     * @param description The description of the card.
+     * @param id The id of the card.
+     */
+    CardEnd(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        this->canBeGlobalRules = true;
+    };
+    /**
+     * @brief Destructor for the CardEnd class.
+     *
+     */
+    ~CardEnd(){};
 
-        };
-        ~CardEnd(){};
-        void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
-        {   
-            
-            applyWhenGlobalRule(game, CurrentGrid);
+    /**
+     * @brief Apply the card End.
+     *
+     * @param x The x coordinate of the card.
+     * @param y The y coordinate of the card.
+     * @param CurrentGrid The current grid of the game.
+     * @param currentPlayer The current player of the game.
+     * @param game The game of the card.
+     * @param sens The direction of the card.
+     */
+    void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
+    {
 
-            if (nbRoundLeft == 0)
-            {
-                Grid grid = game.getGrid(CurrentGrid);
-                GridRules rules = grid.getRules();
-                rules.endGame = true;
-                grid.setRules(rules);
-                game.setGrid(CurrentGrid, grid);
-            }
-            else
-            {
-                nbRoundLeft--;
-            }
+        applyWhenGlobalRule(game, CurrentGrid);
+
+        if (nbRoundLeft == 0)
+        {
+            Grid grid = game.getGrid(CurrentGrid);
+            GridRules rules = grid.getRules();
+            rules.endGame = true;
+            grid.setRules(rules);
+            game.setGrid(CurrentGrid, grid);
         }
+        else
+        {
+            nbRoundLeft--;
+        }
+    }
 };

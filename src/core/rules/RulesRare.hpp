@@ -5,17 +5,47 @@
 #include "../Grid.h"
 #include <iostream>
 #include <vector>
+
+/**
+ * @class CardGravity
+ *
+ * @brief This class is responsible for the card Gravity.
+ *
+ */
 class CardGravity : public Card
 {
 
 public:
+    /**
+     * @brief Constructor for the CardGravity class.
+     *
+     * @param name The name of the card.
+     * @param description The description of the card.
+     * @param id The id of the card.
+     */
     CardGravity(std::string name, std::string description, int id) : Card(name, description, id)
     {
         this->canBeGlobalRules = true;
 
         arrowDirection.push_back("down");
     };
+
+    /**
+     * @brief Destructor for the CardGravity class.
+     *
+     */
     ~CardGravity(){};
+
+    /**
+     * @brief Apply the card Gravity.
+     *
+     * @param x The x coordinate of the card.
+     * @param y The y coordinate of the card.
+     * @param CurrentGrid The current grid of the game.
+     * @param currentPlayer The current player of the game.
+     * @param game The game of the card.
+     * @param sens The direction of the card.
+     */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         Grid currentGrid = game.getGrid(CurrentGrid);

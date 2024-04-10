@@ -329,7 +329,6 @@ void GridGraphic::initCardTexture(SDL_Renderer *renderer)
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     this->cardsTextures.push_back(texture);
     SDL_FreeSurface(surface);
-
 }
 
 void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
@@ -516,9 +515,10 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
 
                 SDL_RenderCopy(renderer, arrowRightTexture, NULL, &rect);
             }
-            if(directions[i]=="static"){
+            if (directions[i] == "static")
+            {
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                SDL_Rect rect = {windowWidth-100, windowHeight-100, 50, 50};
+                SDL_Rect rect = {windowWidth - 100, windowHeight - 100, 50, 50};
                 SDL_RenderFillRect(renderer, &rect);
             }
         }
@@ -561,7 +561,13 @@ void GridGraphic::drawInfoPart(SDL_Renderer *renderer, Graphic &graphic)
     }
 }
 
-SDL_Texture* GridGraphic::getPlayerTexture(int indice)
+SDL_Texture *GridGraphic::getPlayerTexture(int indice)
 {
     return this->playerTextures[indice];
+}
+
+void GridGraphic::drawPioche(SDL_Renderer *renderer, Graphic &graphic)
+{
+
+    SDL_RenderCopy(renderer, deckTexture, NULL, &graphic.pioche);
 }

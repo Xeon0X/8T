@@ -15,7 +15,7 @@ class Deck
 {
 private:
     std::vector<Card *> cards; /**< Cards in the deck */
-    int uniqueIdCounter = 0;
+    int uniqueIdCounter = 0; /**< Counter for the unique id of the cards */
 
 public:
     /**
@@ -55,9 +55,25 @@ public:
      *
      */
     void setBaseCard();
+
+    /**
+     * @brief Draw a card from the deck
+     *
+     */
     void drawCard();
 
+    /**
+     * @brief Create a new card
+     *
+     * @param id
+     */
     void createNewCard(int id);
+
+    /**
+     * @brief Remove a card from the deck
+     *
+     * @param card
+     */
     void removeCard(Card *card);
 };
 

@@ -7,7 +7,13 @@
 #include <string>
 #include <iostream>
 
+
 class Case;
+
+/**
+ * @struct GridRules
+ * @brief This struct is used to represent the rules of the grid
+ */
 struct GridRules
 {
     bool canPlayCard = false;
@@ -135,6 +141,12 @@ public:
      *
      */
     void createGlobalRules();
+
+    /**
+     * @brief Get the global rules of the grid
+     *
+     * @return std::vector<Card>
+     */
     std::vector<Card *> getGlobalRules();
     /**
      * @brief Show the grid terminal
@@ -156,12 +168,43 @@ public:
      */
     void setRules(GridRules rules);
 
+    /**
+     * @brief Get the current global rule
+     *
+     * @return int
+     */
     int getCurrentGlobalRule() const;
+
+    /**
+     * @brief Get the current global rule iteration
+     *
+     * @return int
+     */
     int getCurrentGlobalRuleIteration() const;
+
+    /**
+     * @brief Add a current global rule iteration
+     *
+     */
     void addCurrentGlobalRuleIteration();
+
+    /**
+     * @brief Reset the current global rule iteration
+     *
+     */
     void resetCurrentGlobalRuleIteration();
+
+    /**
+     * @brief Go to the next global rule
+     *
+     */
     void nextGlobalRule();
 
+    /**
+     * @brief Check if the grid is full
+     *
+     * @return bool
+     */
     bool isGridFull() const;
 };
 
