@@ -37,6 +37,7 @@ private:
     SDL_Texture *logo;              /**< The texture of the logo. */
     SDL_Texture *score;             /**< The texture of the score. */
     SDL_Texture *shadowCard;        /**< The texture of the shadow card. */
+    SDL_Texture *applyTexture;      /**< The texture of the apply button. */
 
 public:
     /**

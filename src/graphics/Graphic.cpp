@@ -461,10 +461,10 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         int arrowRightWidth = 50;
         int arrowRightHeight = 50;
 
-        int staticRightX = screenWidth - 100;
-        int staticRightY = screenHeight - 100;
-        int staticRightWidth = 50;
-        int staticRightHeight = 50;
+        int staticRightX = screenWidth - 150;
+        int staticRightY = screenHeight - 185;
+        int staticRightWidth = 100;
+        int staticRightHeight = 150;
 
         int x, y, h, w;
 

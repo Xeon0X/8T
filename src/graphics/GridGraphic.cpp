@@ -257,6 +257,11 @@ GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
     this->shadowCard = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_apply.png");
+    this->applyTexture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
 }
 
 void GridGraphic::initCardTexture(SDL_Renderer *renderer)
@@ -542,9 +547,8 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
             }
             if (directions[i] == "static")
             {
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                SDL_Rect rect = {windowWidth - 100, windowHeight - 100, 50, 50};
-                SDL_RenderFillRect(renderer, &rect);
+                SDL_Rect rect = {windowWidth - 150, windowHeight - 185, 100, 150};
+                SDL_RenderCopy(renderer, applyTexture, NULL, &rect);
             }
             if (directions[i] == "turnLeft")
             {
