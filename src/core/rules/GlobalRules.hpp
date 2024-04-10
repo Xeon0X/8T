@@ -1,7 +1,6 @@
 #include "../Card.h"
 #include "../Game.h"
 #include "../Player.h"
-#include "../Case.h"
 #include "../Grid.h"
 #include <iostream>
 #include <vector>
@@ -9,9 +8,10 @@
 class CardAlignToWin : public Card // TODO
 {
 public:
-    CardAlignToWin(std::string name, std::string description, int id) : Card(name, description, id){
-
-                                                                        };
+    CardAlignToWin(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        this->canBeGlobalRules = true;
+    };
     ~CardAlignToWin(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -45,7 +45,6 @@ public:
                 {
                     // Victoire !
                     player2.setScore(player2.getScore() + 1);
-
                     game.replacePlayer(player2);
                 }
             }
@@ -56,9 +55,10 @@ public:
 class CardDrawCard : public Card
 {
 public:
-    CardDrawCard(std::string name, std::string description, int id) : Card(name, description, id){
-
-                                                                      };
+    CardDrawCard(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        this->canBeGlobalRules = true;
+    };
     ~CardDrawCard(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -74,9 +74,7 @@ public:
 class CardSwitchPlayer : public Card
 {
 public:
-    CardSwitchPlayer(std::string name, std::string description, int id) : Card(name, description, id){
-
-                                                                          };
+    CardSwitchPlayer(std::string name, std::string description, int id) : Card(name, description, id){};
     ~CardSwitchPlayer(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -91,9 +89,10 @@ public:
 class CardPlacePiece : public Card
 {
 public:
-    CardPlacePiece(std::string name, std::string description, int id) : Card(name, description, id){
-
-                                                                        };
+    CardPlacePiece(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        this->canBeGlobalRules = true;
+    };
     ~CardPlacePiece(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -114,9 +113,10 @@ public:
 class CardPlayCard : public Card
 {
 public:
-    CardPlayCard(std::string name, std::string description, int id) : Card(name, description, id){
-
-                                                                      };
+    CardPlayCard(std::string name, std::string description, int id) : Card(name, description, id)
+    {
+        this->canBeGlobalRules = true;
+    };
     ~CardPlayCard(){};
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
@@ -131,4 +131,29 @@ public:
         grid.setRules(rules);
         game.setGrid(CurrentGrid, grid);
     }
+};
+
+class CardEnd : public Card
+{
+    private :
+        int nbRoundLeft = 0;
+
+    public:
+        CardEnd(std::string name, std::string description, int id) : Card(name, description, id){};
+        ~CardEnd(){};
+        void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
+        {   
+            if (nbRoundLeft == 0)
+            {
+                Grid grid = game.getGrid(CurrentGrid);
+                GridRules rules = grid.getRules();
+                rules.endGame = true;
+                grid.setRules(rules);
+                game.setGrid(CurrentGrid, grid);
+            }
+            else
+            {
+                nbRoundLeft--;
+            }
+        }
 };

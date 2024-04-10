@@ -11,6 +11,8 @@ class CardGravity : public Card
 public:
     CardGravity(std::string name, std::string description, int id) : Card(name, description, id)
     {
+        this->canBeGlobalRules = true;
+
         arrowDirection.push_back("down");
     };
     ~CardGravity(){};
@@ -20,15 +22,15 @@ public:
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
 
         applyWhenGlobalRule(game, CurrentGrid);
-        
-        for (int i = 0; i < cases[0].size(); i++)
+
+        for (unsigned int i = 0; i < cases[0].size(); i++)
         {
             for (int x = cases.size() - 1; x >= 0; x--)
             {
                 if (cases[x][i]->getPieces().size() > 0)
                 {
                     int nextEmpty = x;
-                    while (nextEmpty + 1 < cases.size() && cases[nextEmpty + 1][i]->getPieces().size() == 0)
+                    while (static_cast<unsigned int>(nextEmpty + 1) < cases.size() && cases[nextEmpty + 1][i]->getPieces().size() == 0)
                     {
                         nextEmpty++;
                     }

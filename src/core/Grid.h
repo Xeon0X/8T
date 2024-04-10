@@ -14,6 +14,7 @@ struct GridRules
     bool canPlacePiece = false;
     bool canDrawCard = false;
     bool checkWin = false;
+    bool endGame = false;
 };
 
 /**

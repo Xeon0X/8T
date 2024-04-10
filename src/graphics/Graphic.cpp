@@ -1,5 +1,5 @@
 #include "Graphic.h"
-#include "Case.h"
+#include "../core/Case.h"
 #include <iostream>
 #include <SDL2/SDL_image.h>
 Graphic::Graphic()
@@ -109,8 +109,8 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     }
 
     deckPart.x = 200;
-    deckPart.y = 850;
-    deckPart.w = 1500;
+    deckPart.y = screenHeight - 250;
+    deckPart.w = screenWidth - 500;
     deckPart.h = 300;
 
     pioche.x = screenWidth - 150;
@@ -123,10 +123,10 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
     globalRuleButton.w = 100;
     globalRuleButton.h = 150;
 
-    background.x = 200;
-    background.y = 850;
-    background.w = screenWidth - 200;
-    background.h = 300;
+    background.x = 250;
+    background.y = screenHeight - 250;
+    background.w = screenWidth - 500;
+    background.h = 200;
 
     logo.x = 50;
     logo.y = 50;
@@ -372,19 +372,23 @@ void Graphic::play(GameState &gamestate)
 {
     while (GameState::Game == gamestate)
     {
+        if(this->grid.getGame().getGrid(this->grid.getGame().getCurrentPlayer().getCurrentGrid()).getRules().endGame)
+        {
+            gamestate = GameState::End;
+        }
 
         time += 1;
         eventHolder(gamestate);
         clear();
 
         grid.showGrid(renderer, *this);
+        this->grid.drawArrowDirection(renderer, *this);
 
         this->grid.drawPartInterface(renderer, *this);
         this->grid.drawDeck(renderer, *this);
         this->grid.drawGlobalRuleButton(renderer, *this);
         this->grid.drawGlobalrules(renderer, *this);
         this->grid.drawPioche(renderer, *this);
-        this->grid.drawArrowDirection(renderer, *this);
         this->grid.drawInfoPart(renderer, *this);
 
         present();
@@ -603,7 +607,7 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
         if (this->isCardClicked)
         {
             std::vector<std::string> directions = this->cardClicked->getArrowDirection();
-            for (int i = 0; i < directions.size(); i++)
+            for (unsigned int i = 0; i < directions.size(); i++)
             {
                 if (directions[i] == "up")
                 {
@@ -660,7 +664,7 @@ void Graphic::handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidt
     int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
     Grid grid = this->grid.getGame().getGrid(CurrentGrid);
 
-    if (CoIncid(mouseX, mouseY, globalRuleButton.x, globalRuleButton.y, globalRuleButton.x + globalRuleButton.w, globalRuleButton.y + globalRuleButton.h))
+    if (CoIncid(mouseX, mouseY, globalRuleButton.x, globalRuleButton.y, globalRuleButton.x + globalRuleButton.w, globalRuleButton.y + globalRuleButton.h) && this->isCardClicked && this->cardClicked->getCanBeGlobal())
     {
         this->cardClicked->setGlobalRuleState(true);
         grid.addGlobalRule(this->cardClicked);

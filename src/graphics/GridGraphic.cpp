@@ -1,7 +1,7 @@
 #include "GridGraphic.h"
 #include "Graphic.h"
-#include "Piece.h"
-#include "Case.h"
+#include "../core/Piece.h"
+#include "../core/Case.h"
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <string>
@@ -251,6 +251,11 @@ GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
     this->score = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_shadow.png");
+    this->shadowCard = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_FreeSurface(surface);
 }
 
 void GridGraphic::initCardTexture(SDL_Renderer *renderer)
@@ -413,20 +418,24 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
         int cardWidth = 100;
         int cardHeight = 150;
 
-        if (grid.getCurrentGlobalRule() == i)
+        if (grid.getCurrentGlobalRule() == static_cast<int>(i))
         {
             cardY -= 10;
             cardX -= 5;
             cardWidth += 10;
             cardHeight += 20;
+
+            graphic.shadowRect.x = cardX - 50;
+            graphic.shadowRect.y = cardY + 45;
+            graphic.shadowRect.w = cardWidth + 100;
+            graphic.shadowRect.h = cardHeight;
+
+            SDL_RenderCopy(renderer, shadowCard, NULL, &graphic.shadowRect);
         }
-        SDL_Texture *texture = nullptr;
-        SDL_Surface *surface = nullptr;
 
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderCopy(renderer, cardsTextures[grid.getGlobalRules()[i]->getId() - 1], NULL, &rect);
         // SDL_RenderDrawRect(renderer, &rect);
-        SDL_FreeSurface(surface);
         // std::string text = grid.getGlobalRules()[i]->getName();
         // const char *cstr = text.c_str();
         // graphic.drawText(cstr, cardX + 10, cardY + 50);
@@ -441,7 +450,7 @@ void GridGraphic::setInitialGridSize(int width, int height)
 
 void GridGraphic::drawPartInterface(SDL_Renderer *renderer, Graphic &graphic)
 {
-    SDL_RenderCopy(renderer, backgroundTexture, NULL, &graphic.deckPart);
+    SDL_RenderCopy(renderer, backgroundTexture, NULL, &graphic.background);
 }
 
 void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
@@ -464,7 +473,7 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
 
         Card *card = graphic.getCard();
         std::vector<std::string> directions = card->getArrowDirection();
-        for (int i = 0; i < directions.size(); i++)
+        for (unsigned int i = 0; i < directions.size(); i++)
         {
             if (directions[i] == "up")
             {
@@ -501,7 +510,7 @@ void GridGraphic::drawGlobalRuleButton(SDL_Renderer *renderer, Graphic &graphic)
     int windowWidth, windowHeight;
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
 
-    if (graphic.getCard() != nullptr)
+    if (graphic.getCard() != nullptr && graphic.getCard()->getCanBeGlobal())
     {
         SDL_RenderCopy(renderer, addToRulesTexture, NULL, &graphic.globalRuleButton);
     }

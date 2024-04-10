@@ -32,6 +32,8 @@ public:
     void drawChooseGameModeMenu();
     void menu();
     void drawMenu();
+    void drawEndMenu();
+    void endMenu();
 };
 
 #endif // MENU
