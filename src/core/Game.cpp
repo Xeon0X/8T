@@ -124,7 +124,7 @@ void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGr
     int nbAlignToWin = grid.getNbAlignToWin();
     std::vector<Player> players = this->getPlayer();
 
-    for (int p = 0; p<players.size(); p++) 
+    for (long unsigned int p = 0; p<players.size(); p++) 
     {
         Player player = players[p];
         int directionX = 0;
