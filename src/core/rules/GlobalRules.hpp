@@ -53,25 +53,25 @@ public:
         game.setGrid(CurrentGrid, grid);
         int nbAlignToWin = grid.getNbAlignToWin();
 
-        for (int x = 0; x < grid.getGridWidth(); x++) 
+        for (int x = 0; x < grid.getGridWidth(); x++)
         {
             for (int y = 0; y < grid.getGridHeight(); y++)
             {
-                if ((grid.getGridWidth() - x) > nbAlignToWin-1) // Enough spaces to win on the line
+                if ((grid.getGridWidth() - x) > nbAlignToWin - 1) // Enough spaces to win on the line
                 {
-                    if (y >= nbAlignToWin-1) // Enough space to win on the anti-diagonal from bottom to top from here, going right
+                    if (y >= nbAlignToWin - 1) // Enough space to win on the anti-diagonal from bottom to top from here, going right
                     {
                         game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 0);
                     }
                     game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 1);
 
-                    if ((grid.getGridHeight() - y) > nbAlignToWin-1) // Enough space to win on the diagonal from top to bottom from here, going right
+                    if ((grid.getGridHeight() - y) > nbAlignToWin - 1) // Enough space to win on the diagonal from top to bottom from here, going right
                     {
                         game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 3);
                     }
                 }
 
-                if ((grid.getGridHeight() - y) > nbAlignToWin-1) // Enough spaces to win on the row
+                if ((grid.getGridHeight() - y) > nbAlignToWin - 1) // Enough spaces to win on the row
                 {
                     game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 2);
                 }
@@ -266,7 +266,7 @@ public:
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canPlayCard = true;
-        if (game.getCurrentPlayer().getDeck(CurrentGrid).getCards().empty())
+        if (game.getPlayer()[game.getCurrentPlayer()].getDeck(CurrentGrid).getCards().empty())
         {
             grid.nextGlobalRule(); // Do not wait for player input
             rules.canPlayCard = false;

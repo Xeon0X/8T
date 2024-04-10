@@ -14,7 +14,7 @@ class Game
 private:
     std::vector<Grid> grids = std::vector<Grid>();       /**< Grids of the game */
     std::vector<Player> players = std::vector<Player>(); /**< Players of the game */
-    Player currentPlayer;                                /**< Current player */
+    int currentPlayer;                                   /**< Current player */
 
     bool wait = false;        // wait for the other player to play
     bool haveNetwork = false; // if the game is played on a network
@@ -52,14 +52,14 @@ public:
      *
      * @return Player
      */
-    Player getCurrentPlayer();
+    int getCurrentPlayer();
 
     /**
      * @brief Set the Current Player
      *
      * @param player
      */
-    void setCurrentPlayer(Player player);
+    void setCurrentPlayer(int player);
 
     /**
      * @brief Replace a player

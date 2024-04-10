@@ -40,7 +40,7 @@ void Deck::setBaseCard()
     this->cards.push_back(card4);
     CardAlignToWinPlusOne *card5 = new CardAlignToWinPlusOne("AlignToWinPlusOne", "Le nombre d'alignement pour gagner +1", 12);
     card5->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;  
+    uniqueIdCounter++;
     this->cards.push_back(card5);
 }
 

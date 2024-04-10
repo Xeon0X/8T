@@ -231,7 +231,7 @@ void Graphic::play(GameState &gamestate)
 {
     while (GameState::Game == gamestate)
     {
-        if (this->grid.getGame().getGrid(this->grid.getGame().getCurrentPlayer().getCurrentGrid()).getRules().endGame)
+        if (this->grid.getGame().getGrid(this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()].getCurrentGrid()).getRules().endGame)
         {
             gamestate = GameState::End;
         }
@@ -276,8 +276,8 @@ void Graphic::gameloop()
     if (time > 50)
     {
         time = 0;
-        int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
-        Player player = this->grid.getGame().getCurrentPlayer();
+        int CurrentGrid = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()].getCurrentGrid();
+        Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
         Deck deck = player.getDeck(player.getCurrentGrid());
         Game game = this->grid.getGame();
         Grid grid = game.getGrid(CurrentGrid);
@@ -294,7 +294,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     int screenWidth, screenHeight;
     SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
 
-    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+    int CurrentGrid = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()].getCurrentGrid();
     int CasesWidth = this->grid.getGame().getGrid(CurrentGrid).getGridWidth();
     int CasesHeight = this->grid.getGame().getGrid(CurrentGrid).getGridHeight();
 
@@ -312,7 +312,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         cellY = std::floor(mouseY / 100);
     }
 
-    Player player = this->grid.getGame().getCurrentPlayer();
+    Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
     Deck deck = player.getDeck(player.getCurrentGrid());
     SDL_GetMouseState(&mouseX, &mouseY);
 
@@ -382,7 +382,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
                 player.drawCard();
                 this->grid.getGame().setPlayer(player);
-                this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
+                // this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
             }
         }
     }
@@ -396,7 +396,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
             {
                 if (grid.getCase(cellX, cellY)->getPieces().size() > 0)
                 {
-                    if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getCurrentPlayer().getSymbol())
+                    if (grid.getCase(cellX, cellY)->getPieces()[0].getSymbol() == game.getPlayer()[game.getCurrentPlayer()].getSymbol())
                     {
                         // TODO : working with multiple pieces on one case
                     }
@@ -425,7 +425,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
 void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
 {
-    Player player = this->grid.getGame().getCurrentPlayer();
+    Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
     int CurrentGrid = player.getCurrentGrid();
     Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
     GridRules rules = gridForRules.getRules();
@@ -514,20 +514,20 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                 {
                     std::cout << "\nSCORE 4: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
                     this->cardClicked->setGlobalRuleState(false);
-                    std::cout << "\nSCORE 4.3: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
+                    std::cout << "\nSCORE 4.3: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
                     this->cardClicked->applyCard(0, 0, CurrentGrid, player, this->grid.getGame(), directions[i]);
-                    std::cout << "\nSCORE 4.4: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
+                    std::cout << "\nSCORE 4.4: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
                     this->deleteCard();
-                    std::cout << "\nSCORE 4.45: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
+                    std::cout << "\nSCORE 4.45: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
                     this->isCardClicked = false;
-                    std::cout << "\nSCORE 4.5: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;   
+                    std::cout << "\nSCORE 4.5: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
 
-                    Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename  
+                    Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
                     gridForRules.nextGlobalRule();
-                    GridRules rules = gridForRules.getRules();  
+                    GridRules rules = gridForRules.getRules();
                     rules.canPlayCard = false;
-                    gridForRules.setRules(rules);  
-                    this->grid.getGame().setGrid(CurrentGrid, gridForRules);              
+                    gridForRules.setRules(rules);
+                    this->grid.getGame().setGrid(CurrentGrid, gridForRules);
                 }
             }
         }
@@ -536,8 +536,8 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
 
 void Graphic::handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidth, int screenHeight)
 {
-    Player player = this->grid.getGame().getCurrentPlayer();
-    int CurrentGrid = this->grid.getGame().getCurrentPlayer().getCurrentGrid();
+    Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
+    int CurrentGrid = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()].getCurrentGrid();
     Grid grid = this->grid.getGame().getGrid(CurrentGrid);
 
     if (CoIncid(mouseX, mouseY, globalRuleButton.x, globalRuleButton.y, globalRuleButton.x + globalRuleButton.w, globalRuleButton.y + globalRuleButton.h) && this->isCardClicked && this->cardClicked->getCanBeGlobal())
@@ -579,12 +579,13 @@ void Graphic::handleKeyDownEvent(SDL_Event &event, GameState &gamestate)
 
 void Graphic::handleCheckWin(int cellX, int cellY, Game game)
 {
-    Grid grid = game.getGrid(game.getCurrentPlayer().getCurrentGrid());
-    if (grid.checkWin(game.getCurrentPlayer(), cellX, cellY))
+    Grid grid = game.getGrid(game.getPlayer()[game.getCurrentPlayer()].getCurrentGrid());
+    Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
+
+    if (grid.checkWin(player, cellX, cellY))
     {
-        Player player = game.getCurrentPlayer();
         player.setScore(player.getScore() + 1);
-        game.setCurrentPlayer(player);
+        // game.setCurrentPlayer(player);
         game.setPlayer(player);
     }
     this->grid.setGame(game);
@@ -619,7 +620,7 @@ bool Graphic::isCardEmpty()
 void Graphic::deleteCard()
 {
     std::cout << "\nSCORE 4.41: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
-    Player player = this->grid.getGame().getCurrentPlayer();
+    Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
     std::cout << player.getScore() << std::endl;
     Deck deck = player.getDeck(player.getCurrentGrid());
     std::cout << "\nSCORE 4.42: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
@@ -629,7 +630,7 @@ void Graphic::deleteCard()
     std::cout << player.getScore() << std::endl;
     this->grid.getGame().setPlayer(player);
     std::cout << "\nSCORE 4.44: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
-    this->grid.getGame().setCurrentPlayer(player);
+    // this->grid.getGame().setCurrentPlayer(player);
     std::cout << "\nSCORE 4.449: " << this->grid.getGame().getPlayer()[0].getScore() << std::endl;
     this->cardClicked = nullptr;
 }

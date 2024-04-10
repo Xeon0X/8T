@@ -6,7 +6,7 @@
 
 Grid::Grid()
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 3; i++)
     {
         std::vector<Case *> row; // Change the type of the vector from std::vector<Case> to std::vector<Case*>
 

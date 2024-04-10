@@ -12,14 +12,14 @@ Game::Game()
     this->players.push_back(Player("O", "blue"));
 
     this->grids.push_back(Grid());
-    this->currentPlayer = this->players[0];
+    this->currentPlayer = 0;
 }
 
 Game::Game(std::vector<Player> players)
 {
     this->players = players;
     this->grids.push_back(Grid());
-    this->currentPlayer = this->players[0];
+    this->currentPlayer = 0;
 }
 
 Game::~Game()
@@ -31,7 +31,7 @@ Grid Game::getGrid(int index)
     return this->grids[index];
 }
 
-Player Game::getCurrentPlayer()
+int Game::getCurrentPlayer()
 {
     return this->currentPlayer;
 }
@@ -48,13 +48,13 @@ void Game::setGrid(int index, const Grid &grid)
 
 void Game::switchPlayer()
 {
-    if (this->currentPlayer.getSymbol() == this->players[0].getSymbol())
+    if (this->currentPlayer == 0)
     {
-        this->currentPlayer = this->players[1];
+        this->currentPlayer = 1;
     }
     else
     {
-        this->currentPlayer = this->players[0];
+        this->currentPlayer = 0;
     }
 }
 
@@ -68,7 +68,7 @@ void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
 
     PieceEffects pieceEffects;
     CaseEffects caseEffects;
-    Player currentPlayer = this->getCurrentPlayer();
+    Player currentPlayer = this->players[this->getCurrentPlayer()];
     Piece piece = Piece(currentPlayer.getSymbol(), currentPlayer.getColor(), pieceEffects);
     std::vector<Piece> pieces;
     pieces.push_back(piece);
@@ -78,7 +78,7 @@ void Game::createAndSetPiece(int cellX, int cellY, int CurrentGrid)
     this->setGrid(CurrentGrid, grid);
 }
 
-void Game::setCurrentPlayer(Player player)
+void Game::setCurrentPlayer(int player)
 {
     this->currentPlayer = player;
 }
@@ -106,53 +106,55 @@ Player Game::findPlayerBySymbol(std::string symbol)
     return Player("", "");
 }
 
-bool Game::isCaseOfPlayer(int cellX, int cellY, int CurrentGrid, Player player) 
+bool Game::isCaseOfPlayer(int cellX, int cellY, int CurrentGrid, Player player)
+{
+    if (!this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces().empty())
     {
-        if (!this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces().empty()) {
-            if (this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces()[0].getSymbol() == player.getSymbol() && this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces()[0].getColor() == player.getColor()) 
-            {
-                return true;
-            }
+        if (this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces()[0].getSymbol() == player.getSymbol() && this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces()[0].getColor() == player.getColor())
+        {
+            return true;
         }
-        return false;
+    }
+    return false;
 }
 
-void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGrid, int direction) 
+void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGrid, int direction)
 {
     std::cout << "\nSCORE 3: " << this->getPlayer()[0].getScore() << std::endl;
-    Grid grid = this->getGrid(CurrentGrid);    
+    Grid grid = this->getGrid(CurrentGrid);
     int nbAlignToWin = grid.getNbAlignToWin();
     std::vector<Player> players = this->getPlayer();
 
-    for (long unsigned int p = 0; p<players.size(); p++) 
+    for (long unsigned int p = 0; p < players.size(); p++)
     {
         Player player = players[p];
         int directionX = 0;
         int directionY = 0;
         // int offsetY = 0;
-        switch (direction) {
-            case 0 : // Anti-diagonal ((x, y) to  (x+NbToAlign, y+NbToAlign))
-                directionX = 1; // Right
-                directionY = -1; // Up
-                break;
-            case 1 : // Line
-                directionX = 1; // Right
-                break;
-            case 2 : // Row
-                directionY = 1; // Down
-                break;
-            case 3 : // Diagonal
-                directionX = 1; // Right
-                directionY = 1; // Down
-                break;
+        switch (direction)
+        {
+        case 0:              // Anti-diagonal ((x, y) to  (x+NbToAlign, y+NbToAlign))
+            directionX = 1;  // Right
+            directionY = -1; // Up
+            break;
+        case 1:             // Line
+            directionX = 1; // Right
+            break;
+        case 2:             // Row
+            directionY = 1; // Down
+            break;
+        case 3:             // Diagonal
+            directionX = 1; // Right
+            directionY = 1; // Down
+            break;
         }
 
         int aligned = 0;
-        while (((aligned < nbAlignToWin) && (this->isCaseOfPlayer(cellX + (directionX * aligned), cellY + (directionY * aligned), CurrentGrid, player)))) 
+        while (((aligned < nbAlignToWin) && (this->isCaseOfPlayer(cellX + (directionX * aligned), cellY + (directionY * aligned), CurrentGrid, player))))
         {
             aligned += 1;
         }
-        
+
         if (aligned == nbAlignToWin)
         {
             player.setScore(player.getScore() + 1);

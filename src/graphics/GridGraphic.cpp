@@ -392,7 +392,7 @@ Game &GridGraphic::getGame()
 
 void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
 {
-    Player player = this->game.getCurrentPlayer();
+    Player player = this->game.getPlayer()[this->game.getCurrentPlayer()];
     Deck deck = player.getDeck(player.getCurrentGrid());
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
@@ -419,7 +419,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
 
 void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
 {
-    Player player = this->game.getCurrentPlayer();
+    Player player = this->game.getPlayer()[this->game.getCurrentPlayer()];
     Grid grid = this->game.getGrid(player.getCurrentGrid());
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
@@ -460,7 +460,7 @@ void GridGraphic::drawCardDetails(Card *card, Graphic &graphic, int cardX, int c
         {
         case 11:
         {
-            std::string nbAlignToWin = std::to_string(graphic.getGrid().getGame().getGrid(graphic.getGrid().getGame().getCurrentPlayer().getCurrentGrid()).getNbAlignToWin());
+            std::string nbAlignToWin = std::to_string(this->game.getGrid(this->game.getPlayer()[this->game.getCurrentPlayer()].getCurrentGrid()).getNbAlignToWin());
             graphic.drawText(nbAlignToWin.c_str(), cardX + 20, cardY + 110);
             break;
         }
@@ -567,11 +567,11 @@ void GridGraphic::drawInfoPart(SDL_Renderer *renderer, Graphic &graphic)
     SDL_RenderCopy(renderer, this->logo, NULL, &graphic.logo);
     SDL_RenderCopy(renderer, this->caseTexture, NULL, &graphic.currentPlayerRect);
     std::vector<Player> players = this->game.getPlayer();
-    Player current = this->game.getCurrentPlayer();
+    Player player = this->game.getPlayer()[this->game.getCurrentPlayer()];
 
     for (unsigned int k = 0; k < players.size(); k++)
     {
-        if (players[k].getSymbol() == current.getSymbol())
+        if (players[k].getSymbol() == player.getSymbol())
         {
             SDL_RenderCopy(renderer, playerTextures[k], NULL, &graphic.currentPlayerRect);
         }
