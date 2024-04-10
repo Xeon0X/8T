@@ -5,7 +5,7 @@
 
 Grid::Grid()
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 5; i++)
     {
         std::vector<Case *> row; // Change the type of the vector from std::vector<Case> to std::vector<Case*>
 
@@ -126,8 +126,8 @@ void Grid::createGlobalRules()
     this->addGlobalRule(card4);
     CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 9);
     this->addGlobalRule(card1);
-    CardGravity *card5 = new CardGravity("Gravity", "Applique la gravité", 1);
-    this->addGlobalRule(card5);
+    // CardGravity *card5 = new CardGravity("Gravity", "Applique la gravité", 1);
+    // this->addGlobalRule(card5);
     CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
     this->addGlobalRule(card2);
     CardAlignToWin *card6 = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 11);

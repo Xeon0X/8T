@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Grid.h"
+#include "Player.h"
 
 /**
  * @class Game
@@ -111,6 +112,12 @@ public:
      */
 
     Player findPlayerBySymbol(std::string symbol);
+
+    /**
+     * @brief Check if a case has a piece (symbol + color) from a player.
+     */
+    bool isCaseOfPlayer(int cellX, int cellY, int CurrentGrid, Player player);
+    void computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGrid, int direction);
 };
 
 #endif // Game

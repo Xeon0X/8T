@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Case.h"
 #include <iostream>
+#include <vector>
 #include "Piece.h"
 
 Game::Game()
@@ -103,4 +104,61 @@ Player Game::findPlayerBySymbol(std::string symbol)
         }
     }
     return Player("", "");
+}
+
+bool Game::isCaseOfPlayer(int cellX, int cellY, int CurrentGrid, Player player) 
+    {
+        std::cout <<  "Check x:" << cellX << " y: " << cellY << std::endl;
+        if (!this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces().empty()) {
+            if (this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces()[0].getSymbol() == player.getSymbol() && this->getGrid(CurrentGrid).getCase(cellX, cellY)->getPieces()[0].getColor() == player.getColor()) 
+            {
+                return true;
+            }
+        }
+        return false;
+}
+
+void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGrid, int direction) 
+{
+    Grid grid = this->getGrid(CurrentGrid);    
+    int nbAlignToWin = grid.getNbAlignToWin();
+    std::vector<Player> players = this->getPlayer();
+
+    for (int p = 0; p<players.size(); p++) 
+    {
+        Player player = players[p];
+        int directionX = 0;
+        int directionY = 0;
+        int offsetY = 0;
+        switch (direction) {
+            case 0 : // Anti-diagonal ((x, y) to  (x+NbToAlign, y+NbToAlign))
+                directionX = 1; // Right
+                directionY = -1; // Up
+                break;
+            case 1 : // Line
+                directionX = 1; // Right
+                break;
+            case 2 : // Row
+                directionY = 1; // Down
+                break;
+            case 3 : // Diagonal
+                directionX = 1; // Right
+                directionY = 1; // Down
+                break;
+        }
+
+        int aligned = 0;
+        std::cout << directionX << " " << directionY << " " << aligned << " " << offsetY << " " << nbAlignToWin << std::endl;
+        while (((aligned < nbAlignToWin) && (this->isCaseOfPlayer(cellX + (directionX * aligned), cellY + (directionY * aligned), CurrentGrid, player)))) 
+        {
+            aligned += 1;
+            std::cout << (aligned < nbAlignToWin) << aligned << "<" << nbAlignToWin << std::endl;
+        }
+        
+        if (aligned == nbAlignToWin)
+        {
+            player.setScore(player.getScore() + 1);
+            this->setPlayer(player); // Update the player score
+        }
+    }
 }

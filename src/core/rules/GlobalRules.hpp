@@ -22,44 +22,29 @@ public:
         grid.nextGlobalRule();
         grid.setRules(rules);
         game.setGrid(CurrentGrid, grid);
+        int nbAlignToWin = grid.getNbAlignToWin();
 
-        for (int i = 0; i<game.getPlayer().size(); i++) {
-            Player player = game.getPlayer()[i];
-            for (int x = 0; x < grid.getGridHeight()-grid.getNbAlignToWin(); x++) {
-                for (int y = 0; y < grid.getGridWidth()-grid.getNbAlignToWin(); y++) {
-                    for (int j = 0; j<grid.getNbAlignToWin(); j++) {
-                        if (grid.getCase(x+j, y)->getPieces()[0].getSymbol() == player.getSymbol()) {
-                            //TODO
-                        }
+        for (int x = 0; x < grid.getGridWidth(); x++) 
+        {
+            for (int y = 0; y < grid.getGridHeight(); y++)
+            {
+                if ((grid.getGridWidth() - x) > nbAlignToWin-1) // Enough spaces to win on the line
+                {
+                    if (y >= nbAlignToWin-1) // Enough space to win on the anti-diagonal from bottom to top from here, going right
+                    {
+                        game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 0);
+                    }
+                    game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 1);
+
+                    if ((grid.getGridHeight() - y) > nbAlignToWin-1) // Enough space to win on the diagonal from top to bottom from here, going right
+                    {
+                        game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 3);
                     }
                 }
-            }
-        }
 
-
-        for (int i = 0; i < grid.getGridHeight(); i++)
-        {
-            for (int j = 0; j < grid.getGridWidth(); j++)
-            {
-                if (grid.checkWin(player1, i, j))
+                if ((grid.getGridHeight() - y) > nbAlignToWin-1) // Enough spaces to win on the row
                 {
-                    // Victoire !
-                    player1.setScore(player1.getScore() + 1);
-                    game.setPlayer(player1);
-                }
-            }
-        }
-        Player player2 = game.getPlayer()[1];
-        for (int i = 0; i < grid.getGridHeight(); i++)
-        {
-            for (int j = 0; j < grid.getGridWidth(); j++)
-            {
-                if (grid.checkWin(player2, i, j))
-                {
-                    // Victoire !
-                    player2.setScore(player2.getScore() + 1);
-
-                    game.setPlayer(player2);
+                    game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 2);
                 }
             }
         }
