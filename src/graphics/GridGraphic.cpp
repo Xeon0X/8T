@@ -462,20 +462,19 @@ void GridGraphic::drawCardDetails(Card *card, Graphic &graphic, int cardX, int c
     if (card != nullptr)
     {
         int x, y;
+
+        x = cardX + 20;
+        y = cardY + 110;
+
         if (graphic.getGrid().getGame().getGrid(this->game.getPlayer()[this->game.getCurrentPlayer()].getCurrentGrid()).getCurrentGlobalRule() == static_cast<int>(indiceCard))
         {
             x = cardX + 20;
             y = cardY + 130;
         }
-        else if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == card->getUniqueId())
+        if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == card->getUniqueId())
         {
             x = cardX + 20;
             y = cardY + 130;
-        }
-        else
-        {
-            x = cardX + 20;
-            y = cardY + 110;
         }
 
         switch (card->getId())
