@@ -546,6 +546,16 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
                 SDL_Rect rect = {windowWidth - 100, windowHeight - 100, 50, 50};
                 SDL_RenderFillRect(renderer, &rect);
             }
+            if (directions[i] == "turnLeft")
+            {
+                SDL_Rect rect = {startX - 50 + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
+                SDL_RenderCopy(renderer, arrowTurnLeftTexture, NULL, &rect);
+            }
+            if (directions[i] == "turnRight")
+            {
+                SDL_Rect rect = {endX + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
+                SDL_RenderCopy(renderer, arrowTurnRightTexture, NULL, &rect);
+            }
         }
     }
 }

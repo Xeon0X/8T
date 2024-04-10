@@ -388,8 +388,8 @@ public:
     CardTurnGrid(std::string name, std::string description, int id) : Card(name, description, id)
     {
         this->canBeGlobalRules = true;
-        arrowDirection.push_back("left");
-        arrowDirection.push_back("right");
+        arrowDirection.push_back("turnLeft");
+        arrowDirection.push_back("turnRight");
     };
     /**
      * @brief Destructor for the CardTurnGrid class.
@@ -410,23 +410,23 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         applyWhenGlobalRule(game, CurrentGrid);
-        if (sens == "left" || sens == "default")
+        if (sens == "turnLeft" || sens == "default")
         {
             turnLeft(CurrentGrid, game);
         }
-        else if (sens == "right")
+        else if (sens == "turnRight")
         {
             turnRight(CurrentGrid, game);
         }
     }
 
     /**
-     * @brief Turn the grid to the right.
+     * @brief Turn the grid to the left .
      *
      * @param CurrentGrid The current grid of the game.
      * @param game The game of the card.
      */
-    void turnRight(int CurrentGrid, Game &game)
+    void turnLeft(int CurrentGrid, Game &game)
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
@@ -447,12 +447,12 @@ public:
     }
 
     /**
-     * @brief Turn the grid to the left.
+     * @brief Turn the grid to the right.
      *
      * @param CurrentGrid The current grid of the game.
      * @param game The game of the card.
      */
-    void turnLeft(int CurrentGrid, Game &game)
+    void turnRight(int CurrentGrid, Game &game)
     {
         Grid currentGrid = game.getGrid(CurrentGrid);
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();

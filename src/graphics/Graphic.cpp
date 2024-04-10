@@ -487,14 +487,14 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                     h = arrowDownHeight;
                     w = arrowDownWidth;
                 }
-                else if (directions[i] == "left")
+                else if (directions[i] == "left" || directions[i] == "turnLeft")
                 {
                     x = arrowLeftX;
                     y = arrowLeftY;
                     h = arrowLeftHeight;
                     w = arrowLeftWidth;
                 }
-                else if (directions[i] == "right")
+                else if (directions[i] == "right" || directions[i] == "turnRight")
                 {
                     x = arrowRightX;
                     y = arrowRightY;
