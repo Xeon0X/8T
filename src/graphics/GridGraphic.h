@@ -194,8 +194,7 @@ public:
      * @param graphic The graphic of the game.
      */
 
-    void drawCardDetails(Card *card, Graphic &graphic, int cardX, int cardY);
-
+    void drawCardDetails(Card *card, Graphic &graphic, int cardX, int cardY, int indiceCard);
     /**
      * @brief Get the texture of the player.
      *

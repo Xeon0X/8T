@@ -418,7 +418,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderCopy(renderer, cardsTextures[deck.getCards()[i]->getId() - 1], NULL, &rect);
 
-        drawCardDetails(deck.getCards()[i], graphic, cardX, cardY);
+        drawCardDetails(deck.getCards()[i], graphic, cardX, cardY, i);
     }
 }
 
@@ -453,20 +453,37 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderCopy(renderer, cardsTextures[grid.getGlobalRules()[i]->getId() - 1], NULL, &rect);
 
-        drawCardDetails(grid.getGlobalRules()[i], graphic, cardX, cardY);
+        drawCardDetails(grid.getGlobalRules()[i], graphic, cardX, cardY, i);
     }
 }
 
-void GridGraphic::drawCardDetails(Card *card, Graphic &graphic, int cardX, int cardY)
+void GridGraphic::drawCardDetails(Card *card, Graphic &graphic, int cardX, int cardY, int indiceCard)
 {
     if (card != nullptr)
     {
+        int x, y;
+        if (graphic.getGrid().getGame().getGrid(this->game.getPlayer()[this->game.getCurrentPlayer()].getCurrentGrid()).getCurrentGlobalRule() == static_cast<int>(indiceCard))
+        {
+            x = cardX + 20;
+            y = cardY + 130;
+        }
+        else if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == card->getUniqueId())
+        {
+            x = cardX + 20;
+            y = cardY + 130;
+        }
+        else
+        {
+            x = cardX + 20;
+            y = cardY + 110;
+        }
+
         switch (card->getId())
         {
         case 11:
         {
             std::string nbAlignToWin = std::to_string(this->game.getGrid(this->game.getPlayer()[this->game.getCurrentPlayer()].getCurrentGrid()).getNbAlignToWin());
-            graphic.drawText(nbAlignToWin.c_str(), cardX + 20, cardY + 110);
+            graphic.drawText(nbAlignToWin.c_str(), x, y);
             break;
         }
         case 14:
@@ -475,7 +492,7 @@ void GridGraphic::drawCardDetails(Card *card, Graphic &graphic, int cardX, int c
             if (endCard != nullptr)
             {
                 std::string roundLeft = std::to_string(endCard->getNbRoundLeft());
-                graphic.drawText(roundLeft.c_str(), cardX + 20, cardY + 110);
+                graphic.drawText(roundLeft.c_str(), x, y);
             }
             break;
         }
