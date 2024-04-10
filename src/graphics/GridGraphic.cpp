@@ -413,25 +413,7 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderCopy(renderer, cardsTextures[deck.getCards()[i]->getId() - 1], NULL, &rect);
 
-        if (deck.getCards()[i] != nullptr)
-        {
-            switch (deck.getCards()[i]->getId())
-            {
-            case 11:
-            {
-                std::string nbAlignToWin = std::to_string(graphic.getGrid().getGame().getGrid(graphic.getGrid().getGame().getCurrentPlayer().getCurrentGrid()).getNbAlignToWin());
-                graphic.drawText(nbAlignToWin.c_str(), cardX + 10, cardY + 50);
-            }
-            break;
-
-            default:
-                break;
-            }
-        }
-
-        // std::string text = deck.getCards()[i]->getName();
-        // const char *cstr = text.c_str();
-        // graphic.drawText(cstr, cardX + 10, cardY + 50);
+        drawCardDetails(deck.getCards()[i], graphic, cardX, cardY);
     }
 }
 
