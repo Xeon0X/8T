@@ -7,7 +7,6 @@
 class Game;
 class Player;
 
-
 /**
  * @enum CardId
  * @brief This enum is used to represent the different cards id in the game
@@ -25,8 +24,11 @@ enum
     PlacePieceId,
     PlayCardId,
     DrawCardId,
-    SwitchPlayerId
-
+    SwitchPlayerId,
+    AlignToWinId,
+    AlignToWinPlusOneId,
+    AlignToWinMinusOneId,
+    EndId
 };
 
 /**
@@ -36,13 +38,13 @@ enum
 class Card
 {
 protected:
-    std::string name; //< The name of the card
-    std::string description; //< The description of the card
-    int id; //< The id of the card
-    int uniqueId; //< The unique id of the card in the game
+    std::string name;                        //< The name of the card
+    std::string description;                 //< The description of the card
+    int id;                                  //< The id of the card
+    int uniqueId;                            //< The unique id of the card in the game
     std::vector<std::string> arrowDirection; //< The direction of the arrow of the card if it has one
-    bool isGlobalRule; //< if the card is a global rule
-    bool canBeGlobalRules = false; //< if the card can be a global rule
+    bool isGlobalRule;                       //< if the card is a global rule
+    bool canBeGlobalRules = false;           //< if the card can be a global rule
 
 public:
     /**
@@ -67,14 +69,14 @@ public:
      */
     std::string getName();
 
-     /**
+    /**
      * @brief Get the id of the card
      *
      * @return int
      */
     int getId() { return id; }
 
-     /**
+    /**
      * @brief Overload of the == operator between 2 cards
      *
      * @return std::bool

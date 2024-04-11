@@ -58,110 +58,105 @@ void Deck::drawCard()
     int randomIndex = rand() % 13 + 1;
     switch (randomIndex)
     {
-    case 1:
+    case GravityId:
     {
-        CardGravity *card = new CardGravity("Gravity", "Pose une pièce sur le plateau", 1);
+        CardGravity *card = new CardGravity("Gravity", "Pose une pièce sur le plateau", GravityId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 2:
+    case AddLineId:
     {
-        CardAddLine *card = new CardAddLine("AddLine", "Ajoute une ligne au plateau", 2);
+        CardAddLine *card = new CardAddLine("AddLine", "Ajoute une ligne au plateau", AddLineId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 3:
+    case AddColumnId:
     {
-        CardAddColumn *card = new CardAddColumn("AddColumn", "Ajoute une colonne au plateau", 3);
+        CardAddColumn *card = new CardAddColumn("AddColumn", "Ajoute une colonne au plateau", AddColumnId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 4:
+    case TurnGridId:
     {
-        CardTurnGrid *card = new CardTurnGrid("TurnGrid", "Tourne le plateau", 4);
+        CardTurnGrid *card = new CardTurnGrid("TurnGrid", "Tourne le plateau", TurnGridId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 5:
+    case RemoveLineId:
     {
-        CardRemoveLine *card = new CardRemoveLine("RemoveLine", "Supprime une ligne du plateau", 5);
+        CardRemoveLine *card = new CardRemoveLine("RemoveLine", "Supprime une ligne du plateau", RemoveLineId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 6:
+    case RemoveColumnId:
     {
-        CardRemoveColumn *card = new CardRemoveColumn("RemoveCol", "Supprime une colonne du plateau", 6);
+        CardRemoveColumn *card = new CardRemoveColumn("RemoveCol", "Supprime une colonne du plateau", RemoveColumnId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 7:
+    case PlacePieceId:
     {
-        CardPlacePiece *card = new CardPlacePiece("PlacePiece", "Pose une pièce sur le plateau", 7);
+        CardPlacePiece *card = new CardPlacePiece("PlacePiece", "Pose une pièce sur le plateau", PlacePieceId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 8:
+    case PlayCardId:
     {
-        CardPlayCard *card = new CardPlayCard("PlayCard", "Joue une carte", 8);
+        CardPlayCard *card = new CardPlayCard("PlayCard", "Joue une carte", PlayCardId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 9:
+    case DrawCardId:
     {
-        CardDrawCard *card = new CardDrawCard("DrawCard", "Pioche une carte", 9);
+        CardDrawCard *card = new CardDrawCard("DrawCard", "Pioche une carte", DrawCardId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 10:
+    case AlignToWinId:
     {
-        CardSwitchPlayer *card = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
+        CardAlignToWin *card = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", AlignToWinId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 11:
+    case AlignToWinPlusOneId:
     {
-        CardAlignToWin *card = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 11);
+        CardAlignToWinPlusOne *card = new CardAlignToWinPlusOne("AlignToWinPlusOne", "Le nombre d'alignement pour gagner +1", AlignToWinPlusOneId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
         break;
     }
-    case 12:
+    case AlignToWinMinusOneId:
     {
-        CardAlignToWinPlusOne *card = new CardAlignToWinPlusOne("AlignToWinPlusOne", "Le nombre d'alignement pour gagner +1", 12);
+        CardAlignToWinMinusOne *card = new CardAlignToWinMinusOne("AlignToWinMinusOne", "Le nombre d'alignement pour gagner -1", AlignToWinMinusOneId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
-    }
-    case 13:
-    {
-        CardAlignToWinMinusOne *card = new CardAlignToWinMinusOne("AlignToWinMinusOne", "Le nombre d'alignement pour gagner -1", 13);
-        card->setUniqueId(uniqueIdCounter);
-        uniqueIdCounter++;
-        this->cards.push_back(card);
+        break;
     }
 
     default:
+        drawCard();
         break;
     }
 }
