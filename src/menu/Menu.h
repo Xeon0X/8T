@@ -103,6 +103,45 @@ public:
      *
      */
     void endMenu(Graphic &graphic);
+
+    /**
+     * @brief Update the menu with the online game menu page.
+     *
+     */
+
+    void createOnlineGameMenu(Graphic &graphic);
+
+    /**
+     * @brief Draw the online game menu page.
+     *
+     */
+
+    void drawCreateOnlineGameMenu(Graphic &graphic);
+
+    /**
+     * @brief Update the menu with the join online game menu page.
+     *
+     */
+
+    void joinOnlineGameMenu(Graphic &graphic);
+
+    /**
+     * @brief Draw the join online game menu page.
+     *
+     */
+    void drawJoinOnlineGameMenu(Graphic &graphic);
+
+    /**
+     * @brief Update the menu with the choose create or join menu page.
+     *
+     */
+    void chooseCreateOrJoinMenu();
+
+    /**
+     * @brief Draw the choose create or join menu page.
+     *
+     */
+    void drawChooseCreateOrJoinMenu();
 };
 
 #endif // MENU

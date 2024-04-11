@@ -118,7 +118,7 @@ void Menu::drawChooseGameModeMenu()
 
         if (ImGui::Button("Multiplayer", ImVec2(200, 50)))
         {
-            this->gamestate = GameState::Game;
+            this->gamestate = GameState::ChooseCreateOrJoin;
         }
         ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
         ImGui::SetCursorPosX(50);
@@ -520,6 +520,314 @@ void Menu::drawEndMenu(Graphic &graphic)
     }
 }
 
+void Menu::createOnlineGameMenu(Graphic &graphic)
+{
+    while (SDL_PollEvent(&this->event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
+        {
+            this->gamestate = GameState::Quit;
+        }
+    }
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    drawCreateOnlineGameMenu(graphic);
+    ImGui::Render();
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(this->window);
+}
+
+void Menu::drawCreateOnlineGameMenu(Graphic &graphic)
+{
+    if (logoTexture != nullptr)
+    {
+        GLuint oglTextureID;
+        SDL_GL_BindTexture(logoTexture, NULL, NULL);
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint *)&oglTextureID);
+        SDL_GL_UnbindTexture(logoTexture);
+
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("Create Online Game Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Create Online Game Menu").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
+
+        ImGui::Text("Create Online Game Menu");
+        ImGui::Separator();
+
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        static char ip[16] = " ";
+        static char port[6] = " ";
+        ImGui::InputText("IP", ip, IM_ARRAYSIZE(ip));
+        ImGui::InputText("Port", port, IM_ARRAYSIZE(port));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 100) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Start", ImVec2(200, 50)))
+        {
+        }
+
+        ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+        ImGui::SetCursorPosX(50);
+
+        if (ImGui::Button("Back", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::ChooseGameMode;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::End();
+    }
+}
+
+void Menu::joinOnlineGameMenu(Graphic &graphic)
+{
+    while (SDL_PollEvent(&this->event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
+        {
+            this->gamestate = GameState::Quit;
+        }
+    }
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    drawJoinOnlineGameMenu(graphic);
+    ImGui::Render();
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(this->window);
+}
+
+void Menu::Options()
+{
+    while (SDL_PollEvent(&this->event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
+        {
+            this->gamestate = GameState::Quit;
+        }
+    }
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    drawOptions();
+    ImGui::Render();
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(this->window);
+}
+
+void Menu::drawOptions()
+{
+    if (logoTexture != nullptr)
+    {
+        GLuint oglTextureID;
+        SDL_GL_BindTexture(logoTexture, NULL, NULL);
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint *)&oglTextureID);
+        SDL_GL_UnbindTexture(logoTexture);
+
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("Options", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Options").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
+
+        ImGui::Text("Options");
+        ImGui::Separator();
+
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        if (ImGui::Button("Back", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Menu;
+        }
+
+        ImGui::PopStyleColor();
+
+        ImGui::End();
+    }
+}
+void Menu::drawJoinOnlineGameMenu(Graphic &graphic)
+{
+    if (logoTexture != nullptr)
+    {
+        GLuint oglTextureID;
+        SDL_GL_BindTexture(logoTexture, NULL, NULL);
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint *)&oglTextureID);
+        SDL_GL_UnbindTexture(logoTexture);
+
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("Join Online Game Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Join Online Game Menu").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
+
+        ImGui::Text("Join Online Game Menu");
+        ImGui::Separator();
+
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        static char ip[16] = " ";
+        static char port[6] = " ";
+        ImGui::InputText("IP", ip, IM_ARRAYSIZE(ip));
+        ImGui::InputText("Port", port, IM_ARRAYSIZE(port));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 100) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Start", ImVec2(200, 50)))
+        {
+        }
+
+        ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+        ImGui::SetCursorPosX(50);
+
+        if (ImGui::Button("Back", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::ChooseGameMode;
+        }
+
+        ImGui::PopStyleColor();
+
+        ImGui::End();
+    }
+}
+
+void Menu::chooseCreateOrJoinMenu()
+{
+    while (SDL_PollEvent(&this->event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
+        {
+            this->gamestate = GameState::Quit;
+        }
+    }
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    drawChooseCreateOrJoinMenu();
+    ImGui::Render();
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(this->window);
+}
+
+void Menu::drawChooseCreateOrJoinMenu()
+{
+    if (logoTexture != nullptr)
+    {
+        GLuint oglTextureID;
+        SDL_GL_BindTexture(logoTexture, NULL, NULL);
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint *)&oglTextureID);
+        SDL_GL_UnbindTexture(logoTexture);
+
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("Choose Create Or Join Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Choose Create Or Join Menu").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
+
+        ImGui::Text("Choose Create Or Join Menu");
+        ImGui::Separator();
+
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        if (ImGui::Button("Create", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::CreateOnlineGame;
+        }
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Join", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::JoinOnlineGame;
+        }
+
+        ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+        ImGui::SetCursorPosX(50);
+
+        if (ImGui::Button("Back", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Menu;
+        }
+
+        ImGui::PopStyleColor();
+
+        ImGui::End();
+    }
+}
+
 int main()
 {
     Menu menu;
@@ -563,6 +871,15 @@ void Menu::start()
         case GameState::End:
             this->endMenu(graphic);
             break;
+        case GameState::CreateOnlineGame:
+            this->createOnlineGameMenu(graphic);
+            break;
+        case GameState::JoinOnlineGame:
+            this->joinOnlineGameMenu(graphic);
+            break;
+        case GameState::ChooseCreateOrJoin:
+            this->chooseCreateOrJoinMenu();
+            break;
         default:
             break;
         }
@@ -571,7 +888,6 @@ void Menu::start()
 
 Menu::Menu()
 {
-    std::cout << "Menu constructor" << std::endl;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
