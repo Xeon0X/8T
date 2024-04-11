@@ -3,6 +3,7 @@
 #include <SDL2/SDL_render.h>
 #include <iostream>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 Graphic::Graphic()
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -92,6 +93,21 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
         std::cout << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
         exit(1);
     }
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        std::cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
+        exit(1);
+    }
+
+    Mix_Music *music = Mix_LoadMUS("../data/sounds/sound.mp3");
+    if (music == nullptr)
+    {
+        std::cout << "Failed to load music! SDL_mixer Error: " << Mix_GetError() << std::endl;
+        exit(1);
+    }
+
+    Mix_PlayMusic(music, -1);
 
     fontColor = {0, 0, 0, 255};
     fontSize = 15;
