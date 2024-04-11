@@ -24,6 +24,7 @@ private:
     SDL_GLContext gl_context;              /**< The gl context of the game. */
 
     SDL_Texture *logoTexture; /**< The texture of the logo. */
+    bool findNetwork = false; /**< The state of the network. */
 
 public:
     /**
@@ -142,6 +143,10 @@ public:
      *
      */
     void drawChooseCreateOrJoinMenu();
+
+    void Options();
+
+    void drawOptions();
 };
 
 #endif // MENU

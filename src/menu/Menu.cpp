@@ -575,16 +575,57 @@ void Menu::drawCreateOnlineGameMenu(Graphic &graphic)
 
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 
-        static char ip[16] = " ";
-        static char port[6] = " ";
-        ImGui::InputText("IP", ip, IM_ARRAYSIZE(ip));
-        ImGui::InputText("Port", port, IM_ARRAYSIZE(port));
-
-        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 100) * 0.5f);
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
         ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
 
-        if (ImGui::Button("Start", ImVec2(200, 50)))
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        static int player1Shape = 0;
+        static int player1Color = 0;
+
+        const char *shapes[] = {"Croix", "Rond", "Triangle", "Carrée"};
+        const char *colors[] = {"Rouge", "Bleu", "Vert", "Jaune"};
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        float windowWidth = ImGui::GetWindowSize().x;
+        float textWidth, comboWidth;
+
+        ImVec2 oldCursorPos = ImGui::GetCursorPos();
+
+        ImGui::SetCursorPos(ImVec2(-9999, -9999));
+        ImGui::Combo("##invisible", &player1Shape, shapes, IM_ARRAYSIZE(shapes));
+        comboWidth = ImGui::GetItemRectSize().x;
+        textWidth = ImGui::CalcTextSize("Joueur 1").x;
+
+        ImGui::SetCursorPos(oldCursorPos);
+        ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY());
+
+        ImGui::Text("Joueur 1");
+        textWidth = ImGui::CalcTextSize("Joueur 1").x;
+        ImGui::SetCursorPosX((windowWidth - comboWidth) / 2);
+        ImGui::Combo("Forme1", &player1Shape, shapes, IM_ARRAYSIZE(shapes));
+        ImGui::SetCursorPosX((windowWidth - comboWidth) / 2);
+        ImGui::Combo("Couleur1", &player1Color, colors, IM_ARRAYSIZE(colors));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 200) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::Text("IP Address : ");
+        static char ip[16] = " "; // Met la function pour afficher l'ip ici
+        ImGui::Text(ip);
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 300) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::PopStyleColor();
+
+        if (ImGui::Button("Create", ImVec2(200, 50)))
         {
+            // Envoi player1Shape et player1Color et attend le retour
         }
 
         ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
@@ -692,57 +733,159 @@ void Menu::drawJoinOnlineGameMenu(Graphic &graphic)
 {
     if (logoTexture != nullptr)
     {
-        GLuint oglTextureID;
-        SDL_GL_BindTexture(logoTexture, NULL, NULL);
-        glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint *)&oglTextureID);
-        SDL_GL_UnbindTexture(logoTexture);
-
-        ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(this->io->DisplaySize);
-        ImGui::Begin("Join Online Game Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
-
-        ImGui::SetWindowFontScale(1.7f);
-        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Join Online Game Menu").x) * 0.5f);
-        ImGui::SetCursorPosY(100);
-
-        ImGui::Text("Join Online Game Menu");
-        ImGui::Separator();
-
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
-        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
-        ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
-
-        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
-        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
-
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
-
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
-
-        static char ip[16] = " ";
-        static char port[6] = " ";
-        ImGui::InputText("IP", ip, IM_ARRAYSIZE(ip));
-        ImGui::InputText("Port", port, IM_ARRAYSIZE(port));
-
-        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 100) * 0.5f);
-        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
-
-        if (ImGui::Button("Start", ImVec2(200, 50)))
+        if (findNetwork)
         {
+            GLuint oglTextureID;
+            SDL_GL_BindTexture(logoTexture, NULL, NULL);
+            glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint *)&oglTextureID);
+            SDL_GL_UnbindTexture(logoTexture);
+
+            ImGui::SetNextWindowPos(ImVec2(0, 0));
+            ImGui::SetNextWindowSize(this->io->DisplaySize);
+            ImGui::Begin("Create Online Game Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+            ImGui::SetWindowFontScale(1.7f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Create Online Game Menu").x) * 0.5f);
+            ImGui::SetCursorPosY(100);
+
+            ImGui::Text("Create Online Game Menu");
+            ImGui::Separator();
+
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+            ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+            ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+            ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+            static int player1Shape = 0;
+            static int player1Color = 0;
+
+            const char *shapes[] = {"Croix", "Rond", "Triangle", "Carrée"};
+            const char *colors[] = {"Rouge", "Bleu", "Vert", "Jaune"};
+
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+            float windowWidth = ImGui::GetWindowSize().x;
+            float textWidth, comboWidth;
+
+            ImVec2 oldCursorPos = ImGui::GetCursorPos();
+
+            ImGui::SetCursorPos(ImVec2(-9999, -9999));
+            ImGui::Combo("##invisible", &player1Shape, shapes, IM_ARRAYSIZE(shapes));
+            comboWidth = ImGui::GetItemRectSize().x;
+            textWidth = ImGui::CalcTextSize("Joueur 1").x;
+
+            ImGui::SetCursorPos(oldCursorPos);
+            ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY());
+
+            ImGui::Text("Joueur 1");
+            textWidth = ImGui::CalcTextSize("Joueur 1").x;
+            ImGui::SetCursorPosX((windowWidth - comboWidth) / 2);
+            ImGui::Combo("Forme1", &player1Shape, shapes, IM_ARRAYSIZE(shapes));
+            ImGui::SetCursorPosX((windowWidth - comboWidth) / 2);
+            ImGui::Combo("Couleur1", &player1Color, colors, IM_ARRAYSIZE(colors));
+
+            ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 200) * 0.5f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+            ImGui::Text("IP Address : ");
+            static char ip[16] = " "; // Met la function pour afficher l'ip de la game ici
+            ImGui::Text(ip);
+
+            ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 300) * 0.5f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+            ImGui::PopStyleColor();
+
+            if (ImGui::Button("Create", ImVec2(200, 50)))
+            {
+                // Envoi player1Shape et player1Color et au createur de la game et attend la validation
+            }
+
+            ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+            ImGui::SetCursorPosX(50);
+
+            if (ImGui::Button("Back", ImVec2(200, 50)))
+            {
+                this->gamestate = GameState::ChooseGameMode;
+            }
+            ImGui::PopStyleColor();
+
+            ImGui::End();
         }
 
-        ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
-        ImGui::SetCursorPosX(50);
-
-        if (ImGui::Button("Back", ImVec2(200, 50)))
+        else
         {
-            this->gamestate = GameState::ChooseGameMode;
+            GLuint oglTextureID;
+            SDL_GL_BindTexture(logoTexture, NULL, NULL);
+            glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint *)&oglTextureID);
+            SDL_GL_UnbindTexture(logoTexture);
+
+            ImGui::SetNextWindowPos(ImVec2(0, 0));
+            ImGui::SetNextWindowSize(this->io->DisplaySize);
+            ImGui::Begin("Join Online Game Menu", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+            ImGui::SetWindowFontScale(1.7f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Join Online Game Menu").x) * 0.5f);
+            ImGui::SetCursorPosY(100);
+
+            ImGui::Text("Join Online Game Menu");
+            ImGui::Separator();
+
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+            ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+            ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+            ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 50) * 0.5f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+            static char ip[16] = " ";
+            ImGui::PushItemWidth(200);
+            ImGui::InputText("IP", ip, IM_ARRAYSIZE(ip));
+
+            ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 200) * 0.5f);
+            ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+            if (ImGui::Button("Start", ImVec2(200, 50)))
+            {
+                // check si l'ip est valide
+                this->findNetwork = true;
+            }
+
+            ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+            ImGui::SetCursorPosX(50);
+
+            if (ImGui::Button("Back", ImVec2(200, 50)))
+            {
+                this->gamestate = GameState::ChooseGameMode;
+            }
+
+            ImGui::PopStyleColor();
+
+            ImGui::End();
         }
-
-        ImGui::PopStyleColor();
-
-        ImGui::End();
     }
 }
 
