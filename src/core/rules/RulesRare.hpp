@@ -92,6 +92,7 @@ public:
      */
     CardPickPlayOrPlace(std::string name, std::string description, int id) : Card(name, description, id)
     {
+        this->arrowDirection.push_back("static");
         this->canBeGlobalRules = true;
     };
 
@@ -136,6 +137,7 @@ public:
      */
     CardEndPlusOne(std::string name, std::string description, int id) : Card(name, description, id)
     {
+        this->arrowDirection.push_back("static");
         this->canBeGlobalRules = true;
     };
 
@@ -183,6 +185,8 @@ public:
      */
     CardEndMinusOne(std::string name, std::string description, int id) : Card(name, description, id)
     {
+        this->arrowDirection.push_back("static");
+
         this->canBeGlobalRules = true;
     };
 

@@ -42,7 +42,7 @@ void Deck::setBaseCard()
     card5->setUniqueId(uniqueIdCounter);
     uniqueIdCounter++;
     this->cards.push_back(card5);
-    CardEnd *card6 = new CardEnd("End", "Termine le tour", 14);
+    CardPickPlayOrPlace *card6 = new CardPickPlayOrPlace("PickPlayOrPlace", "Pose ou prend une pièce sur le plateau", 15);
     card6->setUniqueId(uniqueIdCounter);
     uniqueIdCounter++;
     this->cards.push_back(card6);
