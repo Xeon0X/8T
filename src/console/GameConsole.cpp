@@ -53,9 +53,9 @@ void GameConsole::printDeck(int gridIndex)
 {
     std::cout << "\n----- Deck " << gridIndex << " -----\n"
               << std::endl;
-    for (unsigned int i = 0; i < game.getCurrentPlayer().getDeck(gridIndex).getCards().size(); i++)
+    for (unsigned int i = 0; i < this->game.getPlayer()[this->game.getCurrentPlayer()].getDeck(gridIndex).getCards().size(); i++)
     {
-        Card *card = this->game.getCurrentPlayer().getDeck(gridIndex).getCards()[i];
+        Card *card = game.getPlayer()[game.getCurrentPlayer()].getDeck(gridIndex).getCards()[i];
         if (card->getName().empty())
         {
             std::cout << " ";
@@ -65,7 +65,7 @@ void GameConsole::printDeck(int gridIndex)
             std::cout << card->getName();
         }
 
-        if (i < game.getCurrentPlayer().getDeck(gridIndex).getCards().size() - 1)
+        if (i < this->game.getPlayer()[this->game.getCurrentPlayer()].getDeck(gridIndex).getCards().size() - 1)
         {
             std::cout << " | ";
         }
@@ -115,7 +115,7 @@ int GameConsole::menu(int gridIndex)
         }
     };
 
-    std::cout << "\n**--- Player " << game.getCurrentPlayer().getSymbol() << " ---**" << std::endl;
+    std::cout << "\n**--- Player " << game.getPlayer()[game.getCurrentPlayer()].getSymbol() << " ---**" << std::endl;
 
     std::vector<std::string> options = {"Place a piece", "Play a card", "Draw a card", "Exit"};
     showOptions(options);
@@ -137,11 +137,11 @@ int GameConsole::menu(int gridIndex)
 
     case 2:
     {
-        Deck deck = game.getCurrentPlayer().getDeck(gridIndex);
+        Deck deck = game.getPlayer()[game.getCurrentPlayer()].getDeck(gridIndex);
         std::vector<std::string> options;
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
-            Card card = *game.getCurrentPlayer().getDeck(gridIndex).getCards()[i];
+            Card card = *game.getPlayer()[game.getCurrentPlayer()].getDeck(gridIndex).getCards()[i];
             options.push_back(card.getName());
         }
         showOptions(options);
@@ -151,13 +151,17 @@ int GameConsole::menu(int gridIndex)
         // int x = inputVerification(1, game.getGrid(gridIndex).getGridHeight());
         // std::cout << "\ny: " << std::endl;
         // int y = inputVerification(1, game.getGrid(gridIndex).getGridWidth());
-        Player player = game.getCurrentPlayer();
-        (*deck.getCards()[index]).applyCard(0, 0, gridIndex, player, game);
+        Player player = game.getPlayer()[game.getCurrentPlayer()];
+        std::cout << "Choose a direction to apply the card: " << std::endl;
+        std::vector<std::string> directions = deck.getCards()[index]->getArrowDirection();
+        showOptions(directions);
+        int direction = inputVerification(1, directions.size());
+        (*deck.getCards()[index]).applyCard(0, 0, gridIndex, player, game, directions[direction - 1]);
         return 1;
     }
     case 3:
     {
-        Player player = game.getCurrentPlayer();
+        Player player = game.getPlayer()[game.getCurrentPlayer()];
         player.drawCard();
         return 1;
     }
