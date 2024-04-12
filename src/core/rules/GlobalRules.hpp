@@ -1,3 +1,6 @@
+#ifndef GLOBALRULES_HPP
+#define GLOBALRULES_HPP
+
 #include "../Card.h"
 #include "../Game.h"
 #include "../Player.h"
@@ -355,3 +358,5 @@ public:
         this->nbRoundLeft = nbRoundLeft;
     }
 };
+
+#endif // GLOBALRULES_HPP
