@@ -339,7 +339,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     handleGlobalRuleButtonClick(mouseX, mouseY, screenWidth, screenHeight);
 
     // Play a card
-    if (grid.getRules().canPlayCard)
+    if (grid.getRules().canPlayCard || grid.getRules().pickPlayOrPlace)
     {
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
@@ -379,7 +379,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     // }
 
     // Draw a card
-    if (grid.getRules().canDrawCard)
+    if (grid.getRules().canDrawCard || grid.getRules().pickPlayOrPlace)
     {
         if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
         {
@@ -404,7 +404,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     }
 
     // Place a piece
-    if (grid.getRules().canPlacePiece)
+    if (grid.getRules().canPlacePiece || grid.getRules().pickPlayOrPlace)
     {
         if (CoIncid(cellX, cellY, 0, 0, CasesWidth, CasesHeight) && !this->isCardClicked && !MouseClickInterface(mouseX, mouseY))
         {

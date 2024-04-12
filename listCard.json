@@ -12,5 +12,8 @@
   "11": "AlignToWin",
   "12": "AlignToWinPlusOne",
   "13": "AlignToWinMinusOne",
-  "14": "EndCard"
+  "14": "EndCard",
+  "15": "CardPlayPlaceOrPick",
+  "16": "CardEndPLusOne",
+  "17": "CardEndMinusOne"
 }

@@ -7,7 +7,6 @@
 #include <string>
 #include <iostream>
 
-
 class Case;
 
 /**
@@ -21,6 +20,7 @@ struct GridRules
     bool canDrawCard = false;
     bool checkWin = false;
     bool endGame = false;
+    bool pickPlayOrPlace = false;
 };
 
 /**

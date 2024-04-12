@@ -344,4 +344,14 @@ public:
     {
         return nbRoundLeft;
     }
+
+    /**
+     * @brief Set the Nb Round Left object
+     *
+     * @param nbRoundLeft
+     */
+    void setNbRoundLeft(int nbRoundLeft)
+    {
+        this->nbRoundLeft = nbRoundLeft;
+    }
 };

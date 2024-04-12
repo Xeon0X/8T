@@ -55,7 +55,7 @@ std::vector<Card *> Deck::getCards()
 
 void Deck::drawCard()
 {
-    int randomIndex = rand() % 13 + 1;
+    int randomIndex = rand() % 17 + 1;
     switch (randomIndex)
     {
     case GravityId:
@@ -149,6 +149,38 @@ void Deck::drawCard()
     case AlignToWinMinusOneId:
     {
         CardAlignToWinMinusOne *card = new CardAlignToWinMinusOne("AlignToWinMinusOne", "Le nombre d'alignement pour gagner -1", AlignToWinMinusOneId);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case EndId:
+    {
+        CardEnd *card = new CardEnd("End", "Termine le tour", EndId);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case PlayPlaceOrPickId:
+    {
+        CardPickPlayOrPlace *card = new CardPickPlayOrPlace("PickPlayOrPlace", "Pose ou prend une pièce sur le plateau", PlayPlaceOrPickId);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case CardEndPlusOneId:
+    {
+        CardEndPlusOne *card = new CardEndPlusOne("EndPlusOne", "Termine le tour +1", CardEndPlusOneId);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case CardEndMinusOneId:
+    {
+        CardEndMinusOne *card = new CardEndMinusOne("EndMinusOne", "Termine le tour -1", CardEndMinusOneId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);
