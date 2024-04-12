@@ -413,7 +413,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay || !isGlobalRule)
         {
             updateTime(game, CurrentGrid);
             applyWhenGlobalRule(game, CurrentGrid);
