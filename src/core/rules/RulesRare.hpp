@@ -117,6 +117,7 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         updateTime(game, CurrentGrid);
+        applyWhenGlobalRule(game, CurrentGrid);
 
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
@@ -161,15 +162,19 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        applyWhenGlobalRule(game, CurrentGrid);
-
-        std::vector<Card *> globalRules = game.getGrid(CurrentGrid).getGlobalRules();
-        for (unsigned int i = 0; i < globalRules.size(); i++)
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
         {
-            if (globalRules[i]->getId() == 14)
+            updateTime(game, CurrentGrid);
+            applyWhenGlobalRule(game, CurrentGrid);
+
+            std::vector<Card *> globalRules = game.getGrid(CurrentGrid).getGlobalRules();
+            for (unsigned int i = 0; i < globalRules.size(); i++)
             {
-                CardEnd *card = dynamic_cast<CardEnd *>(globalRules[i]);
-                card->setNbRoundLeft(card->getNbRoundLeft() + 1);
+                if (globalRules[i]->getId() == 14)
+                {
+                    CardEnd *card = dynamic_cast<CardEnd *>(globalRules[i]);
+                    card->setNbRoundLeft(card->getNbRoundLeft() + 1);
+                }
             }
         }
     }
@@ -188,7 +193,6 @@ public:
     CardEndMinusOne(std::string name, std::string description, int id) : Card(name, description, id)
     {
         this->arrowDirection.push_back("static");
-
         this->canBeGlobalRules = true;
     };
 
@@ -210,15 +214,19 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        applyWhenGlobalRule(game, CurrentGrid);
-
-        std::vector<Card *> globalRules = game.getGrid(CurrentGrid).getGlobalRules();
-        for (unsigned int i = 0; i < globalRules.size(); i++)
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
         {
-            if (globalRules[i]->getId() == 14)
+            updateTime(game, CurrentGrid);
+            applyWhenGlobalRule(game, CurrentGrid);
+
+            std::vector<Card *> globalRules = game.getGrid(CurrentGrid).getGlobalRules();
+            for (unsigned int i = 0; i < globalRules.size(); i++)
             {
-                CardEnd *card = dynamic_cast<CardEnd *>(globalRules[i]);
-                card->setNbRoundLeft(card->getNbRoundLeft() - 1);
+                if (globalRules[i]->getId() == 14)
+                {
+                    CardEnd *card = dynamic_cast<CardEnd *>(globalRules[i]);
+                    card->setNbRoundLeft(card->getNbRoundLeft() - 1);
+                }
             }
         }
     }

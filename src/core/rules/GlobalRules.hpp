@@ -290,7 +290,7 @@ public:
 class CardEnd : public Card
 {
 private:
-    int nbRoundLeft = 10; /**< The number of rounds left. */
+    int nbRoundLeft; /**< The number of rounds left. */
 
 public:
     /**
@@ -303,6 +303,8 @@ public:
     CardEnd(std::string name, std::string description, int id) : Card(name, description, id)
     {
         this->canBeGlobalRules = true;
+        srand(static_cast<unsigned int>(time(nullptr)));
+        nbRoundLeft = 10 + rand() % 41;
     };
     /**
      * @brief Destructor for the CardEnd class.
