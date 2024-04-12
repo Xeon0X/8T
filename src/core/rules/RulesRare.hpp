@@ -51,10 +51,10 @@ public:
     {   
         if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
         {
-            Grid currentGrid = game.getGrid(CurrentGrid);
-            std::vector<std::vector<Case *>> cases = currentGrid.getCases();
             updateTime(game, CurrentGrid);
             applyWhenGlobalRule(game, CurrentGrid);
+            Grid currentGrid = game.getGrid(CurrentGrid);
+            std::vector<std::vector<Case *>> cases = currentGrid.getCases();
             for (unsigned int i = 0; i < cases[0].size(); i++)
             {
                 for (int x = cases.size() - 1; x >= 0; x--)
