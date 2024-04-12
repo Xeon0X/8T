@@ -5,7 +5,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <string>
-#include "../rules/GlobalRules.hpp"
+#include "../core/rules/GlobalRules.hpp"
 
 GridGraphic::GridGraphic(/* args */)
 {
