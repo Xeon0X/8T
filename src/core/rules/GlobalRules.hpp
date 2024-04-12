@@ -273,8 +273,11 @@ public:
         rules.canPlayCard = true;
         if (game.getPlayer()[game.getCurrentPlayer()].getDeck(CurrentGrid).getCards().empty())
         {
-            grid.nextGlobalRule(); // Do not wait for player input
-            rules.canPlayCard = false;
+            if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
+            {
+                grid.nextGlobalRule(); // Do not wait for player input
+                rules.canPlayCard = false;
+            }
         }
         grid.setRules(rules);
         game.setGrid(CurrentGrid, grid);

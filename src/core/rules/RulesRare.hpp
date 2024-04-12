@@ -117,7 +117,6 @@ public:
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
         updateTime(game, CurrentGrid);
-        applyWhenGlobalRule(game, CurrentGrid);
 
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
