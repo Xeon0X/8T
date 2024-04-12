@@ -369,20 +369,17 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     {
         if (CoIncid(mouseX, mouseY, this->pioche.x, this->pioche.y, this->pioche.x + this->pioche.w, this->pioche.y + this->pioche.h))
         {
-            if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "DrawCard")
-            {
-                grid.nextGlobalRule();
-                GridRules rules = grid.getRules();
+            grid.nextGlobalRule();
+            GridRules rules = grid.getRules();
 
-                rules.canDrawCard = false;
-                grid.setRules(rules);
-                game.setGrid(0, grid);
-                this->grid.setGame(game); // Update the grid with next global rule
+            rules.canDrawCard = false;
+            grid.setRules(rules);
+            game.setGrid(0, grid);
+            this->grid.setGame(game); // Update the grid with next global rule
 
-                player.drawCard();
-                this->grid.getGame().setPlayer(player);
-                // this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
-            }
+            player.drawCard();
+            this->grid.getGame().setPlayer(player);
+            // this->grid.getGame().setCurrentPlayer(player); // Update the grid with the new card added to the player
         }
     }
 
@@ -511,14 +508,22 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                 {
                     this->cardClicked->setGlobalRuleState(false);
                     this->cardClicked->applyCard(0, 0, CurrentGrid, player, this->grid.getGame(), directions[i]);
+                    
+                    Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
+                    GridRules rules = gridForRules.getRules();
+                    rules.canPlayCard = false;
+
+                    if (this->cardClicked->getId() != 15) 
+                    {
+                        gridForRules.nextGlobalRule(); 
+                    } else // pickPlaceOrPlace has been played and should let the player play again
+                    {
+                        rules.pickPlayOrPlace = true;
+                    }
+
                     this->deleteCard();
                     this->isCardClicked = false;
 
-                    Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
-                    gridForRules.nextGlobalRule();
-                    GridRules rules = gridForRules.getRules();
-                    rules.canPlayCard = false;
-                    rules.pickPlayOrPlace = false;
                     gridForRules.setRules(rules);
                     this->grid.getGame().setGrid(CurrentGrid, gridForRules);
                 }
