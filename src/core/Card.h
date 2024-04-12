@@ -28,7 +28,11 @@ enum
     AlignToWinId,
     AlignToWinPlusOneId,
     AlignToWinMinusOneId,
-    EndId
+    EndId,
+    PlayPlaceOrPickId,
+    CardEndPlusOneId,
+    CardEndMinusOneId
+
 };
 
 /**

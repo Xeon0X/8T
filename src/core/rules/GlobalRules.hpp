@@ -1,3 +1,6 @@
+#ifndef GLOBALRULES_HPP
+#define GLOBALRULES_HPP
+
 #include "../Card.h"
 #include "../Game.h"
 #include "../Player.h"
@@ -344,4 +347,16 @@ public:
     {
         return nbRoundLeft;
     }
+
+    /**
+     * @brief Set the Nb Round Left object
+     *
+     * @param nbRoundLeft
+     */
+    void setNbRoundLeft(int nbRoundLeft)
+    {
+        this->nbRoundLeft = nbRoundLeft;
+    }
 };
+
+#endif // GLOBALRULES_HPP
