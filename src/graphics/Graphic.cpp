@@ -365,14 +365,6 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
         }
     }
 
-    // // Checkwin
-    // if (grid.getGlobalRules()[grid.getCurrentGlobalRule()]->getName() == "AlignToWin") {
-    //     handleCheckWin(cellX, cellY, game);
-    //     grid.nextGlobalRule();
-    //     game.setGrid(CurrentGrid, grid);
-    //     this->grid.setGame(game); // Update the grid with next global rule
-    // }
-
     // Draw a card
     if (grid.getRules().canDrawCard || grid.getRules().pickPlayOrPlace)
     {

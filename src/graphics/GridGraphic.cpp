@@ -336,6 +336,16 @@ void GridGraphic::initCardTexture(SDL_Renderer *renderer)
     this->cardsTextures.push_back(texture);
     SDL_FreeSurface(surface);
 
+    surface = IMG_Load("../data/images/card_end+1.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_end-1.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
     surface = IMG_Load("../data/images/card_placePlayPick.png");
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     this->cardsTextures.push_back(texture);
