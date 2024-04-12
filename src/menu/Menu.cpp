@@ -240,6 +240,55 @@ void Menu::pauseMenu()
     SDL_GL_SwapWindow(this->window);
 }
 
+void Menu::createGame(int player1Shape, int player2Shape, int player1Color, int player2Color, Graphic &graphic)
+{
+    if (player1Shape != player2Shape && player1Color != player2Color)
+    {
+        this->gamestate = GameState::Game;
+
+        char shape1;
+        char shape2;
+        if (strcmp(shapes[player1Shape], "Croix") == 0)
+        {
+            shape1 = 'X';
+        }
+        else if (strcmp(shapes[player1Shape], "Rond") == 0)
+        {
+            shape1 = 'O';
+        }
+        else if (strcmp(shapes[player1Shape], "Triangle") == 0)
+        {
+            shape1 = 'T';
+        }
+        else
+        {
+            shape1 = 'C';
+        }
+
+        if (strcmp(shapes[player2Shape], "Croix") == 0)
+        {
+            shape2 = 'X';
+        }
+        else if (strcmp(shapes[player2Shape], "Rond") == 0)
+        {
+
+            shape2 = 'O';
+        }
+        else if (strcmp(shapes[player2Shape], "Triangle") == 0)
+        {
+            shape2 = 'T';
+        }
+        else
+        {
+            shape2 = 'C';
+        }
+
+        Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
+        Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
+        graphic = *(new Graphic(this->window, this->renderer, player1, player2));
+    }
+}
+
 void Menu::drawGameCreation(Graphic &graphic)
 {
     if (logoTexture != nullptr)
@@ -317,51 +366,7 @@ void Menu::drawGameCreation(Graphic &graphic)
 
         if (ImGui::Button("Start", ImVec2(200, 50)))
         {
-            if (player1Shape != player2Shape && player1Color != player2Color)
-            {
-                this->gamestate = GameState::Game;
-
-                char shape1;
-                char shape2;
-                if (strcmp(shapes[player1Shape], "Croix") == 0)
-                {
-                    shape1 = 'X';
-                }
-                else if (strcmp(shapes[player1Shape], "Rond") == 0)
-                {
-                    shape1 = 'O';
-                }
-                else if (strcmp(shapes[player1Shape], "Triangle") == 0)
-                {
-                    shape1 = 'T';
-                }
-                else
-                {
-                    shape1 = 'C';
-                }
-
-                if (strcmp(shapes[player2Shape], "Croix") == 0)
-                {
-                    shape2 = 'X';
-                }
-                else if (strcmp(shapes[player2Shape], "Rond") == 0)
-                {
-
-                    shape2 = 'O';
-                }
-                else if (strcmp(shapes[player2Shape], "Triangle") == 0)
-                {
-                    shape2 = 'T';
-                }
-                else
-                {
-                    shape2 = 'C';
-                }
-
-                Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
-                Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
-                graphic = *(new Graphic(this->window, this->renderer, player1, player2));
-            }
+            createGame(player1Shape, player2Shape, player1Color, player2Color, graphic);
         }
     }
 
