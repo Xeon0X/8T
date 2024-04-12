@@ -49,6 +49,7 @@ protected:
     std::vector<std::string> arrowDirection; //< The direction of the arrow of the card if it has one
     bool isGlobalRule;                       //< if the card is a global rule
     bool canBeGlobalRules = false;           //< if the card can be a global rule
+    double minimumSecondsDelay = 0.7;
 
 public:
     /**
@@ -171,6 +172,13 @@ public:
      * @return bool
      */
     bool getCanBeGlobal() { return canBeGlobalRules; }
+
+    /**
+     * @brief Update the time to have delay between rule execution
+     *
+     * @return bool
+     */
+    void updateTime(Game &game, int CurrentGrid);
 };
 
 #endif // CARD

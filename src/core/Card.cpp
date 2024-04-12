@@ -84,3 +84,10 @@ void Card::applyWhenGlobalRule(Game &game, int CurrentGrid)
         game.setGrid(CurrentGrid, currentGrid);
     }
 }
+
+void Card::updateTime(Game &game, int CurrentGrid)
+{
+    Grid grid = game.getGrid(CurrentGrid);
+    grid.startTimeForCurrentRule();
+    game.setGrid(CurrentGrid, grid);
+}

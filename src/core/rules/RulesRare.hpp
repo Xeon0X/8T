@@ -48,31 +48,33 @@ public:
      * @param sens The direction of the card.
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
-    {
-        Grid currentGrid = game.getGrid(CurrentGrid);
-        std::vector<std::vector<Case *>> cases = currentGrid.getCases();
-
-        applyWhenGlobalRule(game, CurrentGrid);
-
-        for (unsigned int i = 0; i < cases[0].size(); i++)
+    {   
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
         {
-            for (int x = cases.size() - 1; x >= 0; x--)
+            Grid currentGrid = game.getGrid(CurrentGrid);
+            std::vector<std::vector<Case *>> cases = currentGrid.getCases();
+            updateTime(game, CurrentGrid);
+            applyWhenGlobalRule(game, CurrentGrid);
+            for (unsigned int i = 0; i < cases[0].size(); i++)
             {
-                if (cases[x][i]->getPieces().size() > 0)
+                for (int x = cases.size() - 1; x >= 0; x--)
                 {
-                    int nextEmpty = x;
-                    while (static_cast<unsigned int>(nextEmpty + 1) < cases.size() && cases[nextEmpty + 1][i]->getPieces().size() == 0)
+                    if (cases[x][i]->getPieces().size() > 0)
                     {
-                        nextEmpty++;
-                    }
-                    if (x != nextEmpty)
-                    {
-                        std::cout << "Gravity" << std::endl;
-                        Case *c = cases[x][i];
-                        cases[x][i] = cases[nextEmpty][i];
-                        cases[nextEmpty][i] = c;
-                        currentGrid.setCases(cases);
-                        game.setGrid(CurrentGrid, currentGrid);
+                        int nextEmpty = x;
+                        while (static_cast<unsigned int>(nextEmpty + 1) < cases.size() && cases[nextEmpty + 1][i]->getPieces().size() == 0)
+                        {
+                            nextEmpty++;
+                        }
+                        if (x != nextEmpty)
+                        {
+                            std::cout << "Gravity" << std::endl;
+                            Case *c = cases[x][i];
+                            cases[x][i] = cases[nextEmpty][i];
+                            cases[nextEmpty][i] = c;
+                            currentGrid.setCases(cases);
+                            game.setGrid(CurrentGrid, currentGrid);
+                        }
                     }
                 }
             }
@@ -114,7 +116,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        applyWhenGlobalRule(game, CurrentGrid);
+        updateTime(game, CurrentGrid);
 
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();

@@ -6,6 +6,7 @@
 #include "Card.h"
 #include <string>
 #include <iostream>
+#include <chrono>
 
 class Case;
 
@@ -37,6 +38,11 @@ private:
     GridRules rules;                    /**< Rules of the grid */
 
     int nbAlignToWin = 3; /**< Number of pieces to align to win */
+
+    using Clock = std::chrono::high_resolution_clock;
+    Clock::time_point start = Clock::now();
+    Clock::time_point end = Clock::now();
+    int time;                   // The time of the game
 
 public:
     /**
@@ -206,6 +212,14 @@ public:
      * @return bool
      */
     bool isGridFull() const;
+
+    /**
+     * @brief Check if the grid is full
+     *
+     * @return bool
+     */
+    int getTimeFromLastRule();
+    void startTimeForCurrentRule();
 };
 
 #endif // GRID

@@ -57,7 +57,8 @@ public:
     SDL_Rect scoreRect;         // The part of the screen where the score is
     SDL_Rect playerMiniRect;    // The part of the screen where the mini player is
     SDL_Rect shadowRect;        // The part of the screen where the card shadow is
-    int time;                   // The time of the game
+
+
     /**
      * @brief Constructor for the Graphic class.
      *

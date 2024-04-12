@@ -47,40 +47,39 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "\nSCORE -1: " << game.getPlayer()[0].getScore() << std::endl;
-        Grid grid = game.getGrid(CurrentGrid);
-        GridRules rules = grid.getRules();
-
-        grid.nextGlobalRule();
-        grid.setRules(rules);
-        game.setGrid(CurrentGrid, grid);
-        int nbAlignToWin = grid.getNbAlignToWin();
-
-        for (int x = 0; x < grid.getGridWidth(); x++)
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
         {
-            for (int y = 0; y < grid.getGridHeight(); y++)
+            applyWhenGlobalRule(game, CurrentGrid);
+            updateTime(game, CurrentGrid);
+            Grid grid = game.getGrid(CurrentGrid);
+
+            int nbAlignToWin = grid.getNbAlignToWin();
+
+            for (int x = 0; x < grid.getGridWidth(); x++)
             {
-                if ((grid.getGridWidth() - x) > nbAlignToWin - 1) // Enough spaces to win on the line
+                for (int y = 0; y < grid.getGridHeight(); y++)
                 {
-                    if (y >= nbAlignToWin - 1) // Enough space to win on the anti-diagonal from bottom to top from here, going right
+                    if ((grid.getGridWidth() - x) > nbAlignToWin - 1) // Enough spaces to win on the line
                     {
-                        game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 0);
-                    }
-                    game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 1);
+                        if (y >= nbAlignToWin - 1) // Enough space to win on the anti-diagonal from bottom to top from here, going right
+                        {
+                            game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 0);
+                        }
+                        game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 1);
 
-                    if ((grid.getGridHeight() - y) > nbAlignToWin - 1) // Enough space to win on the diagonal from top to bottom from here, going right
+                        if ((grid.getGridHeight() - y) > nbAlignToWin - 1) // Enough space to win on the diagonal from top to bottom from here, going right
+                        {
+                            game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 3);
+                        }
+                    }
+
+                    if ((grid.getGridHeight() - y) > nbAlignToWin - 1) // Enough spaces to win on the row
                     {
-                        game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 3);
+                        game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 2);
                     }
-                }
-
-                if ((grid.getGridHeight() - y) > nbAlignToWin - 1) // Enough spaces to win on the row
-                {
-                    game.computeAlignementScoreOnDirection(x, y, CurrentGrid, 2);
                 }
             }
         }
-        std::cout << "\nSCORE 0: " << game.getPlayer()[0].getScore() << std::endl;
     }
 };
 
@@ -123,6 +122,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        updateTime(game, CurrentGrid);
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canDrawCard = true;
@@ -167,11 +167,12 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "Switching...\n";
-        Grid grid = game.getGrid(CurrentGrid);
-        game.switchPlayer();
-        grid.nextGlobalRule();
-        game.setGrid(CurrentGrid, grid);
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
+        {
+            updateTime(game, CurrentGrid);
+            game.switchPlayer();
+            applyWhenGlobalRule(game, CurrentGrid);        
+        }
     }
 };
 
@@ -213,6 +214,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        updateTime(game, CurrentGrid);
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canPlacePiece = true;
@@ -265,7 +267,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        std::cout << "\nSCORE 1: " << game.getPlayer()[0].getScore() << std::endl;
+        updateTime(game, CurrentGrid);
         Grid grid = game.getGrid(CurrentGrid);
         GridRules rules = grid.getRules();
         rules.canPlayCard = true;
@@ -276,7 +278,6 @@ public:
         }
         grid.setRules(rules);
         game.setGrid(CurrentGrid, grid);
-        std::cout << "\nSCORE 2: " << game.getPlayer()[0].getScore() << std::endl;
     }
 };
 
@@ -289,7 +290,7 @@ public:
 class CardEnd : public Card
 {
 private:
-    int nbRoundLeft = 6; /**< The number of rounds left. */
+    int nbRoundLeft = 10; /**< The number of rounds left. */
 
 public:
     /**
@@ -321,20 +322,23 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-
-        applyWhenGlobalRule(game, CurrentGrid);
-
-        if (nbRoundLeft == 0)
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
         {
-            Grid grid = game.getGrid(CurrentGrid);
-            GridRules rules = grid.getRules();
-            rules.endGame = true;
-            grid.setRules(rules);
-            game.setGrid(CurrentGrid, grid);
-        }
-        else
-        {
-            nbRoundLeft--;
+            applyWhenGlobalRule(game, CurrentGrid);
+            updateTime(game, CurrentGrid);
+
+            if (nbRoundLeft == 0)
+            {
+                Grid grid = game.getGrid(CurrentGrid);
+                GridRules rules = grid.getRules();
+                rules.endGame = true;
+                grid.setRules(rules);
+                game.setGrid(CurrentGrid, grid);
+            }
+            else
+            {
+                nbRoundLeft--;
+            }
         }
     }
 
