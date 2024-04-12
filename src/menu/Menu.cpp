@@ -240,7 +240,7 @@ void Menu::pauseMenu()
     SDL_GL_SwapWindow(this->window);
 }
 
-void Menu::createGame(int player1Shape, int player2Shape, int player1Color, int player2Color, Graphic &graphic)
+void Menu::createGame(int player1Shape, int player2Shape, int player1Color, int player2Color, const char *shapes[], const char *colors[], Graphic &graphic)
 {
     if (player1Shape != player2Shape && player1Color != player2Color)
     {
@@ -366,7 +366,7 @@ void Menu::drawGameCreation(Graphic &graphic)
 
         if (ImGui::Button("Start", ImVec2(200, 50)))
         {
-            createGame(player1Shape, player2Shape, player1Color, player2Color, graphic);
+            createGame(player1Shape, player2Shape, player1Color, player2Color, shapes, colors, graphic);
         }
     }
 

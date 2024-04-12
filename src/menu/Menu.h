@@ -147,6 +147,8 @@ public:
     void Options();
 
     void drawOptions();
+
+    void createGame(int player1Shape, int player2Shape, int player1Color, int player2Color, const char *shapes[], const char *colors[], Graphic &graphic);
 };
 
 #endif // MENU
