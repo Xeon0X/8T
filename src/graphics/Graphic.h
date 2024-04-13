@@ -21,6 +21,7 @@ enum class GameState
     GameCreation,
     Options,
     Pause,
+    Credits,
     Quit,
     End
 };

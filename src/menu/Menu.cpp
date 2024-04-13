@@ -54,6 +54,14 @@ void Menu::drawMenu()
         {
             this->gamestate = GameState::Quit;
         }
+
+        ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+        ImGui::SetCursorPosX(50);
+
+        if (ImGui::Button("Credits", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Credits;
+        }
         ImGui::PopStyleColor();
 
         ImGui::End();
@@ -247,55 +255,6 @@ void Menu::pauseMenu()
     SDL_GL_SwapWindow(this->window);
 }
 
-void Menu::createGame(int player1Shape, int player2Shape, int player1Color, int player2Color, const char *shapes[], const char *colors[], Graphic &graphic)
-{
-    if (player1Shape != player2Shape && player1Color != player2Color)
-    {
-        this->gamestate = GameState::Game;
-
-        char shape1;
-        char shape2;
-        if (strcmp(shapes[player1Shape], "Croix") == 0)
-        {
-            shape1 = 'X';
-        }
-        else if (strcmp(shapes[player1Shape], "Rond") == 0)
-        {
-            shape1 = 'O';
-        }
-        else if (strcmp(shapes[player1Shape], "Triangle") == 0)
-        {
-            shape1 = 'T';
-        }
-        else
-        {
-            shape1 = 'C';
-        }
-
-        if (strcmp(shapes[player2Shape], "Croix") == 0)
-        {
-            shape2 = 'X';
-        }
-        else if (strcmp(shapes[player2Shape], "Rond") == 0)
-        {
-
-            shape2 = 'O';
-        }
-        else if (strcmp(shapes[player2Shape], "Triangle") == 0)
-        {
-            shape2 = 'T';
-        }
-        else
-        {
-            shape2 = 'C';
-        }
-
-        Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
-        Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
-        graphic = *(new Graphic(this->window, this->renderer, player1, player2));
-    }
-}
-
 void Menu::drawGameCreation(Graphic &graphic)
 {
     if (logoTexture != nullptr)
@@ -373,7 +332,52 @@ void Menu::drawGameCreation(Graphic &graphic)
 
         if (ImGui::Button("Start", ImVec2(200, 50)))
         {
-            createGame(player1Shape, player2Shape, player1Color, player2Color, shapes, colors, graphic);
+
+            if (player1Shape != player2Shape && player1Color != player2Color)
+            {
+                this->gamestate = GameState::Game;
+
+                char shape1;
+                char shape2;
+                if (strcmp(shapes[player1Shape], "Croix") == 0)
+                {
+                    shape1 = 'X';
+                }
+                else if (strcmp(shapes[player1Shape], "Rond") == 0)
+                {
+                    shape1 = 'O';
+                }
+                else if (strcmp(shapes[player1Shape], "Triangle") == 0)
+                {
+                    shape1 = 'T';
+                }
+                else
+                {
+                    shape1 = 'C';
+                }
+
+                if (strcmp(shapes[player2Shape], "Croix") == 0)
+                {
+                    shape2 = 'X';
+                }
+                else if (strcmp(shapes[player2Shape], "Rond") == 0)
+                {
+
+                    shape2 = 'O';
+                }
+                else if (strcmp(shapes[player2Shape], "Triangle") == 0)
+                {
+                    shape2 = 'T';
+                }
+                else
+                {
+                    shape2 = 'C';
+                }
+
+                Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
+                Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
+                graphic = *(new Graphic(this->window, this->renderer, player1, player2));
+            }
         }
     }
 
@@ -388,6 +392,7 @@ void Menu::drawGameCreation(Graphic &graphic)
 
     ImGui::End();
 }
+
 void Menu::gameCreation(Graphic &graphic)
 {
     while (SDL_PollEvent(&this->event))
@@ -994,6 +999,98 @@ void Menu::drawChooseCreateOrJoinMenu()
     }
 }
 
+void Menu::Credits()
+{
+    while (SDL_PollEvent(&this->event))
+    {
+        ImGui_ImplSDL2_ProcessEvent(&this->event);
+        if (this->event.type == SDL_QUIT)
+        {
+            this->gamestate = GameState::Quit;
+        }
+    }
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+    drawCredits();
+    ImGui::Render();
+    glViewport(0, 0, (int)this->io->DisplaySize.x, (int)this->io->DisplaySize.y);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    SDL_GL_SwapWindow(this->window);
+}
+
+void Menu::drawCredits()
+{
+    if (logoTexture != nullptr)
+    {
+        GLuint oglTextureID;
+        SDL_GL_BindTexture(logoTexture, NULL, NULL);
+        glGetIntegerv(GL_TEXTURE_BINDING_2D, (GLint *)&oglTextureID);
+        SDL_GL_UnbindTexture(logoTexture);
+
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(this->io->DisplaySize);
+        ImGui::Begin("Credits", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+
+        ImGui::SetWindowFontScale(1.7f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Credits").x) * 0.5f);
+        ImGui::SetCursorPosY(100);
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+        ImGui::Text("Credits");
+        ImGui::Separator();
+
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::Text("Developed by : ");
+
+        ImGui::Text("Alexandre THOUNY");
+
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Text("Maël Cornec");
+
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Text("Yousif Jijji");
+
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 200) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        ImGui::Text("Music : ");
+
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::Text("Deux Ex Sillicium by Stephane Marty");
+
+        ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+        ImGui::SetCursorPosX(50);
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        if (ImGui::Button("Back", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Menu;
+        }
+
+        ImGui::PopStyleColor();
+
+        ImGui::End();
+    }
+}
+
 int main()
 {
     Menu menu;
@@ -1046,6 +1143,9 @@ void Menu::start()
             break;
         case GameState::ChooseCreateOrJoin:
             this->chooseCreateOrJoinMenu();
+            break;
+        case GameState::Credits:
+            this->Credits();
             break;
         default:
             break;

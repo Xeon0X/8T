@@ -162,10 +162,16 @@ public:
     void drawOptions();
 
     /**
-     * @brief Update the menu with the rules page.
+     * @brief Update the menu with the credits page.
      *
      */
-    void createGame(int player1Shape, int player2Shape, int player1Color, int player2Color, const char *shapes[], const char *colors[], Graphic &graphic);
+    void Credits();
+
+    /**
+     * @brief Draw the credits page.
+     *
+     */
+    void drawCredits();
 };
 
 #endif // MENU
