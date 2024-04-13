@@ -78,6 +78,10 @@ void Menu::menu()
             this->gamestate = GameState::Quit;
         }
     }
+    if (this->asGameStarted)
+    {
+        this->asGameStarted = false;
+    }
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
@@ -377,6 +381,7 @@ void Menu::drawGameCreation(Graphic &graphic)
                 Player player1 = Player(std::string(1, shape1), std::string(colors[player1Color]));
                 Player player2 = Player(std::string(1, shape2), std::string(colors[player2Color]));
                 graphic = *(new Graphic(this->window, this->renderer, player1, player2));
+                this->asGameStarted = true;
             }
         }
     }
@@ -749,7 +754,14 @@ void Menu::drawOptions()
 
         if (ImGui::Button("Back", ImVec2(200, 50)))
         {
-            this->gamestate = GameState::ChooseGameMode;
+            if (this->asGameStarted)
+            {
+                this->gamestate = GameState::Game;
+            }
+            else
+            {
+                this->gamestate = GameState::Menu;
+            }
         }
 
         ImGui::PopStyleColor();
@@ -1110,6 +1122,7 @@ void Menu::start()
             this->menu();
             break;
         case GameState::Game:
+            std::cout << asGameStarted << std::endl;
             graphic.play(this->gamestate);
 
             ImGui_ImplOpenGL3_Shutdown();

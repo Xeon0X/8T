@@ -30,6 +30,8 @@ private:
     bool findNetwork = false; /**< The state of the network. */
     int music = 100;
 
+    bool asGameStarted = false;
+
 public:
     /**
      * @brief Constructor for the Menu class.

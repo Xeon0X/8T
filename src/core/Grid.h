@@ -42,7 +42,7 @@ private:
     using Clock = std::chrono::high_resolution_clock;
     Clock::time_point start = Clock::now();
     Clock::time_point end = Clock::now();
-    int time;                   // The time of the game
+    int time; // The time of the game
 
 public:
     /**
