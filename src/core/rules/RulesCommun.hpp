@@ -45,6 +45,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        updateTime(game, CurrentGrid);
         applyWhenGlobalRule(game, CurrentGrid);
         if (sens == "up" || sens == "default")
         {
@@ -138,6 +139,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        updateTime(game, CurrentGrid);
         applyWhenGlobalRule(game, CurrentGrid);
         if (sens == "left" || sens == "default")
         {
@@ -226,6 +228,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        updateTime(game, CurrentGrid);
         applyWhenGlobalRule(game, CurrentGrid);
         if (sens == "up" || sens == "default")
         {
@@ -314,6 +317,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
+        updateTime(game, CurrentGrid);
         applyWhenGlobalRule(game, CurrentGrid);
         if (sens == "left" || sens == "default")
         {
@@ -409,14 +413,18 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        applyWhenGlobalRule(game, CurrentGrid);
-        if (sens == "turnLeft" || sens == "default")
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay || !isGlobalRule)
         {
-            turnLeft(CurrentGrid, game);
-        }
-        else if (sens == "turnRight")
-        {
-            turnRight(CurrentGrid, game);
+            updateTime(game, CurrentGrid);
+            applyWhenGlobalRule(game, CurrentGrid);
+            if (sens == "turnLeft" || sens == "default")
+            {
+                turnLeft(CurrentGrid, game);
+            }
+            else if (sens == "turnRight")
+            {
+                turnRight(CurrentGrid, game);
+            }
         }
     }
 

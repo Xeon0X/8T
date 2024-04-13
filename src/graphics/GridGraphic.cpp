@@ -5,7 +5,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <string>
-#include "../rules/GlobalRules.hpp"
+#include "../core/rules/GlobalRules.hpp"
 
 GridGraphic::GridGraphic(/* args */)
 {
@@ -337,6 +337,16 @@ void GridGraphic::initCardTexture(SDL_Renderer *renderer)
     SDL_FreeSurface(surface);
 
     surface = IMG_Load("../data/images/card_placePlayPick.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_end+1.png");
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    this->cardsTextures.push_back(texture);
+    SDL_FreeSurface(surface);
+
+    surface = IMG_Load("../data/images/card_end-1.png");
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     this->cardsTextures.push_back(texture);
     SDL_FreeSurface(surface);

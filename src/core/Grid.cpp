@@ -205,3 +205,17 @@ bool Grid::isGridFull() const
     }
     return true;
 }
+
+int Grid::getTimeFromLastRule() 
+{
+    this->end = Clock::now(); // Update the time
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+    std::cout << duration.count() << " time " << std::endl;
+    return duration.count();
+}
+
+void Grid::startTimeForCurrentRule() 
+{
+    std::cout << "count from now" << std::endl;
+    this->start = Clock::now();
+}
