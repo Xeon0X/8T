@@ -28,9 +28,9 @@ private:
 
     SDL_Texture *logoTexture; /**< The texture of the logo. */
     bool findNetwork = false; /**< The state of the network. */
-    int music = 100;
+    int music = 100;          /**< The volume of the music. */
 
-    bool asGameStarted = false;
+    bool asGameStarted = false; /**< If the game as started or not. */
 
 public:
     /**

@@ -49,7 +49,7 @@ protected:
     std::vector<std::string> arrowDirection; //< The direction of the arrow of the card if it has one
     bool isGlobalRule;                       //< if the card is a global rule
     bool canBeGlobalRules = false;           //< if the card can be a global rule
-    double minimumSecondsDelay = 0.7;
+    double minimumSecondsDelay = 0.7;        //< The minimum delay between 2 rules
 
 public:
     /**
@@ -175,6 +175,9 @@ public:
 
     /**
      * @brief Update the time to have delay between rule execution
+     *
+     * @param game The game
+     * @param CurrentGrid The current grid
      *
      * @return bool
      */

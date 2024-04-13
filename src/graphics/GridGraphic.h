@@ -198,6 +198,8 @@ public:
     /**
      * @brief Get the texture of the player.
      *
+     * @param indice The indice of the player.
+     *
      * @return The texture of the player.
      */
     SDL_Texture *getPlayerTexture(int indice);

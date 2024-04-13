@@ -108,6 +108,8 @@ public:
     /**
      * @brief Get the Rules of the game
      *
+     * @param symbol The symbol of the player.
+     *
      * @return Rules
      */
 
@@ -115,8 +117,22 @@ public:
 
     /**
      * @brief Check if a case has a piece (symbol + color) from a player.
+     *
+     * @param cellX The x coordinate of the cell.
+     * @param cellY The y coordinate of the cell.
+     * @param CurrentGrid The current grid of the game.
+     * @param player The player to check.
      */
     bool isCaseOfPlayer(int cellX, int cellY, int CurrentGrid, Player player);
+
+    /**
+     * @brief add the score of the player in the grid
+     *
+     * @param cellX The x coordinate of the cell.
+     * @param cellY The y coordinate of the cell.
+     * @param CurrentGrid The current grid of the game.
+     * @param direction The direction of the alignment.
+     */
     void computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGrid, int direction);
 };
 
