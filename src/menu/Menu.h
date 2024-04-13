@@ -3,6 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include <imgui.h>
 #include <imgui_impl_sdl2.h>
 #include <imgui_impl_opengl3.h>
@@ -25,6 +28,7 @@ private:
 
     SDL_Texture *logoTexture; /**< The texture of the logo. */
     bool findNetwork = false; /**< The state of the network. */
+    int music = 100;
 
 public:
     /**
@@ -144,10 +148,23 @@ public:
      */
     void drawChooseCreateOrJoinMenu();
 
+    /**
+     * @brief Update the menu with the options page.
+     *
+     */
     void Options();
+
+    /**
+     * @brief Draw the options page.
+     *
+     */
 
     void drawOptions();
 
+    /**
+     * @brief Update the menu with the rules page.
+     *
+     */
     void createGame(int player1Shape, int player2Shape, int player1Color, int player2Color, const char *shapes[], const char *colors[], Graphic &graphic);
 };
 

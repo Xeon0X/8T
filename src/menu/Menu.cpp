@@ -47,6 +47,13 @@ void Menu::drawMenu()
         {
             this->gamestate = GameState::Options;
         }
+        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 250) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+
+        if (ImGui::Button("Quit", ImVec2(200, 50)))
+        {
+            this->gamestate = GameState::Quit;
+        }
         ImGui::PopStyleColor();
 
         ImGui::End();
@@ -717,16 +724,27 @@ void Menu::drawOptions()
         ImGui::Image((void *)(intptr_t)oglTextureID, ImVec2(200, 200));
 
         ImGui::SetCursorPosY((ImGui::GetWindowSize().y - 50) * 0.5f);
-        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 400) * 0.5f);
 
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
 
+        static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
+
+        ImGui::PushItemWidth(400);
+        if (ImGui::SliderInt("Music", &music, 0, 100, "%d", flags))
+        {
+            Mix_VolumeMusic(music);
+        }
+
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+        ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
+        ImGui::SetCursorPosX(50);
 
         if (ImGui::Button("Back", ImVec2(200, 50)))
         {
-            this->gamestate = GameState::Menu;
+            this->gamestate = GameState::ChooseGameMode;
         }
 
         ImGui::PopStyleColor();
@@ -1012,6 +1030,7 @@ void Menu::start()
             this->chooseGameModeMenu();
             break;
         case GameState::Options:
+            this->Options();
             break;
         case GameState::GameCreation:
             this->gameCreation(graphic);
@@ -1052,6 +1071,12 @@ Menu::Menu()
     if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
     {
         std::cout << "SDL_GetDesktopDisplayMode Error: " << SDL_GetError() << std::endl;
+        exit(1);
+    }
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        std::cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
         exit(1);
     }
     screenWidth = dm.w;
