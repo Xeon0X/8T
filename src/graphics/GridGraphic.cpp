@@ -355,13 +355,12 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
     std::vector<Player> players = this->game.getPlayer();
 
-    int GridWidth = grid[0].size() * 100;
-    int GridHeight = grid.size() * 100;
+    int GridWidth = grid[0].size() * graphic.caseWidth;
+    int GridHeight = grid.size() * graphic.caseWidth;
 
     int startX = (windowWidth - GridWidth) / 2;
     int startY = (windowHeight - GridHeight) / 2;
 
-    int thickness = 5;
 
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
@@ -372,22 +371,19 @@ void GridGraphic::showGrid(SDL_Renderer *renderer, Graphic &graphic)
         {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
-            for (int t = 0; t < thickness; t++)
-            {
-                std::vector<Piece> pieces = grid[i][j]->getPieces();
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            std::vector<Piece> pieces = grid[i][j]->getPieces();
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
-                SDL_Rect rect = {(int)(startX + j * 100 + this->gridX - t), (int)(startY + i * 100 + this->gridY - t), 100 + 2 * t, 100 + 2 * t};
-                SDL_RenderCopy(renderer, caseTexture, NULL, &rect);
-                if (pieces.size() > 0)
+            SDL_Rect rect = {(int)(startX + j * graphic.caseWidth + this->gridX), (int)(startY + i * graphic.caseWidth + this->gridY), graphic.caseWidth, graphic.caseWidth};
+            SDL_RenderCopy(renderer, caseTexture, NULL, &rect);
+            if (pieces.size() > 0)
+            {
+                for (unsigned int k = 0; k < players.size(); k++)
                 {
-                    for (unsigned int k = 0; k < players.size(); k++)
+                    if (players[k].getSymbol() == pieces[0].getSymbol())
                     {
-                        if (players[k].getSymbol() == pieces[0].getSymbol())
-                        {
-                            SDL_RenderCopy(renderer, playerTextures[k], NULL, &rect);
-                            // graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
-                        }
+                        SDL_RenderCopy(renderer, playerTextures[k], NULL, &rect);
+                        // graphic.drawPlayer(startX + j * 100 + 50 + this->gridX, startY + i * 100 + 50 + this->gridY, 40, 5, players[k]);
                     }
                 }
             }
@@ -415,15 +411,15 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        int cardX = (i + 1) * (graphic.cardWidth + graphic.gap) + graphic.globalMargin;
-        int cardY = graphic.background.y + 2 * graphic.gap;
+        int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_deck.x + 2 *  graphic.gap;
+        int cardY = graphic.background_deck.y + 2 * graphic.gap;
         int cardWidth = graphic.cardWidth;;
         int cardHeight = graphic.cardHeight;
         if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == deck.getCards()[i]->getUniqueId())
         {
             cardHeight *= graphic.cardZoomFactor;
             cardWidth *= graphic.cardZoomFactor;
-            cardY -= ((cardHeight * graphic.cardZoomFactor) - cardHeight - graphic.gap)/2;
+            cardY -= ((cardHeight * graphic.cardZoomFactor) - cardHeight - graphic.gap)/2 +2;
             cardX -= ((cardWidth * graphic.cardZoomFactor) - cardWidth - graphic.gap)/2;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
@@ -441,17 +437,17 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
     SDL_GetMouseState(&mouseX, &mouseY);
     for (unsigned int i = 0; i < grid.getGlobalRules().size(); i++)
     {
-        int cardX = (i + 1) * 110 + 500;
-        int cardY = 25;
-        int cardWidth = 100;
-        int cardHeight = 150;
+        int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_rules.x + 2 *  graphic.gap;
+        int cardY = graphic.background_rules.y + 2 * graphic.gap;
+        int cardWidth = graphic.cardWidth;;
+        int cardHeight = graphic.cardHeight;
 
         if (grid.getCurrentGlobalRule() == static_cast<int>(i))
         {
-            cardY -= 10;
-            cardX -= 5;
-            cardWidth += 10;
-            cardHeight += 20;
+            cardHeight *= graphic.cardZoomFactor;
+            cardWidth *= graphic.cardZoomFactor;
+            cardY -= ((cardHeight * graphic.cardZoomFactor) - cardHeight - graphic.gap)/2 +2;
+            cardX -= ((cardWidth * graphic.cardZoomFactor) - cardWidth - graphic.gap)/2;
 
             graphic.shadowRect.x = cardX;
             graphic.shadowRect.y = cardY;
@@ -522,7 +518,8 @@ void GridGraphic::setInitialGridSize(int width, int height)
 
 void GridGraphic::drawPartInterface(SDL_Renderer *renderer, Graphic &graphic)
 {
-    SDL_RenderCopy(renderer, backgroundTexture, NULL, &graphic.background);
+    SDL_RenderCopy(renderer, backgroundTexture, NULL, &graphic.background_deck);
+    SDL_RenderCopy(renderer, backgroundTexture, NULL, &graphic.background_rules);
 }
 
 void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
@@ -531,8 +528,8 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
     int windowWidth, windowHeight;
     SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
 
-    int GridWidth = grid[0].size() * 100;
-    int GridHeight = grid.size() * 100;
+    int GridWidth = grid[0].size() * graphic.caseWidth;
+    int GridHeight = grid.size() * graphic.caseWidth;
 
     int startX = (windowWidth - GridWidth) / 2;
     int startY = (windowHeight - GridHeight) / 2;
@@ -549,42 +546,42 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
         {
             if (directions[i] == "up")
             {
-                SDL_Rect rect = {startX + GridWidth / 2 + this->gridX - 25, startY - 50 + this->gridY, 50, 50};
+                SDL_Rect rect = {startX + GridWidth / 2 + this->gridX - graphic.arrowWidth/2, startY - graphic.arrowWidth + this->gridY, graphic.arrowWidth, graphic.arrowWidth};
 
                 SDL_RenderCopy(renderer, arrowUpTexture, NULL, &rect);
             }
             if (directions[i] == "down")
             {
-                SDL_Rect rect = {startX + GridWidth / 2 + this->gridX - 25, endY + this->gridY, 50, 50};
+                SDL_Rect rect = {startX + GridWidth / 2 + this->gridX - graphic.arrowWidth/2, endY + this->gridY, graphic.arrowWidth, graphic.arrowWidth};
 
                 SDL_RenderCopy(renderer, arrowDownTexture, NULL, &rect);
             }
             if (directions[i] == "left")
             {
-                SDL_Rect rect = {startX - 50 + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
+                SDL_Rect rect = {startX - graphic.arrowWidth + this->gridX, startY + GridHeight / 2 + this->gridY - graphic.arrowWidth/2, graphic.arrowWidth, graphic.arrowWidth};
 
                 SDL_RenderCopy(renderer, arrowLeftTexture, NULL, &rect);
             }
             if (directions[i] == "right")
             {
 
-                SDL_Rect rect = {endX + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
+                SDL_Rect rect = {endX + this->gridX, startY + GridHeight / 2 + this->gridY - graphic.arrowWidth/2, graphic.arrowWidth, graphic.arrowWidth};
 
                 SDL_RenderCopy(renderer, arrowRightTexture, NULL, &rect);
             }
             if (directions[i] == "static")
             {
-                SDL_Rect rect = {windowWidth - 150, windowHeight - 185, 100, 150};
+                SDL_Rect rect = {windowWidth - graphic.cardHeight, windowHeight - (graphic.cardHeight + graphic.margin + 2 * graphic.gap), graphic.cardWidth, graphic.cardHeight};
                 SDL_RenderCopy(renderer, applyTexture, NULL, &rect);
             }
             if (directions[i] == "turnLeft")
             {
-                SDL_Rect rect = {startX - 50 + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
+                SDL_Rect rect = {startX - graphic.arrowWidth + this->gridX, startY + GridHeight / 2 + this->gridY - graphic.arrowWidth/2, graphic.arrowWidth, graphic.arrowWidth};
                 SDL_RenderCopy(renderer, arrowTurnLeftTexture, NULL, &rect);
             }
             if (directions[i] == "turnRight")
             {
-                SDL_Rect rect = {endX + this->gridX, startY + GridHeight / 2 + this->gridY - 25, 50, 50};
+                SDL_Rect rect = {endX + this->gridX, startY + GridHeight / 2 + this->gridY - graphic.arrowWidth/2, graphic.arrowWidth, graphic.arrowWidth};
                 SDL_RenderCopy(renderer, arrowTurnRightTexture, NULL, &rect);
             }
         }
@@ -621,9 +618,9 @@ void GridGraphic::drawInfoPart(SDL_Renderer *renderer, Graphic &graphic)
     SDL_RenderCopy(renderer, this->score, NULL, &graphic.scoreRect);
     for (unsigned int k = 0; k < players.size(); k++)
     {
-        graphic.playerMiniRect.y = graphic.scoreRect.y + 30 + k * 50;
+        graphic.playerMiniRect.y = graphic.scoreRect.y + graphic.small_margin/2 + k * (graphic.small_caseWidth + graphic.small_margin);
         SDL_RenderCopy(renderer, playerTextures[k], NULL, &graphic.playerMiniRect);
-        graphic.drawText(std::to_string(players[k].getScore()).c_str(), graphic.playerMiniRect.x + 35, graphic.playerMiniRect.y + 10);
+        graphic.drawText(std::to_string(players[k].getScore()).c_str(), graphic.playerMiniRect.x + graphic.small_caseWidth, graphic.playerMiniRect.y + graphic.small_caseWidth/2 - graphic.fontSize/2);
     }
 }
 
@@ -635,5 +632,5 @@ SDL_Texture *GridGraphic::getPlayerTexture(int indice)
 void GridGraphic::drawPioche(SDL_Renderer *renderer, Graphic &graphic)
 {
 
-    SDL_RenderCopy(renderer, deckTexture, NULL, &graphic.pioche);
+    SDL_RenderCopy(renderer, deckTexture, NULL, &graphic.newCard);
 }
