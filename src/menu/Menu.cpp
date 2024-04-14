@@ -1071,6 +1071,7 @@ void Menu::drawCredits()
 
         ImGui::Text("Developed by : ");
 
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
         ImGui::Text("Alexandre THOUNY");
 
         ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
@@ -1085,7 +1086,7 @@ void Menu::drawCredits()
         ImGui::Text("Music : ");
 
         ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
-        ImGui::Text("Deux Ex Sillicium by Stephane Marty");
+        ImGui::Text("Deus Ex Sillicium by Stephane Marty");
 
         ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
         ImGui::SetCursorPosX(50);
