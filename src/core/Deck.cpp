@@ -46,6 +46,14 @@ void Deck::setBaseCard()
     card6->setUniqueId(uniqueIdCounter);
     uniqueIdCounter++;
     this->cards.push_back(card6);
+    CardEndPlusOne *card7 = new CardEndPlusOne("EndPlusOne", "Termine le tour +1", 16);
+    card7->setUniqueId(uniqueIdCounter);
+    uniqueIdCounter++;
+    this->cards.push_back(card7);
+    CardEnd *card8 = new CardEnd("End", "Termine le tour", 14);
+    card8->setUniqueId(uniqueIdCounter);
+    uniqueIdCounter++;
+    this->cards.push_back(card8);
 }
 
 std::vector<Card *> Deck::getCards()

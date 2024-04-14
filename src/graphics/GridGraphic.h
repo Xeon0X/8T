@@ -43,7 +43,7 @@ public:
     /**
      * @brief Constructor for the GridGraphic class.
      */
-    GridGraphic(/* args */);
+    GridGraphic();
 
     /**
      * @brief Constructor for the GridGraphic class.
@@ -197,6 +197,8 @@ public:
     void drawCardDetails(Card *card, Graphic &graphic, int cardX, int cardY, int indiceCard);
     /**
      * @brief Get the texture of the player.
+     *
+     * @param indice The indice of the player.
      *
      * @return The texture of the player.
      */

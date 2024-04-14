@@ -508,15 +508,16 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                 {
                     this->cardClicked->setGlobalRuleState(false);
                     this->cardClicked->applyCard(0, 0, CurrentGrid, player, this->grid.getGame(), directions[i]);
-                    
+
                     Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
                     GridRules rules = gridForRules.getRules();
                     rules.canPlayCard = false;
 
-                    if (this->cardClicked->getId() != 15) 
+                    if (this->cardClicked->getId() != 15)
                     {
-                        gridForRules.nextGlobalRule(); 
-                    } else // pickPlaceOrPlace has been played and should let the player play again
+                        gridForRules.nextGlobalRule();
+                    }
+                    else // pickPlaceOrPlace has been played and should let the player play again
                     {
                         rules.pickPlayOrPlace = true;
                     }
@@ -619,11 +620,9 @@ bool Graphic::isCardEmpty()
 void Graphic::deleteCard()
 {
     Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
-    std::cout << player.getScore() << std::endl;
     Deck deck = player.getDeck(player.getCurrentGrid());
     deck.removeCard(this->cardClicked);
     player.setDeck(player.getCurrentGrid(), deck);
-    std::cout << player.getScore() << std::endl;
     this->grid.getGame().setPlayer(player);
     // this->grid.getGame().setCurrentPlayer(player);
     this->cardClicked = nullptr;
@@ -669,6 +668,6 @@ SDL_Texture *Graphic::getWinnerTexture()
     }
     else
     {
-        return IMG_LoadTexture(renderer, "../img/draw.png");
+        return IMG_LoadTexture(renderer, "../data/images/draw.png");
     }
 }

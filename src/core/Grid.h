@@ -39,10 +39,10 @@ private:
 
     int nbAlignToWin = 3; /**< Number of pieces to align to win */
 
-    using Clock = std::chrono::high_resolution_clock;
-    Clock::time_point start = Clock::now();
-    Clock::time_point end = Clock::now();
-    int time;                   // The time of the game
+    using Clock = std::chrono::high_resolution_clock; // Define the clock
+    Clock::time_point start = Clock::now();           // Start the clock
+    Clock::time_point end = Clock::now();             // End the clock
+    int time;                                         // The time of the game
 
 public:
     /**
@@ -214,11 +214,15 @@ public:
     bool isGridFull() const;
 
     /**
-     * @brief Check if the grid is full
+     * @brief Get the time of the game
      *
-     * @return bool
+     * @return int
      */
     int getTimeFromLastRule();
+    /**
+     * @brief Start the time for the current rule
+     *
+     */
     void startTimeForCurrentRule();
 };
 

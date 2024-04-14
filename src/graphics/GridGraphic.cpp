@@ -176,8 +176,6 @@ void addTexturePlayer(SDL_Renderer *renderer, std::vector<SDL_Texture *> &player
             playerTextures.push_back(texture);
         }
     }
-
-    std::cout << playerTextures.size() << std::endl;
 }
 
 GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
@@ -188,10 +186,8 @@ GridGraphic::GridGraphic(SDL_Renderer *renderer, Player player1, Player player2)
     this->game = Game(players);
 
     addTexturePlayer(renderer, this->playerTextures, player1);
-    std::cout << playerTextures.size() << std::endl;
 
     addTexturePlayer(renderer, this->playerTextures, player2);
-    std::cout << playerTextures.size() << std::endl;
 
     SDL_Surface *surface = IMG_Load("../data/images/card_draw.png");
     this->deckTexture = SDL_CreateTextureFromSurface(renderer, surface);

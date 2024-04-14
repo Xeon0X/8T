@@ -8,6 +8,8 @@
 
 ## Build
 
+With Cmake :
+
 ~~~bash
 mkdir build
 cd build
@@ -15,4 +17,11 @@ cmake ..
 make
 cd ../bin
 ./graphic
+~~~
+
+With Xmake :
+
+~~bash
+xmake
+xmake run
 ~~~

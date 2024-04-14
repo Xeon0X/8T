@@ -48,7 +48,7 @@ public:
      * @param sens The direction of the card.
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
-    {   
+    {
         if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay || !isGlobalRule)
         {
             updateTime(game, CurrentGrid);
@@ -68,7 +68,6 @@ public:
                         }
                         if (x != nextEmpty)
                         {
-                            std::cout << "Gravity" << std::endl;
                             Case *c = cases[x][i];
                             cases[x][i] = cases[nextEmpty][i];
                             cases[nextEmpty][i] = c;
