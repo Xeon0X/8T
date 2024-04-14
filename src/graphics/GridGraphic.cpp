@@ -482,7 +482,7 @@ void GridGraphic::drawCardDetails(Card *card, Graphic &graphic, int cardX, int c
             x = cardX + 20;
             y = cardY + 130;
         }
-        if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == card->getUniqueId())
+        else if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == card->getUniqueId())
         {
             x = cardX + 20;
             y = cardY + 130;
