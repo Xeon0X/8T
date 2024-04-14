@@ -450,17 +450,16 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
     int shiftedIndex = 0;
     int currentCardIndex = grid.getCurrentGlobalRule();
 
-    std::cout <<currentCardIndex << " " << maxCardIndex << " " << shiftedIndex << std::endl;
+    std::cout <<currentCardIndex << " " << maxCardIndex << " " << shiftedIndex << " " << lastCardIndex << std::endl;
 
-    if (currentCardIndex >= maxCardIndex) { 
-        shiftedIndex = 1 +  currentCardIndex - maxCardIndex; 
+    if ((lastCardIndex > maxCardIndex)) { 
+        shiftedIndex =  currentCardIndex - maxCardIndex/2; 
     }
 
     int i = 0;
 
     while (i <= limitCardIndex) 
     {
-        std::cout << shiftedIndex << std::endl;
         currentCardIndex = (i +  lastCardIndex+1 + shiftedIndex) % (lastCardIndex+1);
         std::cout << "--- " << i << " " << shiftedIndex << " " << (i - shiftedIndex) << " " << grid.getGlobalRules().size() << " " << currentCardIndex << std::endl;
         int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_rules.x + graphic.gap;
