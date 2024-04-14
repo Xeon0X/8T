@@ -415,16 +415,16 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        int cardX = (i + 1) * 110 + 500;
-        int cardY = graphic.background.y + 25;
-        int cardWidth = 100;
-        int cardHeight = 150;
+        int cardX = (i + 1) * (graphic.cardWidth + graphic.gap) + graphic.globalMargin;
+        int cardY = graphic.background.y + 2 * graphic.gap;
+        int cardWidth = graphic.cardWidth;;
+        int cardHeight = graphic.cardHeight;
         if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == deck.getCards()[i]->getUniqueId())
         {
-            cardY -= 10;
-            cardX -= 5;
-            cardWidth += 10;
-            cardHeight += 20;
+            cardHeight *= graphic.cardZoomFactor;
+            cardWidth *= graphic.cardZoomFactor;
+            cardY -= ((cardHeight * graphic.cardZoomFactor) - cardHeight - graphic.gap)/2;
+            cardX -= ((cardWidth * graphic.cardZoomFactor) - cardWidth - graphic.gap)/2;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
         SDL_RenderCopy(renderer, cardsTextures[deck.getCards()[i]->getId() - 1], NULL, &rect);

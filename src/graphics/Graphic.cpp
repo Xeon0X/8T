@@ -60,11 +60,6 @@ Graphic::Graphic()
     this->grid.setInitialGridSize(3, 3);
     this->grid.initCardTexture(renderer);
 
-    deckPart.x = 200;
-    deckPart.y = 850;
-    deckPart.w = 1500;
-    deckPart.h = 300;
-
     pioche.x = 10;
     pioche.y = 500;
     pioche.w = 100;
@@ -118,53 +113,7 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer, Player player1, Pla
 
     this->grid.setInitialGridSize(3, 3);
 
-    int screenWidth, screenHeight;
-    SDL_DisplayMode displayMode;
-    if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0)
-    {
-        screenWidth = displayMode.w;
-        screenHeight = displayMode.h;
-    }
-
-    deckPart.x = 200;
-    deckPart.y = screenHeight - 250;
-    deckPart.w = screenWidth - 500;
-    deckPart.h = 300;
-
-    pioche.x = screenWidth - 150;
-    pioche.y = (screenHeight / 2) + 30;
-    pioche.w = 100;
-    pioche.h = 150;
-
-    globalRuleButton.x = screenWidth - 150;
-    globalRuleButton.y = (screenHeight / 2) - 200;
-    globalRuleButton.w = 100;
-    globalRuleButton.h = 150;
-
-    background.x = 250;
-    background.y = screenHeight - 250;
-    background.w = screenWidth - 500;
-    background.h = 200;
-
-    logo.x = 50;
-    logo.y = 50;
-    logo.w = 100;
-    logo.h = 100;
-
-    currentPlayerRect.x = 50;
-    currentPlayerRect.y = (screenHeight / 2) - 200;
-    currentPlayerRect.w = 100;
-    currentPlayerRect.h = 100;
-
-    scoreRect.x = 50;
-    scoreRect.y = (screenHeight / 2) + 30;
-    scoreRect.w = 100;
-    scoreRect.h = 150;
-
-    playerMiniRect.x = 60;
-    playerMiniRect.y = (screenHeight / 2) + 55;
-    playerMiniRect.w = 40;
-    playerMiniRect.h = 40;
+    updateInterface();
 
     this->cardClicked = nullptr;
 }
@@ -193,11 +142,6 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer)
     this->grid.setInitialGridSize(3, 3);
     this->grid.initCardTexture(renderer);
 
-    deckPart.x = 200;
-    deckPart.y = 850;
-    deckPart.w = 1500;
-    deckPart.h = 300;
-
     pioche.x = 10;
     pioche.y = 500;
     pioche.w = 100;
@@ -212,6 +156,51 @@ Graphic::Graphic(SDL_Window *window, SDL_Renderer *renderer)
 }
 Graphic::~Graphic()
 {
+}
+
+void Graphic::updateInterface()
+{
+    SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+
+    globalMargin = windowWidth/4;
+    deckHeight = cardHeight + 4 * gap;
+    deckWidht = windowWidth - 2 * globalMargin;
+
+    pioche.x = windowWidth - (cardWidth + margin); // On the right with a margin
+    pioche.h = cardHeight;
+    pioche.y = (windowHeight / 2) - (cardHeight / 2); // Vertically centered
+    pioche.w = cardWidth;
+    pioche.h = cardHeight;
+
+    globalRuleButton.x = windowWidth - 150;
+    globalRuleButton.y = (windowHeight / 2) - 200;
+    globalRuleButton.w = 100;
+    globalRuleButton.h = 150;
+
+    background.x = globalMargin;
+    background.y = windowHeight - (deckHeight + margin);
+    background.w = deckWidht;
+    background.h = deckHeight;
+
+    logo.x = margin;
+    logo.y = margin;
+    logo.w = cardWidth;
+    logo.h = cardWidth;
+
+    currentPlayerRect.x = margin;
+    currentPlayerRect.y = (windowHeight / 2) - 200;
+    currentPlayerRect.w = cardWidth;
+    currentPlayerRect.h = cardWidth;
+
+    scoreRect.x = 50;
+    scoreRect.y = (windowHeight / 2) + 30;
+    scoreRect.w = cardWidth;
+    scoreRect.h = cardHeight;
+
+    playerMiniRect.x = 60;
+    playerMiniRect.y = (windowHeight / 2) + 55;
+    playerMiniRect.w = 40;
+    playerMiniRect.h = 40;
 }
 
 void Graphic::drawText(const char *text, int x, int y)
@@ -262,6 +251,7 @@ void Graphic::play(GameState &gamestate)
 
 void Graphic::draw()
 {
+    updateInterface();
     this->grid.showGrid(renderer, *this);
     this->grid.drawArrowDirection(renderer, *this);
     this->grid.drawPartInterface(renderer, *this);
@@ -284,7 +274,7 @@ bool CoIncid(int x, int y, int x1, int y1, int x2, int y2)
 
 bool Graphic::MouseClickInterface(int x, int y)
 {
-    return CoIncid(x, y, this->deckPart.x, this->deckPart.y, this->deckPart.x + this->deckPart.w, this->deckPart.y + this->deckPart.h);
+    return CoIncid(x, y, this->background.x, this->background.y, this->background.x + this->background.w, this->background.y + this->background.h);
 }
 
 void Graphic::gameloop()
@@ -339,10 +329,8 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     {
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
         {
-            int cardX = (i + 1) * 110 + 500;
-            int cardY = background.y + 25;
-            int cardWidth = 100;
-            int cardHeight = 150;
+            int cardX = (i + 1) * (cardWidth + gap) + globalMargin;
+            int cardY = background.y + 2 * gap;
 
             if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
             {
@@ -427,8 +415,8 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
     if (rules.canPlayCard || rules.pickPlayOrPlace)
     {
         std::vector<std::vector<Case *>> grid = this->grid.getGame().getGrid(0).getCases();
-        int GridWidth = grid[0].size() * 100;
-        int GridHeight = grid.size() * 100;
+        int GridWidth = grid[0].size() * CasesWidth;
+        int GridHeight = grid.size() * CasesWidth;
         int startX = (screenWidth - GridWidth) / 2;
         int startY = (screenHeight - GridHeight) / 2;
 
@@ -508,16 +496,15 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
                 {
                     this->cardClicked->setGlobalRuleState(false);
                     this->cardClicked->applyCard(0, 0, CurrentGrid, player, this->grid.getGame(), directions[i]);
-
+                    
                     Grid gridForRules = this->grid.getGame().getGrid(CurrentGrid); // To rename
                     GridRules rules = gridForRules.getRules();
                     rules.canPlayCard = false;
 
-                    if (this->cardClicked->getId() != 15)
+                    if (this->cardClicked->getId() != 15) 
                     {
-                        gridForRules.nextGlobalRule();
-                    }
-                    else // pickPlaceOrPlace has been played and should let the player play again
+                        gridForRules.nextGlobalRule(); 
+                    } else // pickPlaceOrPlace has been played and should let the player play again
                     {
                         rules.pickPlayOrPlace = true;
                     }
@@ -620,9 +607,11 @@ bool Graphic::isCardEmpty()
 void Graphic::deleteCard()
 {
     Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
+    std::cout << player.getScore() << std::endl;
     Deck deck = player.getDeck(player.getCurrentGrid());
     deck.removeCard(this->cardClicked);
     player.setDeck(player.getCurrentGrid(), deck);
+    std::cout << player.getScore() << std::endl;
     this->grid.getGame().setPlayer(player);
     // this->grid.getGame().setCurrentPlayer(player);
     this->cardClicked = nullptr;
@@ -668,6 +657,6 @@ SDL_Texture *Graphic::getWinnerTexture()
     }
     else
     {
-        return IMG_LoadTexture(renderer, "../data/images/draw.png");
+        return IMG_LoadTexture(renderer, "../img/draw.png");
     }
 }

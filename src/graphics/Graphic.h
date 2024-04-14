@@ -59,6 +59,17 @@ public:
     SDL_Rect playerMiniRect;    // The part of the screen where the mini player is
     SDL_Rect shadowRect;        // The part of the screen where the card shadow is
 
+    int cardHeight = 150;
+    int cardWidth = 100;
+    int CasesWidth = 100;
+    int deckHeight;
+    int deckWidht;
+    int margin = 50;
+    int gap = 10;
+    int globalMargin;
+    float cardZoomFactor = 1.2;
+    int windowWidth, windowHeight;
+
     /**
      * @brief Constructor for the Graphic class.
      *
@@ -95,6 +106,11 @@ public:
      * Destroys the renderer and window.
      */
     ~Graphic();
+
+    /**
+    * @brief Update global values used by the interface depending on the window size.
+    */
+    void updateInterface();
 
     /**
      * @brief Draws text on the screen.
