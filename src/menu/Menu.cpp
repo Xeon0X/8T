@@ -1122,7 +1122,6 @@ void Menu::start()
             this->menu();
             break;
         case GameState::Game:
-            std::cout << asGameStarted << std::endl;
             graphic.play(this->gamestate);
 
             ImGui_ImplOpenGL3_Shutdown();

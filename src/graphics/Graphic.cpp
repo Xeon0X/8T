@@ -620,11 +620,9 @@ bool Graphic::isCardEmpty()
 void Graphic::deleteCard()
 {
     Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
-    std::cout << player.getScore() << std::endl;
     Deck deck = player.getDeck(player.getCurrentGrid());
     deck.removeCard(this->cardClicked);
     player.setDeck(player.getCurrentGrid(), deck);
-    std::cout << player.getScore() << std::endl;
     this->grid.getGame().setPlayer(player);
     // this->grid.getGame().setCurrentPlayer(player);
     this->cardClicked = nullptr;

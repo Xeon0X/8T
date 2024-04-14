@@ -6,7 +6,6 @@
 
 Game::Game()
 {
-    std::cout << "Game created" << std::endl;
 
     this->players.push_back(Player("X", "red"));
     this->players.push_back(Player("O", "blue"));
@@ -120,7 +119,6 @@ bool Game::isCaseOfPlayer(int cellX, int cellY, int CurrentGrid, Player player)
 
 void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGrid, int direction)
 {
-    std::cout << "\nSCORE 3: " << this->getPlayer()[0].getScore() << std::endl;
     Grid grid = this->getGrid(CurrentGrid);
     int nbAlignToWin = grid.getNbAlignToWin();
     std::vector<Player> players = this->getPlayer();
@@ -162,5 +160,4 @@ void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGr
             // this->setCurrentPlayer(player);
         }
     }
-    std::cout << "\nSCORE 4: " << this->getPlayer()[0].getScore() << std::endl;
 }
