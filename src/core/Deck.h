@@ -69,6 +69,8 @@ public:
      * @param card
      */
     void removeCard(Card *card);
+
+    void moveCard(int direction);
 };
 
 #endif // DECK

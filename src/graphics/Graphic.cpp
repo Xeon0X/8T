@@ -1,5 +1,6 @@
 #include "Graphic.h"
 #include "../core/Case.h"
+#include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
 #include <iostream>
 #include <SDL2/SDL_image.h>
@@ -328,16 +329,6 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     handleGlobalRuleButtonClick(mouseX, mouseY, screenWidth, screenHeight);
 
     // Play a card
-    int currentCardIndex = 0;
-    int lastCardIndex = deck.getCards().size()-1;
-    int maxCardIndex = background_deck.w/(cardWidth + gap)-1;
-    int limitCardIndex = std::min(lastCardIndex, maxCardIndex);
-    int shiftedIndex = 0;
-
-    if ((lastCardIndex > maxCardIndex)) { 
-        shiftedIndex =  currentCardIndex - maxCardIndex/2; 
-    }
-
     if (grid.getRules().canPlayCard || grid.getRules().pickPlayOrPlace)
     {
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
@@ -347,8 +338,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
             if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
             {
-                currentCardIndex = (i +  lastCardIndex+1 + shiftedIndex) % (lastCardIndex+1);
-                if (this->cardClicked == deck.getCards()[currentCardIndex])
+                if (this->cardClicked == deck.getCards()[i])
                 {
                     this->cardClicked = nullptr;
                     this->isCardClicked = false;
@@ -358,7 +348,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
                 else
                 {
                     this->isCardClicked = true;
-                    this->setCard(deck.getCards()[currentCardIndex]);
+                    this->setCard(deck.getCards()[i]);
                     this->grid.setGame(game); // Update the grid with next global rule
                     break;
                 }
@@ -558,6 +548,10 @@ void Graphic::handleGlobalRuleButtonClick(int mouseX, int mouseY, int screenWidt
 
 void Graphic::handleKeyDownEvent(SDL_Event &event, GameState &gamestate)
 {
+    Game game = this->grid.getGame();
+    Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
+    Deck deck = player.getDeck(player.getCurrentGrid());
+
     switch (event.key.keysym.sym)
     {
     case SDLK_UP:
@@ -572,10 +566,22 @@ void Graphic::handleKeyDownEvent(SDL_Event &event, GameState &gamestate)
     case SDLK_RIGHT:
         this->grid.moveGrid(-10, 0);
         break;
+    case SDLK_SPACE:
+        deck.moveCard(-1);
+        player.setDeck(player.getCurrentGrid(), deck);
+        break;
+    case SDLK_BACKSPACE:
+        deck.moveCard(1);
+        player.setDeck(player.getCurrentGrid(), deck);
+        break;
+
     case SDLK_ESCAPE:
         gamestate = GameState::Pause;
         break;
     }
+
+    game.setPlayer(player);
+    this->grid.setGame(game);
 }
 
 void Graphic::handleCheckWin(int cellX, int cellY, Game game)
@@ -621,11 +627,9 @@ bool Graphic::isCardEmpty()
 void Graphic::deleteCard()
 {
     Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
-    std::cout << player.getScore() << std::endl;
     Deck deck = player.getDeck(player.getCurrentGrid());
     deck.removeCard(this->cardClicked);
     player.setDeck(player.getCurrentGrid(), deck);
-    std::cout << player.getScore() << std::endl;
     this->grid.getGame().setPlayer(player);
     // this->grid.getGame().setCurrentPlayer(player);
     this->cardClicked = nullptr;

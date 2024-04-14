@@ -415,36 +415,13 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     int maxCardIndex = graphic.background_deck.w/(graphic.cardWidth + graphic.gap)-1;
     int limitCardIndex = std::min(lastCardIndex, maxCardIndex);
 
-    int shiftedIndex = 0;
     int currentCardIndex = 0;
-
-    std::cout << "0" << std::endl;
-
-    for (int j = 0; j < (int) deck.getCards().size(); j++)
-    {
-        std::cout << "0.5" << std::endl;
-        if (graphic.getCard() != NULL) {
-            if (graphic.getCard()->getId() == deck.getCards()[j]->getId())
-            {
-                std::cout << "1" << std::endl;
-                currentCardIndex = j;
-            }
-        }
-    }
-
-    std::cout << "1.5" << std::endl;
-
-    if ((lastCardIndex > maxCardIndex)) { 
-        shiftedIndex =  currentCardIndex - maxCardIndex/2; 
-    }
 
     int i = 0;
 
-    std::cout << "last card index: " << lastCardIndex << "\n" << maxCardIndex << "\n" << limitCardIndex << "\n" << shiftedIndex << "\n" << currentCardIndex << "\n" << std::endl;
-
     while (i <= limitCardIndex) 
     {
-        currentCardIndex = (i +  lastCardIndex+1 + shiftedIndex) % (lastCardIndex+1);
+        currentCardIndex = (i +  lastCardIndex+1) % (lastCardIndex+1);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_deck.x + graphic.gap;
         int cardY = graphic.background_deck.y + graphic.gap;
