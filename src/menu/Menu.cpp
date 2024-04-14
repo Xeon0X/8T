@@ -447,10 +447,8 @@ void Menu::endMenu(Graphic &graphic)
 void Menu::drawEndMenu(Graphic &graphic)
 {
 
-    // SDL_Texture* winnerTexture = graphic.getWinnerTexture();
-    SDL_Surface *winnerSurface = IMG_Load("../data/images/logo_big.png");
-    SDL_Texture *winnerTexture = SDL_CreateTextureFromSurface(this->renderer, winnerSurface);
-    SDL_FreeSurface(winnerSurface);
+    SDL_Texture *winnerTexture = graphic.getWinnerTexture();
+
     if (winnerTexture != nullptr)
     {
         GLuint oglTextureID;

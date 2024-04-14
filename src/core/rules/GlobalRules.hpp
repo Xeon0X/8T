@@ -171,7 +171,7 @@ public:
         {
             updateTime(game, CurrentGrid);
             game.switchPlayer();
-            applyWhenGlobalRule(game, CurrentGrid);        
+            applyWhenGlobalRule(game, CurrentGrid);
         }
     }
 };
@@ -307,7 +307,8 @@ public:
     {
         this->canBeGlobalRules = true;
         srand(static_cast<unsigned int>(time(nullptr)));
-        nbRoundLeft = 10 + rand() % 41;
+        nbRoundLeft = 6;
+        // nbRoundLeft = 10 + rand() % 41;
     };
     /**
      * @brief Destructor for the CardEnd class.
