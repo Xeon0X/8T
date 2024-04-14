@@ -6,6 +6,15 @@
 
 ![interface](data/images/interface.png)
 
+## Requirement 
+
+ Dogica font.
+
+    You can download it directly from the font folder or at https://www.dafont.com/dogica.font .
+    
+
+
+
 ## Build
 
 With Cmake :
@@ -21,7 +30,35 @@ cd ../bin
 
 With Xmake :
 
-~~bash
+~~~bash
 xmake
 xmake run
 ~~~
+
+## Documentation
+I) Requirement :
+
+Doxygen : 
+~~~bash
+sudo apt-get install doxygen
+~~~
+
+II) Generate the documentation :
+~~~bash
+cd doc
+doxygen Doxyfile
+~~~
+
+
+## Organisation 
+
+1. src : contains all the sources files of the project
+2. data : 
+    -images: contains all the images of the project
+    -sounds: contains the music of the project
+3. doc: contains the documentation of the project and all the files for the oral presentation
+4. bin: contains all the executable of the project
+5. font: contains the font of the project
+6. CMakeLists.txt : the file for the cmake compilation
+7. xmake.lua : the file for the cmake compilation
+8. README.md : file for all the information for the project
