@@ -54,6 +54,10 @@ void Deck::setBaseCard()
     card8->setUniqueId(uniqueIdCounter);
     uniqueIdCounter++;
     this->cards.push_back(card8);
+    CardSwitchPlayer *card9 = new CardSwitchPlayer("End", "Termine le tour", 10);
+    card9->setUniqueId(uniqueIdCounter);
+    uniqueIdCounter++;
+    this->cards.push_back(card9);
 }
 
 std::vector<Card *> Deck::getCards()
@@ -189,6 +193,14 @@ void Deck::drawCard()
     case CardEndMinusOneId:
     {
         CardEndMinusOne *card = new CardEndMinusOne("EndMinusOne", "Termine le tour -1", CardEndMinusOneId);
+        card->setUniqueId(uniqueIdCounter);
+        uniqueIdCounter++;
+        this->cards.push_back(card);
+        break;
+    }
+    case SwitchPlayerId:
+    {
+        CardSwitchPlayer *card = new CardSwitchPlayer("CardSwitchPlayer", "Change de joueur", SwitchPlayerId);
         card->setUniqueId(uniqueIdCounter);
         uniqueIdCounter++;
         this->cards.push_back(card);

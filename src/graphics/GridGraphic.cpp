@@ -5,6 +5,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <algorithm>
+#include <cstddef>
 #include <string>
 #include "../core/rules/GlobalRules.hpp"
 
@@ -409,14 +410,41 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     Deck deck = player.getDeck(player.getCurrentGrid());
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
-    
-    unsigned int maxCards = graphic.background_deck.w/(graphic.cardWidth + graphic.gap);
 
-    for (unsigned int i = 0; i < deck.getCards().size(); i++)
+    int lastCardIndex = deck.getCards().size()-1;
+    int maxCardIndex = graphic.background_deck.w/(graphic.cardWidth + graphic.gap)-1;
+    int limitCardIndex = std::min(lastCardIndex, maxCardIndex);
+
+    int shiftedIndex = 0;
+    int currentCardIndex = 0;
+
+    std::cout << "0" << std::endl;
+
+    for (int j = 0; j < (int) deck.getCards().size(); j++)
     {
-        if (i > maxCards-1) {
-            break;
+        std::cout << "0.5" << std::endl;
+        if (graphic.getCard() != NULL) {
+            if (graphic.getCard()->getId() == deck.getCards()[j]->getId())
+            {
+                std::cout << "1" << std::endl;
+                currentCardIndex = j;
+            }
         }
+    }
+
+    std::cout << "1.5" << std::endl;
+
+    if ((lastCardIndex > maxCardIndex)) { 
+        shiftedIndex =  currentCardIndex - maxCardIndex/2; 
+    }
+
+    int i = 0;
+
+    std::cout << "last card index: " << lastCardIndex << "\n" << maxCardIndex << "\n" << limitCardIndex << "\n" << shiftedIndex << "\n" << currentCardIndex << "\n" << std::endl;
+
+    while (i <= limitCardIndex) 
+    {
+        currentCardIndex = (i +  lastCardIndex+1 + shiftedIndex) % (lastCardIndex+1);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_deck.x + graphic.gap;
         int cardY = graphic.background_deck.y + graphic.gap;
@@ -430,9 +458,10 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
             cardX -= ((cardWidth * graphic.cardZoomFactor) - cardWidth - graphic.gap)/2;
         }
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
-        SDL_RenderCopy(renderer, cardsTextures[deck.getCards()[i]->getId() - 1], NULL, &rect);
+        SDL_RenderCopy(renderer, cardsTextures[deck.getCards()[currentCardIndex]->getId() - 1], NULL, &rect);
 
-        drawCardDetails(deck.getCards()[i], graphic, cardX, cardY, i);
+        drawCardDetails(deck.getCards()[currentCardIndex], graphic, cardX, cardY, currentCardIndex);
+        i++;
     }
 }
 
@@ -444,7 +473,7 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
     SDL_GetMouseState(&mouseX, &mouseY);
 
     int lastCardIndex = grid.getGlobalRules().size()-1;
-    int maxCardIndex = graphic.background_deck.w/(graphic.cardWidth + graphic.gap)-1;
+    int maxCardIndex = graphic.background_rules.w/(graphic.cardWidth + graphic.gap)-1;
     int limitCardIndex = std::min(lastCardIndex, maxCardIndex);
 
     int shiftedIndex = 0;

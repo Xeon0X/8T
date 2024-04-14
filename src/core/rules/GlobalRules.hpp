@@ -148,7 +148,10 @@ public:
      * @param description The description of the card.
      * @param id The id of the card.
      */
-    CardSwitchPlayer(std::string name, std::string description, int id) : Card(name, description, id){};
+    CardSwitchPlayer(std::string name, std::string description, int id) : Card(name, description, id) {
+        this->canBeGlobalRules = true;
+        arrowDirection.push_back("static");
+    };
     /**
      * @brief Destructor for the CardSwitchPlayer class.
      *
@@ -167,7 +170,7 @@ public:
      */
     void applyCard(int x, int y, int CurrentGrid, Player &currentPlayer, Game &game, std::string sens) override
     {
-        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay)
+        if (game.getGrid(CurrentGrid).getTimeFromLastRule() > minimumSecondsDelay || !isGlobalRule)
         {
             updateTime(game, CurrentGrid);
             game.switchPlayer();

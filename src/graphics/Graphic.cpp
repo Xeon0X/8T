@@ -328,6 +328,16 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
     handleGlobalRuleButtonClick(mouseX, mouseY, screenWidth, screenHeight);
 
     // Play a card
+    int currentCardIndex = 0;
+    int lastCardIndex = deck.getCards().size()-1;
+    int maxCardIndex = background_deck.w/(cardWidth + gap)-1;
+    int limitCardIndex = std::min(lastCardIndex, maxCardIndex);
+    int shiftedIndex = 0;
+
+    if ((lastCardIndex > maxCardIndex)) { 
+        shiftedIndex =  currentCardIndex - maxCardIndex/2; 
+    }
+
     if (grid.getRules().canPlayCard || grid.getRules().pickPlayOrPlace)
     {
         for (unsigned int i = 0; i < deck.getCards().size(); i++)
@@ -337,7 +347,8 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
             if (CoIncid(mouseX, mouseY, cardX, cardY, cardX + cardWidth, cardY + cardHeight))
             {
-                if (this->cardClicked == deck.getCards()[i])
+                currentCardIndex = (i +  lastCardIndex+1 + shiftedIndex) % (lastCardIndex+1);
+                if (this->cardClicked == deck.getCards()[currentCardIndex])
                 {
                     this->cardClicked = nullptr;
                     this->isCardClicked = false;
@@ -347,7 +358,7 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
                 else
                 {
                     this->isCardClicked = true;
-                    this->setCard(deck.getCards()[i]);
+                    this->setCard(deck.getCards()[currentCardIndex]);
                     this->grid.setGame(game); // Update the grid with next global rule
                     break;
                 }
