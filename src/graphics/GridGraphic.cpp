@@ -4,6 +4,7 @@
 #include "../core/Case.h"
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
+#include <algorithm>
 #include <string>
 #include "../core/rules/GlobalRules.hpp"
 
@@ -408,12 +409,18 @@ void GridGraphic::drawDeck(SDL_Renderer *renderer, Graphic &graphic)
     Deck deck = player.getDeck(player.getCurrentGrid());
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY); // Get mouse position
+    
+    unsigned int maxCards = graphic.background_deck.w/(graphic.cardWidth + graphic.gap);
+
     for (unsigned int i = 0; i < deck.getCards().size(); i++)
     {
+        if (i > maxCards-1) {
+            break;
+        }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_deck.x + 2 *  graphic.gap;
-        int cardY = graphic.background_deck.y + 2 * graphic.gap;
-        int cardWidth = graphic.cardWidth;;
+        int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_deck.x + graphic.gap;
+        int cardY = graphic.background_deck.y + graphic.gap;
+        int cardWidth = graphic.cardWidth;
         int cardHeight = graphic.cardHeight;
         if (graphic.getCard() != nullptr && graphic.getCard()->getUniqueId() == deck.getCards()[i]->getUniqueId())
         {
@@ -435,14 +442,33 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
     Grid grid = this->game.getGrid(player.getCurrentGrid());
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
-    for (unsigned int i = 0; i < grid.getGlobalRules().size(); i++)
+
+    int lastCardIndex = grid.getGlobalRules().size()-1;
+    int maxCardIndex = graphic.background_deck.w/(graphic.cardWidth + graphic.gap)-1;
+    int limitCardIndex = std::min(lastCardIndex, maxCardIndex);
+
+    int shiftedIndex = 0;
+    int currentCardIndex = grid.getCurrentGlobalRule();
+
+    std::cout <<currentCardIndex << " " << maxCardIndex << " " << shiftedIndex << std::endl;
+
+    if (currentCardIndex >= maxCardIndex) { 
+        shiftedIndex = 1 +  currentCardIndex - maxCardIndex; 
+    }
+
+    int i = 0;
+
+    while (i <= limitCardIndex) 
     {
-        int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_rules.x + 2 *  graphic.gap;
-        int cardY = graphic.background_rules.y + 2 * graphic.gap;
+        std::cout << shiftedIndex << std::endl;
+        currentCardIndex = (i +  lastCardIndex+1 + shiftedIndex) % (lastCardIndex+1);
+        std::cout << "--- " << i << " " << shiftedIndex << " " << (i - shiftedIndex) << " " << grid.getGlobalRules().size() << " " << currentCardIndex << std::endl;
+        int cardX = (i) * (graphic.cardWidth + graphic.gap) + graphic.background_rules.x + graphic.gap;
+        int cardY = graphic.background_rules.y + graphic.gap;
         int cardWidth = graphic.cardWidth;;
         int cardHeight = graphic.cardHeight;
 
-        if (grid.getCurrentGlobalRule() == static_cast<int>(i))
+        if ((int) grid.getCurrentGlobalRule() == currentCardIndex)
         {
             cardHeight *= graphic.cardZoomFactor;
             cardWidth *= graphic.cardZoomFactor;
@@ -458,9 +484,10 @@ void GridGraphic::drawGlobalrules(SDL_Renderer *renderer, Graphic &graphic)
         }
 
         SDL_Rect rect = {cardX, cardY, cardWidth, cardHeight};
-        SDL_RenderCopy(renderer, cardsTextures[grid.getGlobalRules()[i]->getId() - 1], NULL, &rect);
+        SDL_RenderCopy(renderer, cardsTextures[grid.getGlobalRules()[currentCardIndex]->getId() - 1], NULL, &rect);
 
-        drawCardDetails(grid.getGlobalRules()[i], graphic, cardX, cardY, i);
+        drawCardDetails(grid.getGlobalRules()[currentCardIndex], graphic, cardX, cardY, currentCardIndex);
+        i++;
     }
 }
 
@@ -571,7 +598,7 @@ void GridGraphic::drawArrowDirection(SDL_Renderer *renderer, Graphic &graphic)
             }
             if (directions[i] == "static")
             {
-                SDL_Rect rect = {windowWidth - graphic.cardHeight, windowHeight - (graphic.cardHeight + graphic.margin + 2 * graphic.gap), graphic.cardWidth, graphic.cardHeight};
+                SDL_Rect rect = {windowWidth - graphic.cardHeight, windowHeight - (graphic.cardHeight + graphic.margin + graphic.gap), graphic.cardWidth, graphic.cardHeight};
                 SDL_RenderCopy(renderer, applyTexture, NULL, &rect);
             }
             if (directions[i] == "turnLeft")

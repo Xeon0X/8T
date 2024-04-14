@@ -58,7 +58,7 @@ public:
     SDL_Rect playerMiniRect;    // The part of the screen where the mini player is
     SDL_Rect shadowRect;        // The part of the screen where the card shadow is
 
-    int fontSize;           /**< The size of the font. */
+    int fontSize;
     int cardHeight = 150;
     int cardWidth = 100;
     int caseWidth = 100;
@@ -68,9 +68,9 @@ public:
     int deckWidht;
     int margin = 50;
     int small_margin = 25;
-    int gap = 10;
+    int gap = 5;
     int globalMargin;
-    float cardZoomFactor = 1.2;
+    float cardZoomFactor = 1.1;
     int windowWidth, windowHeight;
 
     /**

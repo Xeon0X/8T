@@ -163,7 +163,7 @@ void Graphic::updateInterface()
     SDL_GetWindowSize(window, &windowWidth, &windowHeight);
 
     globalMargin = windowWidth/4;
-    deckHeight = cardHeight + 4 * gap;
+    deckHeight = cardHeight + 2 * gap;
     deckWidht = windowWidth - 2 * globalMargin;
 
     newCard.x = windowWidth - (cardWidth + margin); // On the right with a margin
@@ -172,7 +172,7 @@ void Graphic::updateInterface()
     newCard.h = cardHeight;
 
     globalRuleButton.x = windowWidth - (cardWidth + margin);
-    globalRuleButton.y = margin + 2 * gap; // On the top right corner with same gap as deck
+    globalRuleButton.y = margin + gap; // On the top right corner with same gap as deck
     globalRuleButton.w = cardWidth;
     globalRuleButton.h = cardHeight;
 
