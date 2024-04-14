@@ -62,12 +62,6 @@ public:
      */
     void drawCard();
 
-    /**
-     * @brief Create a new card
-     *
-     * @param id
-     */
-    void createNewCard(int id);
 
     /**
      * @brief Remove a card from the deck

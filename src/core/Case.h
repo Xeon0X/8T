@@ -52,13 +52,6 @@ public:
      */
     void addPiece(const Piece &piece);
 
-    /**
-     * @brief Add an effect to the case
-     *
-     * @param effect
-     * @param value
-     */
-    void addEffect(std::string effect, float value);
 
     /**
      * @brief Get the pieces on the case

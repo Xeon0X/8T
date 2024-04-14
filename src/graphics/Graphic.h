@@ -59,7 +59,6 @@ public:
     SDL_Rect playerMiniRect;    // The part of the screen where the mini player is
     SDL_Rect shadowRect;        // The part of the screen where the card shadow is
 
-
     /**
      * @brief Constructor for the Graphic class.
      *
@@ -96,8 +95,6 @@ public:
      * Destroys the renderer and window.
      */
     ~Graphic();
-
-    void animatePLayerGravity(int x1, int y1, int x2, int y2, int r, int thickness, Player player);
 
     /**
      * @brief Draws text on the screen.

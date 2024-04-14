@@ -43,7 +43,7 @@ public:
     /**
      * @brief Constructor for the GridGraphic class.
      */
-    GridGraphic(/* args */);
+    GridGraphic();
 
     /**
      * @brief Constructor for the GridGraphic class.
