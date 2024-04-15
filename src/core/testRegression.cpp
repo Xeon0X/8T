@@ -43,10 +43,30 @@ void TestRegression()
 
     game.getGrid(0).addGlobalRule(deck.getCards()[0]);
 
-    // assert(game.getGrid(0).getGlobalRules()[0]->getName() == "AddCol");
+    assert(game.getGrid(0).getGlobalRules()[0]->getName() == "PlacePiece");
 
     Player player1("X", "Rouge");
     Player player2("O", "Bleu");
+
+    assert(player1.getSymbol() == "X");
+    assert(player1.getColor() == "Rouge");
+    assert(player2.getSymbol() == "O");
+    assert(player2.getColor() == "Bleu");
+
+    Piece piece1;
+    Piece piece2("X", "Rouge", PieceEffects());
+    piece1.setSymbol("O");
+    piece1.setColor("Bleu");
+
+    assert(piece1.getSymbol() == "O");
+    assert(piece1.getColor() == "Bleu");
+    assert(piece2.getSymbol() == "X");
+    assert(piece2.getColor() == "Rouge");
+
+    Case c;
+    c.addPiece(piece1);
+
+    assert(c.getPieces()[0].getSymbol() == "O");
 }
 
 int main()
