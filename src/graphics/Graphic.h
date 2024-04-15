@@ -40,7 +40,6 @@ private:
     SDL_Color color;        /**< The color of the renderer. */
     TTF_Font *font;         /**< The font of the renderer. */
     SDL_Color fontColor;    /**< The color of the font. */
-    int fontSize;           /**< The size of the font. */
     int fontStyle;          /**< The style of the font. */
 
     GridGraphic grid; /**< The grid of the game. */
@@ -49,15 +48,30 @@ private:
     bool isCardClicked = false; /**< The state of the card. */
 
 public:
-    SDL_Rect deckPart;          // The part of the screen where the deck is
-    SDL_Rect pioche;            // The part of the screen where the draw is
+    SDL_Rect background_rules;          // The part of the screen where the deck is
+    SDL_Rect newCard;            // The part of the screen where the draw is
     SDL_Rect globalRuleButton;  // The part of the screen where the global rule button is
-    SDL_Rect background;        // The part of the screen where the background is
+    SDL_Rect background_deck;        // The part of the screen where the background is
     SDL_Rect logo;              // The part of the screen where the logo is
     SDL_Rect currentPlayerRect; // The part of the screen where the current player is
     SDL_Rect scoreRect;         // The part of the screen where the score is
     SDL_Rect playerMiniRect;    // The part of the screen where the mini player is
     SDL_Rect shadowRect;        // The part of the screen where the card shadow is
+
+    int fontSize;
+    int cardHeight = 150;
+    int cardWidth = 100;
+    int caseWidth = 100;
+    int small_caseWidth = 50;
+    int arrowWidth = 100;
+    int deckHeight;
+    int deckWidht;
+    int margin = 50;
+    int small_margin = 25;
+    int gap = 5;
+    int globalMargin;
+    float cardZoomFactor = 1.1;
+    int windowWidth, windowHeight;
 
     /**
      * @brief Constructor for the Graphic class.
@@ -95,6 +109,11 @@ public:
      * Destroys the renderer and window.
      */
     ~Graphic();
+
+    /**
+    * @brief Update global values used by the interface depending on the window size.
+    */
+    void updateInterface();
 
     /**
      * @brief Draws text on the screen.
