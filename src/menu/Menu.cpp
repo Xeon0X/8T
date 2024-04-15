@@ -980,23 +980,18 @@ void Menu::drawChooseCreateOrJoinMenu()
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
 
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+        ImGui::PopStyleColor();
 
-        if (ImGui::Button("Create", ImVec2(200, 50)))
-        {
-            this->gamestate = GameState::CreateOnlineGame;
-        }
+        ImGui::SetWindowFontScale(2.0f);
+        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - ImGui::CalcTextSize("Coming soon...").x) * 0.5f);
 
-        ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 100) * 0.5f);
-        ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-        if (ImGui::Button("Join", ImVec2(200, 50)))
-        {
-            this->gamestate = GameState::JoinOnlineGame;
-        }
-
+        ImGui::Text("Coming soon...");
         ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 100);
         ImGui::SetCursorPosX(50);
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 
         if (ImGui::Button("Back", ImVec2(200, 50)))
         {
