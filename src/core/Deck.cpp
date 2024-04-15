@@ -38,26 +38,7 @@ void Deck::setBaseCard()
     card4->setUniqueId(uniqueIdCounter);
     uniqueIdCounter++;
     this->cards.push_back(card4);
-    CardAlignToWinPlusOne *card5 = new CardAlignToWinPlusOne("AlignToWinPlusOne", "Le nombre d'alignement pour gagner +1", 12);
-    card5->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card5);
-    CardPickPlayOrPlace *card6 = new CardPickPlayOrPlace("PickPlayOrPlace", "Pose ou prend une pièce sur le plateau", 15);
-    card6->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card6);
-    CardEndPlusOne *card7 = new CardEndPlusOne("EndPlusOne", "Termine le tour +1", 16);
-    card7->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card7);
-    CardEnd *card8 = new CardEnd("End", "Termine le tour", 14);
-    card8->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card8);
-    CardSwitchPlayer *card9 = new CardSwitchPlayer("End", "Termine le tour", 10);
-    card9->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card9);
+    
 }
 
 std::vector<Card *> Deck::getCards()

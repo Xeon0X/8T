@@ -117,34 +117,14 @@ void Grid::addGlobalRule(Card *card)
 
 void Grid::createGlobalRules()
 {
-    // CardAlignToWin *card = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 1);
-    // this->addGlobalRule(card);
-    // CardPlacePiece *card3 = new CardPlacePiece("PlacePiece", "Pose une pièce", 1);
-    // this->addGlobalRule(card3);
     CardPlacePiece *card8 = new CardPlacePiece("PlacePiece", "Pose une pièce", 7);
     this->addGlobalRule(card8);
     CardPlayCard *card4 = new CardPlayCard("PlayCard", "Joue une carte", 8);
     this->addGlobalRule(card4);
-    CardSwitchPlayer *card14 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
-    this->addGlobalRule(card14);
     CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 9);
     this->addGlobalRule(card1);
-    // CardGravity *card5 = new CardGravity("Gravity", "Applique la gravité", 1);
-    // this->addGlobalRule(card5);
-    CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
-    this->addGlobalRule(card2);
-    CardAlignToWin *card6 = new CardAlignToWin("AlignToWin", "Le nombre d'alignement pour gagner", 11);
-    this->addGlobalRule(card6);
-    CardEnd *card7 = new CardEnd("End", "Termine le tour", 14);
-    this->addGlobalRule(card7);
-    CardPlacePiece *card9 = new CardPlacePiece("PlacePiece", "Pose une pièce", 7);
-    this->addGlobalRule(card9);
-    CardPlayCard *card10 = new CardPlayCard("PlayCard", "Joue une carte", 8);
-    this->addGlobalRule(card10);
-    CardDrawCard *card11 = new CardDrawCard("DrawCard", "Pioche une carte", 9);
-    this->addGlobalRule(card11);
-    CardSwitchPlayer *card13 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
-    this->addGlobalRule(card13);
+    CardSwitchPlayer *card14 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
+    this->addGlobalRule(card14);
 }
 
 std::vector<Card *> Grid::getGlobalRules()
