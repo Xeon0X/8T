@@ -83,7 +83,6 @@ bool Grid::checkWin(Player player, int cellX, int cellY)
                 nbAlign++;
                 if (nbAlign == this->getNbAlignToWin())
                 {
-                    std::cout << "Player " << symbol << " wins!\n";
                     return true;
                 }
             }
@@ -99,7 +98,6 @@ bool Grid::checkWin(Player player, int cellX, int cellY)
 
 void Grid::resetGrid()
 {
-    std::cout << "reset grid" << std::endl;
     for (int i = 0; i < this->getGridWidth(); i++)
     {
         for (int j = 0; j < this->getGridHeight(); j++)
