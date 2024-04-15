@@ -22,7 +22,7 @@ Build:
 - On Linux, Xmake or Cmake should work just as well.
 
 Libraries used:
-- SDL 
+- SDL2
 - ImGui
 
 Documentation:
