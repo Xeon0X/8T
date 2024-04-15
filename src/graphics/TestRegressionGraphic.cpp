@@ -1,4 +1,5 @@
 #include "Graphic.h"
+#include "../rules/GlobalRules.hpp"
 #include <assert.h>
 
 int main()
@@ -18,10 +19,11 @@ int main()
     assert(grid.getGridX() == gridX + 10);
     assert(grid.getGridY() == gridY + 10);
 
-    Card *card;
+    CardPlayCard *card = new CardPlayCard("PlayCard", "description", 8);
     graphic.setCard(card);
 
     assert(graphic.getCard() == card);
+    assert(graphic.getCard()->getId() == 8);
 
     return 0;
 }

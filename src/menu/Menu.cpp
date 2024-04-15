@@ -636,7 +636,7 @@ void Menu::drawCreateOnlineGameMenu(Graphic &graphic)
 
         ImGui::Text("IP Address : ");
         static char ip[16] = " ";
-        ImGui::Text(ip);
+        ImGui::Text("%s", ip);
 
         ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 300) * 0.5f);
         ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);
@@ -842,7 +842,7 @@ void Menu::drawJoinOnlineGameMenu(Graphic &graphic)
 
             ImGui::Text("IP Address : ");
             static char ip[16] = " "; // Met la function pour afficher l'ip de la game ici
-            ImGui::Text(ip);
+            ImGui::Text("%s", ip);
 
             ImGui::SetCursorPosY((ImGui::GetWindowSize().y + 300) * 0.5f);
             ImGui::SetCursorPosX((ImGui::GetWindowSize().x - 200) * 0.5f);

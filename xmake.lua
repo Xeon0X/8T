@@ -20,7 +20,7 @@ target("console")
     add_files("src/console/**.cpp")
     add_packages("ftxui")
     add_deps("core")
-    set_default(false)
+    set_default(true)
     set_targetdir("bin")
 
 target("graphic")
