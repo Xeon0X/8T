@@ -17,25 +17,58 @@ using json = nlohmann::json;
 class Network
 {
 private:
-    std::string serverIpAddr;
-    int PORT;
-    std::string updateFileName;
-    std::string saveFileName;
-    static bool networkStatus;
+    std::string serverIpAddr;   // the ip address of the server
+    int PORT;                   // the port of the server
+    std::string updateFileName; // the name of the file that will be updated
+    std::string saveFileName;   // the name of the file that will be saved
+    static bool networkStatus;  // the status of the network
 
 public:
+    /**
+     * @brief Construct a new Network object
+     *
+     */
     Network();
 
+    /**
+     * @brief Construct a new Network object
+     *
+     * @param IP
+     */
     Network(std::string IP);
 
+    /**
+     * @brief Destroy the Network object
+     *
+     */
     ~Network();
 
+    /**
+     * @brief Get the Server IP address
+     *
+     * @return std::string
+     */
     std::string getServerIPaddr(); // get the server ip address
 
+    /**
+     * @brief Get the Local IP address
+     *
+     * @return std::string
+     */
     std::string getLocalIpAddr(); // get the local ip address of the computer
 
+    /**
+     * @brief Set the Server IP address
+     *
+     * @param IP
+     */
     void setServerIpAddr(std::string IP); // set the server ip address
 
+    /**
+     * @brief Get the Port
+     *
+     * @return int
+     */
     void changePort(int port);
 
     void setupdateFileName(std::string name);
