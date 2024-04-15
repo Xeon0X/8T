@@ -119,7 +119,7 @@ int GameConsole::menu(int gridIndex)
 
     std::vector<std::string> options = {"Place a piece", "Play a card", "Draw a card", "Exit"};
     showOptions(options);
-    int input = inputVerification(1, options.size());
+    int input = inputVerification(1, (int) options.size());
 
     switch (input)
     {
@@ -145,7 +145,7 @@ int GameConsole::menu(int gridIndex)
             options.push_back(card.getName());
         }
         showOptions(options);
-        int index = inputVerification(1, deck.getCards().size()) - 1;
+        int index = inputVerification(1, (int) deck.getCards().size()) - 1;
         // std::cout << "\nEnter coordinates: " << std::endl;
         // std::cout << "\nx: " << std::endl;
         // int x = inputVerification(1, game.getGrid(gridIndex).getGridHeight());
@@ -155,7 +155,7 @@ int GameConsole::menu(int gridIndex)
         std::cout << "Choose a direction to apply the card: " << std::endl;
         std::vector<std::string> directions = deck.getCards()[index]->getArrowDirection();
         showOptions(directions);
-        int direction = inputVerification(1, directions.size());
+        int direction = inputVerification(1, (int) directions.size());
         (*deck.getCards()[index]).applyCard(0, 0, gridIndex, player, game, directions[direction - 1]);
         return 1;
     }
