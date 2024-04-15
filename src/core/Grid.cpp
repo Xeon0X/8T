@@ -36,12 +36,12 @@ void Grid::setCases(std::vector<std::vector<Case *>> cases)
 
 int Grid::getGridWidth() const
 {
-    return (int) this->cases[0].size();
+    return (int)this->cases[0].size();
 }
 
 int Grid::getGridHeight() const
 {
-    return (int) this->cases.size();
+    return (int)this->cases.size();
 }
 
 void Grid::setCase(int x, int y, Case *c)
@@ -115,14 +115,12 @@ void Grid::addGlobalRule(Card *card)
 
 void Grid::createGlobalRules()
 {
-    CardPlacePiece *card8 = new CardPlacePiece("PlacePiece", "Pose une pièce", 7);
-    this->addGlobalRule(card8);
-    CardPlayCard *card4 = new CardPlayCard("PlayCard", "Joue une carte", 8);
-    this->addGlobalRule(card4);
-    CardDrawCard *card1 = new CardDrawCard("DrawCard", "Pioche une carte", 9);
-    this->addGlobalRule(card1);
-    CardSwitchPlayer *card14 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
-    this->addGlobalRule(card14);
+    CardPickPlayOrPlace *card = new CardPickPlayOrPlace("PickPlayOrPlace", "Choisis entre jouer ou placer une pièce", 15);
+    this->addGlobalRule(card);
+    CardSwitchPlayer *card2 = new CardSwitchPlayer("SwitchPlayer", "Change de joueur", 10);
+    this->addGlobalRule(card2);
+    CardAlignToWin *card3 = new CardAlignToWin("AlignToWin", "Change le nombre d'alignement pour gagner", 11);
+    this->addGlobalRule(card3);
 }
 
 std::vector<Card *> Grid::getGlobalRules()
@@ -196,7 +194,7 @@ int Grid::getTimeFromLastRule()
 {
     this->end = Clock::now(); // Update the time
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-    return (int) duration.count();
+    return (int)duration.count();
 }
 
 void Grid::startTimeForCurrentRule()

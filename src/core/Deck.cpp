@@ -22,26 +22,6 @@ void Deck::addCard(const Card &card)
 
 void Deck::setBaseCard()
 {
-    CardGravity *card = new CardGravity("Gravity", "Pose une pièce sur le plateau", 1);
-    card->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card);
-    CardAddLine *card2 = new CardAddLine("AddLine", "Ajoute une ligne au plateau", 2);
-    card2->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card2);
-    CardAddColumn *card3 = new CardAddColumn("AddColumn", "Ajoute une colonne au plateau", 3);
-    card3->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card3);
-    CardTurnGrid *card4 = new CardTurnGrid("TurnGrid", "Tourne le plateau", 4);
-    card4->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card4);
-    CardEnd *card5 = new CardEnd("The End", "Signe la fin du jeu", 14);
-    card5->setUniqueId(uniqueIdCounter);
-    uniqueIdCounter++;
-    this->cards.push_back(card5);
 }
 
 std::vector<Card *> Deck::getCards()
@@ -182,14 +162,14 @@ void Deck::drawCard()
         this->cards.push_back(card);
         break;
     }
-    // case SwitchPlayerId:
-    // {
-    //     CardSwitchPlayer *card = new CardSwitchPlayer("CardSwitchPlayer", "Change de joueur", SwitchPlayerId);
-    //     card->setUniqueId(uniqueIdCounter);
-    //     uniqueIdCounter++;
-    //     this->cards.push_back(card);
-    //     break;
-    // }
+        // case SwitchPlayerId:
+        // {
+        //     CardSwitchPlayer *card = new CardSwitchPlayer("CardSwitchPlayer", "Change de joueur", SwitchPlayerId);
+        //     card->setUniqueId(uniqueIdCounter);
+        //     uniqueIdCounter++;
+        //     this->cards.push_back(card);
+        //     break;
+        // }
 
     default:
         drawCard();
