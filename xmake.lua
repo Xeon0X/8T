@@ -36,9 +36,16 @@ target("graphic")
     set_targetdir("bin")
 
 
-target("test")
+target("TestCore")
     set_kind("binary")
     add_files("src/core/**.cpp")
-    set_default(false)
+    set_default(true)
     set_targetdir("bin")
     
+target("TestGraphic")
+    set_kind("binary")
+    add_files("src/graphics/**.cpp")
+    add_packages("libsdl", "libsdl_ttf", "libsdl_image","libsdl_mixer", "imgui","opengl", "glfw")
+    add_deps("core")
+    set_default(true)
+    set_targetdir("bin")
