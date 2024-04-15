@@ -70,7 +70,7 @@ public:
     int small_margin = 25;
     int gap = 5;
     int globalMargin;
-    float cardZoomFactor = 1.1;
+    float cardZoomFactor = 1.1f;
     int windowWidth, windowHeight;
 
     /**

@@ -314,8 +314,8 @@ void Graphic::handleMouseButtonDownEvent(SDL_Event &event)
 
     if (mouseX > 0 && mouseY > 0)
     {
-        cellX = std::floor(mouseX / 100);
-        cellY = std::floor(mouseY / 100);
+        cellX = (int) round(std::floor(mouseX / 100));
+        cellY = (int) round(std::floor(mouseY / 100));
     }
 
     Player player = this->grid.getGame().getPlayer()[this->grid.getGame().getCurrentPlayer()];
@@ -419,8 +419,8 @@ void Graphic::handleArrowClick(int mouseX, int mouseY, int screenWidth, int scre
     if (rules.canPlayCard || rules.pickPlayOrPlace)
     {
         std::vector<std::vector<Case *>> grid = this->grid.getGame().getGrid(0).getCases();
-        int GridWidth = grid[0].size() * caseWidth;
-        int GridHeight = grid.size() * caseWidth;
+        int GridWidth = (int) round(grid[0].size() * caseWidth);
+        int GridHeight = (int) round(grid.size() * caseWidth);
         int startX = (screenWidth - GridWidth) / 2;
         int startY = (screenHeight - GridHeight) / 2;
 
