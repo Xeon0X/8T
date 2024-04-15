@@ -23,8 +23,6 @@ target("console")
     set_default(false)
     set_targetdir("bin")
 
-
-
 target("graphic")
     set_kind("binary")
     add_files("src/menu/**.cpp")

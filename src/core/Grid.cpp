@@ -36,12 +36,12 @@ void Grid::setCases(std::vector<std::vector<Case *>> cases)
 
 int Grid::getGridWidth() const
 {
-    return this->cases[0].size();
+    return (int) this->cases[0].size();
 }
 
 int Grid::getGridHeight() const
 {
-    return this->cases.size();
+    return (int) this->cases.size();
 }
 
 void Grid::setCase(int x, int y, Case *c)
@@ -132,7 +132,6 @@ std::vector<Card *> Grid::getGlobalRules()
 
 void Grid::showGridTerminal()
 {
-    std::cout << "in showGrid\n";
     for (int i = 0; i < this->getGridWidth(); i++)
     {
         for (int j = 0; j < this->getGridHeight(); j++)
@@ -141,7 +140,6 @@ void Grid::showGridTerminal()
         }
         std::cout << std::endl;
     }
-    std::cout << "after showGrid\n";
 }
 
 GridRules Grid::getRules()
@@ -198,8 +196,7 @@ int Grid::getTimeFromLastRule()
 {
     this->end = Clock::now(); // Update the time
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-    std::cout << duration.count() << " time " << std::endl;
-    return duration.count();
+    return (int) duration.count();
 }
 
 void Grid::startTimeForCurrentRule()
