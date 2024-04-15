@@ -67,6 +67,6 @@ doxygen Doxyfile
 3. `doc`: contains the documentation of the project and all the files for the oral presentation
 4. `bin`: contains all the executable of the project
 5. `font`: contains the font of the project
-6. `CMakeLists.txt` : the file for the cmake compilation
-7. `xmake.lua` : the file for the xmake compilation
-8. README.md : file for all the information for the project
+6. `CMakeLists.txt`: the file for the cmake compilation
+7. `xmake.lua`: the file for the xmake compilation
+8. README.md: file for all the information for the project
