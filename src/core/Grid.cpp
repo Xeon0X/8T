@@ -36,12 +36,12 @@ void Grid::setCases(std::vector<std::vector<Case *>> cases)
 
 int Grid::getGridWidth() const
 {
-    return this->cases[0].size();
+    return (int) this->cases[0].size();
 }
 
 int Grid::getGridHeight() const
 {
-    return this->cases.size();
+    return (int) this->cases.size();
 }
 
 void Grid::setCase(int x, int y, Case *c)
@@ -196,7 +196,7 @@ int Grid::getTimeFromLastRule()
 {
     this->end = Clock::now(); // Update the time
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-    return duration.count();
+    return (int) duration.count();
 }
 
 void Grid::startTimeForCurrentRule()

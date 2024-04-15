@@ -440,7 +440,7 @@ public:
         std::vector<std::vector<Case *>> cases = currentGrid.getCases();
         std::vector<std::vector<Case *>> newCases;
 
-        for (int i = cases[0].size() - 1; i >= 0; i--)
+        for (int i = (int) cases[0].size() - 1; i >= 0; i--)
         {
             std::vector<Case *> newRow;
             for (unsigned int j = 0; j < cases.size(); j++)
@@ -469,7 +469,7 @@ public:
         for (unsigned int i = 0; i < cases[0].size(); i++)
         {
             std::vector<Case *> newRow;
-            for (int j = cases.size() - 1; j >= 0; j--)
+            for (int j = (int) cases.size() - 1; j >= 0; j--)
             {
                 newRow.push_back(cases[j][i]);
             }

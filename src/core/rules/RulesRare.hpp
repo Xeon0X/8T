@@ -57,7 +57,7 @@ public:
             std::vector<std::vector<Case *>> cases = currentGrid.getCases();
             for (unsigned int i = 0; i < cases[0].size(); i++)
             {
-                for (int x = cases.size() - 1; x >= 0; x--)
+                for (int x = (int) cases.size() - 1; x >= 0; x--)
                 {
                     if (cases[x][i]->getPieces().size() > 0)
                     {
