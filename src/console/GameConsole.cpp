@@ -16,9 +16,6 @@ GameConsole::~GameConsole()
 void GameConsole::printGrid(int gridIndex)
 {
 
-    // std::vector<std::vector<Case *>> grid = this->game.getGrid(gridIndex).getCases();
-    // std::string symbol = grid[0][0]->getPieces()[0].getSymbol();
-
     std::cout << "\n----- Grid " << gridIndex << " -----\n"
               << std::endl;
 
@@ -41,9 +38,6 @@ void GameConsole::printGrid(int gridIndex)
             {
                 std::cout << "|";
             }
-
-            // std::vector<Piece> pieces = grid[x][y]->getPieces();
-            // std::cout << pieces[0].getSymbol();
         }
         std::cout << std::endl;
     }
@@ -94,19 +88,6 @@ int GameConsole::menu(int gridIndex)
         return input;
     };
 
-    // struct Option
-    // {
-    //     std::string displayName;
-    //     std::function<void()> function;
-    // };
-    // int x, y;
-    // Option options;
-    // options.displayName = "Place a piece";
-    // options.function = [x, y, gridIndex](GameConsole* console) { game.createAndSetPiece(x, y, gridIndex) }
-    // std::vector<Option> options = {
-    //     {Option.displayName = "Place a piece", [](GameConsole* console) { /* code here */ }},
-    // };
-
     auto showOptions = [](std::vector<std::string> options)
     {
         for (unsigned int i = 1; i < options.size() + 1; i++)
@@ -146,11 +127,7 @@ int GameConsole::menu(int gridIndex)
         }
         showOptions(options);
         int index = inputVerification(1, (int) deck.getCards().size()) - 1;
-        // std::cout << "\nEnter coordinates: " << std::endl;
-        // std::cout << "\nx: " << std::endl;
-        // int x = inputVerification(1, game.getGrid(gridIndex).getGridHeight());
-        // std::cout << "\ny: " << std::endl;
-        // int y = inputVerification(1, game.getGrid(gridIndex).getGridWidth());
+
         Player player = game.getPlayer()[game.getCurrentPlayer()];
         std::cout << "Choose a direction to apply the card: " << std::endl;
         std::vector<std::string> directions = deck.getCards()[index]->getArrowDirection();

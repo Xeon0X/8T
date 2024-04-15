@@ -128,7 +128,6 @@ void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGr
         Player player = players[p];
         int directionX = 0;
         int directionY = 0;
-        // int offsetY = 0;
         switch (direction)
         {
         case 0:              // Anti-diagonal ((x, y) to  (x+NbToAlign, y+NbToAlign))
@@ -157,7 +156,6 @@ void Game::computeAlignementScoreOnDirection(int cellX, int cellY, int CurrentGr
         {
             player.setScore(player.getScore() + 1);
             this->setPlayer(player); // Update the player score
-            // this->setCurrentPlayer(player);
         }
     }
 }

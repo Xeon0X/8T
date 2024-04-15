@@ -38,7 +38,6 @@ void Deck::setBaseCard()
     card4->setUniqueId(uniqueIdCounter);
     uniqueIdCounter++;
     this->cards.push_back(card4);
-    
 }
 
 std::vector<Card *> Deck::getCards()
@@ -205,14 +204,18 @@ void Deck::removeCard(Card *card)
 
 void Deck::moveCard(int direction)
 {
-    if (direction > 0) { // move card to the right
-        if (!cards.empty()) {
+    if (direction > 0)
+    { // move card to the right
+        if (!cards.empty())
+        {
             std::rotate(cards.begin(), cards.begin() + 1, cards.end());
         }
-    } else { // move card to the left
-        if (!cards.empty()) {
-            std::rotate(cards.begin(), cards.end()-1, cards.end());
-            // std::reverse(cards.begin() + 1, cards.end());
+    }
+    else
+    { // move card to the left
+        if (!cards.empty())
+        {
+            std::rotate(cards.begin(), cards.end() - 1, cards.end());
         }
     }
 }

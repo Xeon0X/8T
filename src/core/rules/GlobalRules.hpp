@@ -148,7 +148,8 @@ public:
      * @param description The description of the card.
      * @param id The id of the card.
      */
-    CardSwitchPlayer(std::string name, std::string description, int id) : Card(name, description, id) {
+    CardSwitchPlayer(std::string name, std::string description, int id) : Card(name, description, id)
+    {
         this->canBeGlobalRules = true;
         arrowDirection.push_back("static");
     };
@@ -310,7 +311,7 @@ public:
     {
         this->canBeGlobalRules = true;
         srand(static_cast<unsigned int>(time(nullptr)));
-        nbRoundLeft = 6;
+        nbRoundLeft = 15;
         // nbRoundLeft = 10 + rand() % 41;
     };
     /**
