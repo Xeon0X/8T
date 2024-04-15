@@ -48,14 +48,14 @@ public:
      *
      * @return std::string
      */
-    std::string getServerIPaddr(); // get the server ip address
+    std::string getServerIPaddr();
 
     /**
      * @brief Get the Local IP address
      *
      * @return std::string
      */
-    std::string getLocalIpAddr(); // get the local ip address of the computer
+    std::string getLocalIpAddr();
 
     /**
      * @brief Set the Server IP address
@@ -71,47 +71,163 @@ public:
      */
     void changePort(int port);
 
+    /**
+     * @brief set the name of the file that will be updated
+     *
+     * @param name
+     */
     void setupdateFileName(std::string name);
+
+    /**
+     * @brief set the name of the file that will be saved
+     *
+     * @param name
+     */
     void setsaveFileName(std::string name);
 
+    /**
+     * @brief create a client
+     *
+     * @param mode
+     * @return int
+     */
     int client(std::string mode);
 
-    int server(); // create a server
+    /**
+     * @brief create a server
+     *
+     * @return int
+     */
+    int server();
 
-    int sendFile(); // send a file to the server
+    /**
+     * @brief send a file to the server
+     *
+     * @return int
+     */
+    int sendFile();
 
-    int receiveFile(); // receive the file from the server
+    /**
+     * @brief receive the file from the server
+     *
+     * @return int
+     */
+    int receiveFile();
 
-    json readJson(); // read the json file and return it
+    /**
+     * @brief read the json file and return it
+     *
+     * @return json
+     */
+    json readJson();
 
+    /**
+     * @brief read the json file and return it
+     *
+     * @param fichier
+     * @return json
+     */
     json readJson(std::string fichier);
 
+    /**
+     * @brief update the file with the new json
+     *
+     * @param cible
+     * @param resultat
+     */
     void updateFile(std::string cible, json resultat);
 
-    void updateFile(std::string cible, json resultat, std::string fichier); // this function allows to add elements to a Json file, by specifying a target (it is useful if we want to nest the data)
+    /**
+     * @brief update the file with the new json
+     *
+     * @param cible
+     * @param resultat
+     * @param fichier
+     */
+    void updateFile(std::string cible, json resultat, std::string fichier);
 
-    void updateFile(json datafile, std::string destinationfile); // this is the same function as just above but without target.
+    /**
+     * @brief update the file with the new json
+     *
+     * @param datafile
+     * @param destinationfile
+     */
+    void updateFile(json datafile, std::string destinationfile);
 
+    /**
+     * @brief delete the json from the file
+     *
+     * @param cible
+     */
     void deleteFromFile(std::string cible);
 
-    void mergeJson(std::string fromfile, std::string tofile); // this function allows to merge a Json file into another, (so keep the information of the destination file and add others)
-
+    /**
+     * @brief delete the json from the file
+     *
+     * @param cible
+     * @param fichier
+     */
+    void mergeJson(std::string fromfile, std::string tofile);
+    /**
+     * @brief put brackets in the file
+     *
+     * @param fichier
+     */
     void putbraks(std::string fichier);
 
-    void copyJson(std::string fromfile, std::string tofile); // copy the json and put it in another file (it overwrites the destination file)
+    /**
+     * @brief copy the json and put it in another file (it overwrites the destination file)
+     *
+     * @param fromfile
+     * @param tofile
+     */
+    void copyJson(std::string fromfile, std::string tofile);
 
+    /**
+     * @brief clear the json from the file
+     *
+     */
     void clearJson();
 
+    /**
+     * @brief clear the json from the file
+     *
+     * @param fichier
+     */
     void clearJson(std::string fichier);
 
+    /**
+     * @brief create a json file
+     *
+     */
     void createJson(std::string fichier);
 
+    /**
+     * @brief show the json
+     *
+     * @param data
+     */
     void afficher(json data);
 
+    /**
+     * @brief test the write function
+     *
+     * @param fichier
+     */
     void testwrite(std::string fichier);
 
+    /**
+     * @brief Set the Network Status object
+     *
+     * @param status
+     */
     void setNetworkStatus(bool status);
 
+    /**
+     * @brief Get the Network Status object
+     *
+     * @return bool
+     */
     bool getNetworkStatus();
 };
 
