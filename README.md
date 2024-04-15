@@ -62,8 +62,8 @@ doxygen Doxyfile
 
 1. `src`: contains all the sources files of the project
 2. `data`: 
-  `data/images`: contains all the images of the project
-  `data/sounds`: contains the music of the project
+- `data/images`: contains all the images of the project
+- `data/sounds`: contains the music of the project
 3. `doc`: contains the documentation of the project and all the files for the oral presentation
 4. `bin`: contains all the executable of the project
 5. `font`: contains the font of the project
