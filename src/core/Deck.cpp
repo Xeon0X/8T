@@ -38,6 +38,10 @@ void Deck::setBaseCard()
     card4->setUniqueId(uniqueIdCounter);
     uniqueIdCounter++;
     this->cards.push_back(card4);
+    CardEnd *card5 = new CardEnd("The End", "Signe la fin du jeu", 14);
+    card5->setUniqueId(uniqueIdCounter);
+    uniqueIdCounter++;
+    this->cards.push_back(card5);
 }
 
 std::vector<Card *> Deck::getCards()
@@ -178,14 +182,14 @@ void Deck::drawCard()
         this->cards.push_back(card);
         break;
     }
-    case SwitchPlayerId:
-    {
-        CardSwitchPlayer *card = new CardSwitchPlayer("CardSwitchPlayer", "Change de joueur", SwitchPlayerId);
-        card->setUniqueId(uniqueIdCounter);
-        uniqueIdCounter++;
-        this->cards.push_back(card);
-        break;
-    }
+    // case SwitchPlayerId:
+    // {
+    //     CardSwitchPlayer *card = new CardSwitchPlayer("CardSwitchPlayer", "Change de joueur", SwitchPlayerId);
+    //     card->setUniqueId(uniqueIdCounter);
+    //     uniqueIdCounter++;
+    //     this->cards.push_back(card);
+    //     break;
+    // }
 
     default:
         drawCard();
