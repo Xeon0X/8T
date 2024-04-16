@@ -43,7 +43,7 @@ void TestRegression()
 
     game.getGrid(0).addGlobalRule(deck.getCards()[0]);
 
-    assert(game.getGrid(0).getGlobalRules()[0]->getName() == "PlacePiece");
+    assert(game.getGrid(0).getGlobalRules()[0]->getName() == "PickPlayOrPlace");
 
     Player player1("X", "Rouge");
     Player player2("O", "Bleu");
